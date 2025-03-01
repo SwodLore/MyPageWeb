@@ -14,7 +14,7 @@ export default function Header() {
           setActiveSection(visibleSection.target.id);
         }
       },
-      { threshold: 0.6 }
+      { threshold: 0.3 }
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -35,16 +35,16 @@ export default function Header() {
           alt="Logo"
           className="w-12 h-12 animate-spin-slow" 
         />
-      <h1 className="text-3xl font-bold text-[#61DAFB] cursor-pointer">Alessandro Poves</h1>
+      <h1 className="text-3xl font-bold text-[#61DAFB] cursor-pointer"><a href="/">Alessandro Poves</a></h1>
     </div>
       <nav className="hidden md:flex gap-6">
-        {["Sobre Mí", "Portafolio", "Certificados", "Contacto"].map((item) => {
+        {["Sobre Mi", "Portafolio", "Certificados", "Contacto"].map((item) => {
           const id = item.toLowerCase().replace(" ", "-");
           return (
             <button
               key={id}
               onClick={() => scrollToSection(id)}
-              className={`text-lg font-medium transition duration-300 ${
+              className={`text-lg font-medium transition duration-300 cursor-pointer ${
                 activeSection === id ? "text-[#61DAFB]" : "text-white"
               } hover:text-[#61DAFB]`}
             >
@@ -60,7 +60,7 @@ export default function Header() {
 
       {menuOpen && (
         <nav className="absolute top-16 right-4 bg-white/10 backdrop-blur-md shadow-lg p-4 rounded-xl flex flex-col gap-4 md:hidden">
-          {["Sobre Mí", "Portafolio", "Certificados", "Contacto"].map((item) => {
+          {["Sobre Mi", "Portafolio", "Certificados", "Contacto"].map((item) => {
             const id = item.toLowerCase().replace(" ", "-");
             return (
               <button

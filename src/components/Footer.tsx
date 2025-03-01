@@ -2,7 +2,7 @@ import { Linkedin, Github, Instagram } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-8 px-10 md:px-20 text-center">
+    <footer className="bg-gray-800 text-white py-8 px-10 md:px-20 text-center">
       {/* Nombre y mensaje */}
       <h2 className="text-2xl font-bold text-[#61DAFB]">Alessandro Poves</h2>
       <p className="text-gray-400 mt-2">Desarrollador Web | React | Laravel</p>
