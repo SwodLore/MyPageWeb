@@ -1,52 +1,79 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSection = entries.find((entry) => entry.isIntersecting);
+        if (visibleSection) {
+          setActiveSection(visibleSection.target.id);
+        }
+      },
+      { threshold: 0.6 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
 
   const scrollToSection = (id: string) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-      setMenuOpen(false); 
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false); 
   };
 
   return (
     <header className="bg-slate-800 backdrop-blur-md shadow-md py-4 px-8 md:px-20 flex justify-between items-center fixed w-full top-0 z-50">
-      {/* Nombre */}
+    <div className="flex items-center gap-3">
+        <img
+          src="/logo.png"
+          alt="Logo"
+          className="w-12 h-12 animate-spin-slow" 
+        />
       <h1 className="text-3xl font-bold text-[#61DAFB] cursor-pointer">Alessandro Poves</h1>
-
-      {/* Menú Desktop */}
+    </div>
       <nav className="hidden md:flex gap-6">
-        {["Sobre Mí", "Portafolio", "Certificados", "Contacto"].map((item, index) => (
-          <button
-            key={index}
-            onClick={() => scrollToSection(item.toLowerCase().replace(" ", "-"))}
-            className="text-white text-lg font-medium hover:text-[#61DAFB] transition duration-300"
-          >
-            {item}
-          </button>
-        ))}
+        {["Sobre Mí", "Portafolio", "Certificados", "Contacto"].map((item) => {
+          const id = item.toLowerCase().replace(" ", "-");
+          return (
+            <button
+              key={id}
+              onClick={() => scrollToSection(id)}
+              className={`text-lg font-medium transition duration-300 ${
+                activeSection === id ? "text-[#61DAFB]" : "text-white"
+              } hover:text-[#61DAFB]`}
+            >
+              {item}
+            </button>
+          );
+        })}
       </nav>
 
-      {/* Menú Hamburguesa Responsive */}
       <button className="md:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
 
-      {/* Menú Móvil */}
       {menuOpen && (
         <nav className="absolute top-16 right-4 bg-white/10 backdrop-blur-md shadow-lg p-4 rounded-xl flex flex-col gap-4 md:hidden">
-          {["Sobre Mí", "Portafolio", "Certificados", "Contacto"].map((item, index) => (
-            <button
-              key={index}
-              onClick={() => scrollToSection(item.toLowerCase().replace(" ", "-"))}
-              className="text-white text-lg font-medium hover:text-[#61DAFB] transition duration-300"
-            >
-              {item}
-            </button>
-          ))}
+          {["Sobre Mí", "Portafolio", "Certificados", "Contacto"].map((item) => {
+            const id = item.toLowerCase().replace(" ", "-");
+            return (
+              <button
+                key={id}
+                onClick={() => scrollToSection(id)}
+                className={`text-lg font-medium transition duration-300 ${
+                  activeSection === id ? "text-[#61DAFB]" : "text-white"
+                } hover:text-[#61DAFB]`}
+              >
+                {item}
+              </button>
+            );
+          })}
         </nav>
       )}
     </header>
