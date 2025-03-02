@@ -29,7 +29,7 @@ export default function DashboardView() {
               Me especializo en backend con Laravel y Spring Boot, y estoy aprendiendo frontend con React y Angular.
             </p>
 
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
               <div className="bg-gray-800 p-4 rounded-lg border-l-4 border-[#61DAFB] shadow-md">
                 <img src="https://uncp.edu.pe/wp-content/uploads/2024/01/logo-uncp-2024.png" alt="Logo de la UNCP" />
                 <h3 className="text-xl font-semibold">  Universidad Nacional del Centro del Perú</h3>
@@ -40,7 +40,7 @@ export default function DashboardView() {
                 <h3 className="text-xl font-semibold"> Instituto Cultural Peruano Norteamericano</h3>
                 <p className="text-gray-400">Ingles - Intermedio - TOEFL B2</p>
               </div>
-              <div className="bg-gray-800 p-4 rounded-lg border-l-4 border-[#61DAFB] shadow-md col-span-2">
+              <div className="bg-gray-800 p-4 rounded-lg border-l-4 border-[#61DAFB] shadow-md md:col-span-2">
                 <h3 className="text-xl font-semibold">📜 Cursos Destacados</h3>
                 <p className="text-gray-400">Laravel, Spring Boot, Redes y Seguridad Informática {' '}
                   <button onClick={handleScrollToCertificado} className="text-[#61DAFB] hover:underline cursor-pointer">

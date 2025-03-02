@@ -6,10 +6,8 @@ export default function Contacto() {
         <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-6">📩 Contacto</h2>
 
-        {/* Contenedor principal con dos columnas */}
         <div className="grid md:grid-cols-2 gap-8">
           
-          {/* Información de contacto */}
           <div className="bg-gray-800 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold mb-4">📍 Información</h3>
             <p className="text-gray-400">
@@ -36,8 +34,8 @@ export default function Contacto() {
             </ul>
           </div>
 
-          <div className="flex flex-col items-center justify-center bg-gray-800 text-white">
-            <h1 className="text-3xl font-bold mb-4">📄 Mi Currículum Vitae</h1>
+          <div className="flex flex-col items-center justify-center bg-gray-800 text-white rounded-lg py-6">
+            <h1 className="md:text-3xl font-bold mb-4 text-xl">📄 Mi Currículum Vitae</h1>
             <a
               href="/cv"
               target="_blank"

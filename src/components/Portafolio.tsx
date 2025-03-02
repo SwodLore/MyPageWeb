@@ -39,7 +39,7 @@ export default function Portafolio() {
               {/* Botón para abrir el modal */}
               <button
                 onClick={() => openModal(proyecto)}
-                className="bg-[#61DAFB] text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-[#4bb3d6]"
+                className="bg-[#61DAFB] text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-[#4bb3d6] cursor-pointer"
               >
                 📜 Ver más detalle
               </button>

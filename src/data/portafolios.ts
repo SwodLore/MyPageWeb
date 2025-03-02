@@ -11,7 +11,10 @@ export const portafolio: Portfolio[] = [
         { name: "React", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
         { name: "TailwindCSS", img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
         { name: "Next.js", img: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg" },
-        { name: "Mongoose", img: "https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" }
+        { name: "Mongoose", img: "https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Vercel", img: "https://vercel.com/favicon.ico"},
+        { name: "Render", img: "/render.svg"},
       ]
     },
     {
@@ -24,6 +27,9 @@ export const portafolio: Portfolio[] = [
           { name: "Laravel", img: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" },
           { name: "TailwindCSS", img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
           { name: "MySql", img: "https://upload.wikimedia.org/wikipedia/commons/0/0a/MySQL_textlogo.svg" },
+          { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+          { name: "Docker", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+          { name: "AWS", img: "https://tesslogs.com/wp-content/uploads/2024/10/Amazon-Web-Services-AWS-Logo.png" },
         ]
     },
     {
@@ -35,6 +41,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "React", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
         { name: "TailwindCSS", img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
       ]
     },
     {
@@ -46,6 +54,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "React", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
         { name: "CSS", img: "https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
       ]
     },
     {
@@ -58,6 +68,9 @@ export const portafolio: Portfolio[] = [
           { name: "Laravel", img: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" },
           { name: "TailwindCSS", img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
           { name: "MySql", img: "https://upload.wikimedia.org/wikipedia/commons/0/0a/MySQL_textlogo.svg" },
+          { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+          { name: "Docker", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+          { name: "AWS", img: "https://tesslogs.com/wp-content/uploads/2024/10/Amazon-Web-Services-AWS-Logo.png" },
         ]
     },
     {
@@ -69,6 +82,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "React", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
         { name: "TailwindCSS", img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
       ]
     },
     {
@@ -81,6 +96,8 @@ export const portafolio: Portfolio[] = [
           { name: "Html", img: "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" },
           { name: "Css", img: "https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" },
           { name: "JavaScript", img: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" },
+          { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+          { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
         ]
       },
     {
@@ -92,6 +109,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "React", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
         { name: "TailwindCSS", img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
       ]
     },
     {
@@ -103,6 +122,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "React", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
         { name: "TailwindCSS", img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
       ]
     },
     {
@@ -114,6 +135,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "React", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
         { name: "TailwindCSS", img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
       ]
     },
     {
@@ -126,6 +149,8 @@ export const portafolio: Portfolio[] = [
           { name: "Html", img: "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" },
           { name: "Css", img: "https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" },
           { name: "JavaScript", img: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" },
+          { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+          { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
         ]
       },
     {
@@ -137,6 +162,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "React", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
         { name: "TailwindCSS", img: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
       ]
     },
     {
@@ -148,6 +175,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "React", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
         { name: "CSS", img: "https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
       ]
     },
     {
@@ -159,6 +188,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "Html", img: "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" },
         { name: "Css", img: "https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+        { name: "Netlify", img: "https://www.netlify.com/favicon.ico"},
       ]
     },
     {
@@ -170,6 +201,8 @@ export const portafolio: Portfolio[] = [
       tecnologias: [
         { name: "Html", img: "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" },
         { name: "Css", img: "https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg" },
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+
       ]
     }
   ];
