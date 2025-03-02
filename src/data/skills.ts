@@ -42,3 +42,4 @@ export const skills : Skill[] = [
         img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" 
     }
 ]
+
