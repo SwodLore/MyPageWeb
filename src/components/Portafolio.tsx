@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "./Modal";
 import { Portfolio } from "../types";
-import { portafolio } from "../data/Portafolio";
+import { portafolio } from "../data/portafolios";
 
 export default function Portafolio() {
     const [selectedProject, setSelectedProject] = useState<Portfolio | null>(null);
