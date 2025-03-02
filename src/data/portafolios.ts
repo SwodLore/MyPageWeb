@@ -3,7 +3,7 @@ import { Portfolio } from "../types";
 export const portafolio: Portfolio[] = [
     {
       name: "UpTask",
-      img: "https://via.placeholder.com/300", 
+      img: "/img/portafolio/uptask.png",
       urlPageWeb: "https://up-task-fronted.vercel.app",
       urlPageGithub: "https://github.com/SwodLore/UpTask_Backend",
       description: "Organizador de tareas para equipos de trabajo. Login: apovesmartinez@gmail.com, Password: 12345678",
@@ -16,7 +16,7 @@ export const portafolio: Portfolio[] = [
     },
     {
         name: "DevJobs",
-        img: "https://via.placeholder.com/300", 
+        img: "/img/portafolio/devjobs.png",
         urlPageWeb: "",
         urlPageGithub: "https://github.com/SwodLore/DevJobs",
         description: "Buscador de trabajos de desarrolladores",
@@ -28,7 +28,7 @@ export const portafolio: Portfolio[] = [
     },
     {
       name: "Bebidas API's",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/bebidas.png",
       urlPageWeb: "https://peaceful-horse-e7e396.netlify.app",
       urlPageGithub: "https://github.com/SwodLore/bebidas-react",
       description: "Buscar bebidas mediante nombre y categoria mediante API's",
@@ -39,7 +39,7 @@ export const portafolio: Portfolio[] = [
     },
     {
       name: "Clima React y API's",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/clima.png",
       urlPageWeb: "https://deluxe-dusk-bd79c8.netlify.app",
       urlPageGithub: "https://github.com/SwodLore/Clima_API",
       description: "Buscar clima mediante ciudad y pais mediante API's",
@@ -50,7 +50,7 @@ export const portafolio: Portfolio[] = [
     },
     {
         name: "HackTagram",
-        img: "https://via.placeholder.com/300", 
+        img: "/img/portafolio/hacktagram.png",
         urlPageWeb: "",
         urlPageGithub: "https://github.com/SwodLore/HackTagram",
         description: "Red Social de Hackers",
@@ -62,7 +62,7 @@ export const portafolio: Portfolio[] = [
     },
     {
       name: "Criptomonedas API's",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/criptomoneda.png",
       urlPageWeb: "https://celebrated-profiterole-93f37c.netlify.app",
       urlPageGithub: "https://github.com/SwodLore/CriptoApp",
       description: "Buscar criptomonedas mediante API's",
@@ -73,7 +73,7 @@ export const portafolio: Portfolio[] = [
     },
     {
         name: "Festival de musica",
-        img: "https://via.placeholder.com/300",
+        img: "/img/portafolio/musica.png",
         urlPageWeb: "https://festival-poves.netlify.app",
         urlPageGithub: "https://github.com/SwodLore/Carnaval_Music",
         description: "Festival de música",
@@ -85,7 +85,7 @@ export const portafolio: Portfolio[] = [
       },
     {
       name: "Veterinaria React",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/veterinaria.png",
       urlPageWeb: "https://tubular-wisp-470736.netlify.app",
       urlPageGithub: "https://github.com/SwodLore/Pascientes-de-veterinaria-",
       description: "Agregar y buscar pascientes de veterinaria",
@@ -96,7 +96,7 @@ export const portafolio: Portfolio[] = [
     },
     {
       name: "Planificar de Gastos React",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/gastos.png",
       urlPageWeb: "https://chimerical-starburst-da72d3.netlify.app",
       urlPageGithub: "https://chimerical-starburst-da72d3.netlify.app",
       description: "Control de gatos mediante React",
@@ -107,7 +107,7 @@ export const portafolio: Portfolio[] = [
     },
     {
       name: "Contador de Calorias",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/calorias.png",
       urlPageWeb: "https://incandescent-malasada-912124.netlify.app",
       urlPageGithub: "https://github.com/SwodLore/Contador-de-Calorias-ContextAPI",
       description: "Contador de calorias React",
@@ -118,7 +118,7 @@ export const portafolio: Portfolio[] = [
     },
     {
         name: "BlogDeCafé",
-        img: "https://via.placeholder.com/300",
+        img: "/img/portafolio/cafe.png",
         urlPageWeb: "https://fabulous-bunny-78e2fe.netlify.app",
         urlPageGithub: "https://github.com/SwodLore/Web_coffe",
         description: "Un blog de café",
@@ -130,7 +130,7 @@ export const portafolio: Portfolio[] = [
       },
     {
       name: "Calculadora de Propinas y Consumo",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/propinas.png",
       urlPageWeb: "https://luxury-shortbread-48fa39.netlify.app",
       urlPageGithub: "https://github.com/SwodLore/Calculadora_propinas",
       description: "Calculadora de propinas y consumo de un restaurante",
@@ -141,7 +141,7 @@ export const portafolio: Portfolio[] = [
     },
     {
       name: "Guitarra React",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/guitarra.png",
       urlPageWeb: "https://teal-scone-36fe35.netlify.app",
       urlPageGithub: "https://github.com/SwodLore/Carrito-de-compras-en-una-tienda-de-guitarras",
       description: "Carrito de compras de una tienda de guitarras",
@@ -152,7 +152,7 @@ export const portafolio: Portfolio[] = [
     },
     {
       name: "Mini tienda de polos",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/polos.png",
       urlPageWeb: "https://splendid-arithmetic-90c730.netlify.app",
       urlPageGithub: "https://github.com/SwodLore/My_Frist_Store_simple",
       description: "Tienda de polos css y html",
@@ -163,7 +163,7 @@ export const portafolio: Portfolio[] = [
     },
     {
       name: "Primer sitio web",
-      img: "https://via.placeholder.com/300",
+      img: "/img/portafolio/first.png",
       urlPageWeb: "https://benevolent-cuchufli-6123b3.netlify.app",
       urlPageGithub: "https://github.com/SwodLore/My_first_web_page",
       description: "sitio web css y html",
