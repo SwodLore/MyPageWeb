@@ -4,7 +4,6 @@ import Contacto from "./Contacto";
 import Portafolio from "./Portafolio";
 import { IconCloud } from "./magicui/icon-cloud";
 import { slugs } from "../data/slugs";
-import { WarpBackground } from "./magicui/warp-background";
 import { ScrollProgress } from "./magicui/scroll-progress";
 import { BoxReveal } from "./magicui/box-reveal";
 
@@ -99,18 +98,16 @@ export default function DashboardView() {
           </Link>
         </div>
     </section>
-    <WarpBackground className="bg-gray-800">
-      <section id="portafolio" className="min-h-screen flex flex-col items-center text-white">
-        <Portafolio />
+    <section id="portafolio" className="bg-gray-800 min-h-screen flex flex-col items-center text-white">
+      <Portafolio />
+    </section>
+      <section id="certificados" className="bg-gray-700 min-h-screen flex flex-col items-center  text-white">
+        <h2 className="text-4xl font-bold text-[#61DAFB] mt-5">Certificados</h2>
+        <Certificado />
       </section>
-    </WarpBackground>
-        <section id="certificados" className="bg-gray-700 min-h-screen flex flex-col items-center  text-white">
-          <h2 className="text-4xl font-bold text-[#61DAFB] mt-5">Certificados</h2>
-          <Certificado />
-        </section>
-        <section id="contacto" className="py-12 bg-gray-600 text-white">
-          <Contacto />
-        </section>
+      <section id="contacto" className="py-12 bg-gray-600 text-white">
+        <Contacto />
+      </section>
     </>
   )
 }
