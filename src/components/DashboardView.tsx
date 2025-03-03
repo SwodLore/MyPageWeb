@@ -98,7 +98,7 @@ export default function DashboardView() {
             </div>
           </div>
           <Link className="bg-[#61DAFB] text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-[#4bb3d6] cursor-pointer mt-5 md:mt-0" to={"/skills"}>
-            Ver más skills detalladas
+            Ver todas las habilidades
           </Link>
         </div>
     </section>

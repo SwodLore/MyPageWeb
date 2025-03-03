@@ -2,7 +2,7 @@ import { skills } from "../data/skills";
 
 export default function SkillsAboutMe() {
   return (
-    <div className="bg-gray-900 p-10 grid grid-cols-2">
+    <div className="bg-gray-900 p-10 grid md:grid-cols-2">
         
         <div className=" bg-gray-900">
             <h3 className="text-3xl font-bold text-[#61DAFB] text-center">💻 Habilidades Técnicas</h3>

@@ -1,4 +1,5 @@
 import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Contacto() {
   return (
@@ -35,13 +36,13 @@ export default function Contacto() {
 
           <div className="flex flex-col items-center justify-center bg-gray-800 text-white rounded-lg py-6">
             <h1 className="md:text-3xl font-bold mb-4 text-xl">📄 Mi Currículum Vitae</h1>
-            <a
-              href="/cv"
+            <Link
+              to="/cvPage"
               target="_blank"
               className="mt-4 px-6 py-3 bg-[#61DAFB] text-gray-900 font-semibold rounded-lg hover:bg-[#4bb0d7]"
             >
               📥 Ver CV
-            </a>
+            </Link>
           </div>
         </div>
       </div>

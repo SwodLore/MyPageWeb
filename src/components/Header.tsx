@@ -37,6 +37,7 @@ export default function Header() {
         />
       <h1 className="text-3xl font-bold text-[#61DAFB] cursor-pointer"><a href="/">Alessandro Poves</a></h1>
     </div>
+    
       <nav className="hidden md:flex gap-6">
         {["Sobre Mi", "Portafolio", "Certificados", "Contacto"].map((item) => {
           const id = item.toLowerCase().replace(" ", "-");

@@ -9,7 +9,7 @@ export default function Router() {
         <Routes>
             <Route element={<AppLayout />}>
                     <Route path="/" element={<DashboardView />} index />
-                    <Route path="/cv" element={<CvPage />} />
+                    <Route path="/cvPage" element={<CvPage />} />
                     <Route path="/skills" element={<SkillsAboutMe />} />
                 </Route>
         </Routes>
