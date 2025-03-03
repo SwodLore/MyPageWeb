@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="bg-gray-800 text-white py-8 px-10 md:px-20 text-center">
       {/* Nombre y mensaje */}
       <h2 className="text-2xl font-bold text-[#61DAFB]">Alessandro Poves</h2>
-      <p className="text-gray-400 mt-2">Desarrollador Web | React | Laravel</p>
+      <p className="text-gray-400 mt-2">Ingeniero de Sistemas | Desarrollador Web | Full Stack | React | Laravel </p>
 
       {/* Información de contacto */}
       <div className="mt-4">
@@ -19,7 +19,6 @@ export default function Footer() {
         </a>
       </div>
 
-      {/* Redes Sociales */}
       <div className="flex justify-center gap-6 mt-6">
         <a
           href="https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/"
@@ -47,7 +46,6 @@ export default function Footer() {
         </a>
       </div>
 
-      {/* Derechos reservados */}
       <p className="text-gray-500 text-sm mt-6">
         © {new Date().getFullYear() + ' '}
         <a

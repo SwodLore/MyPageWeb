@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 export default function Contacto() {
   return (
     <>
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-6">📩 Contacto</h2>
-
+      <div className="container mx-auto px-4 mt-5">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-gray-800 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold mb-4">📍 Información</h3>
@@ -36,13 +34,6 @@ export default function Contacto() {
 
           <div className="flex flex-col items-center justify-center bg-gray-800 text-white rounded-lg py-6">
             <h1 className="md:text-3xl font-bold mb-4 text-xl">📄 Mi Currículum Vitae</h1>
-            <Link
-              to="/cvPage"
-              target="_blank"
-              className="mt-4 px-6 py-3 bg-[#61DAFB] text-gray-900 font-semibold rounded-lg hover:bg-[#4bb0d7]"
-            >
-              📥 Ver CV
-            </Link>
             <Link
               to="/cv.pdf"
               target="_blank"

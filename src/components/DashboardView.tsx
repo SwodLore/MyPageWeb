@@ -106,10 +106,11 @@ export default function DashboardView() {
       <Portafolio />
     </section>
       <section id="certificados" className="bg-gray-700 min-h-screen flex flex-col items-center text-white">
-        <h2 className="text-4xl font-bold text-[#61DAFB] mt-5">Certificados</h2>
+        <h2 className="text-4xl font-bold text-[#61DAFB] mt-5">Mis Certificados</h2>
         <Certificado />
       </section>
-      <section id="contacto" className="py-12 bg-gray-600 text-white">
+      <section id="contacto" className="py-12 bg-gray-600 text-white flex flex-col items-center justify-center">
+      <h2 className="text-4xl font-bold text-[#61DAFB] mt-5">Contactame</h2>
         <Contacto />
       </section>
     </>
