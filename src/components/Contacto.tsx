@@ -43,6 +43,13 @@ export default function Contacto() {
             >
               📥 Ver CV
             </Link>
+            <Link
+              to="/cv.pdf"
+              target="_blank"
+              className="mt-4 px-6 py-3 bg-[#61DAFB] text-gray-900 font-semibold rounded-lg hover:bg-[#4bb0d7]"
+            >
+              📥 Descargar CV
+            </Link>
           </div>
         </div>
       </div>

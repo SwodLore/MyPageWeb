@@ -4,10 +4,7 @@ export default function CvPage() {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
       <h1 className="text-3xl font-bold mb-4">📄 Mi Currículum Vitae</h1>
-      <iframe
-        src="/cv.pdf"
-        className="w-3/4 h-[80vh] border-2 border-[#61DAFB] rounded-lg shadow-lg"
-      ></iframe>
+      {/* <iframe src="/cv.pdf" className="w-3/4 h-[80vh] border-2 border-[#61DAFB] rounded-lg shadow-lg"></iframe> */}
       
       <a
         href="/cv.pdf"
