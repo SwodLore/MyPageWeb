@@ -16,17 +16,17 @@ export default function Portafolio() {
         setIsOpen(false);
         setSelectedProject(null);
     };
+    const [mostrarTodos, setMostrarTodos] = useState(false);
+    const proyectosVisibles = mostrarTodos ? portafolio : portafolio.slice(0, 6);
   return (
     <section className="py-12 text-white">
       <div className="max-w-6xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-8 text-[#61DAFB]">Mi Portafolio</h2>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {portafolio.map((proyecto, index) => (
+          {proyectosVisibles.map((proyecto, index) => (
             <div key={index} className="bg-gray-800 rounded-lg shadow-lg p-5 border-l-4 border-[#61DAFB] hover:scale-[1.02] transition-transform">
               <h3 className="text-xl font-semibold">{proyecto.name}</h3>
-
-              {/* Tecnologías */}
               <div className="flex gap-2 flex-wrap my-3">
                 {proyecto.tecnologias.map((tech, idx) => (
                   <div key={idx} className="flex items-center gap-2 bg-gray-700 px-3 py-1 rounded-lg">
@@ -36,7 +36,6 @@ export default function Portafolio() {
                 ))}
               </div>
 
-              {/* Botón para abrir el modal */}
               <button
                 onClick={() => openModal(proyecto)}
                 className="bg-[#61DAFB] text-gray-900 px-4 py-2 rounded-lg font-bold hover:bg-[#4bb3d6] cursor-pointer"
@@ -46,9 +45,18 @@ export default function Portafolio() {
             </div>
           ))}
         </div>
+        {portafolio.length > 6 && (
+          <div className="text-center mt-6">
+            <button
+              onClick={() => setMostrarTodos(!mostrarTodos)}
+              className="bg-[#61DAFB] text-gray-900 px-6 py-2 rounded-lg font-bold hover:bg-[#4bb3d6] transition-all cursor-pointer"
+            >
+              {mostrarTodos ? "Ver menos" : "Ver más"}
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* Modal */}
       <Modal isOpen={isOpen} onClose={closeModal} project={selectedProject} />
     </section>
   )

@@ -40,15 +40,19 @@ export default function DashboardView() {
               </p>
 
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-              <div className="bg-gray-800 p-4 rounded-lg border-l-4 border-[#61DAFB] shadow-md">
-                <img src="https://uncp.edu.pe/wp-content/uploads/2024/01/logo-uncp-2024.png" alt="Logo de la UNCP" />
-                <h3 className="text-xl font-semibold">  Universidad Nacional del Centro del Perú</h3>
-                <p className="text-gray-400">Ingeniería de Sistemas - 7mo ciclo</p>
+              <div className="bg-gray-800 p-4 rounded-lg border-l-4 border-[#61DAFB] shadow-md flex flex-row items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Escudo_UNCP.png/800px-Escudo_UNCP.png" alt="Logo de la UNCP" className="w-30 h-30" />
+                <div>
+                  <h3 className="text-xl font-semibold">  Universidad Nacional del Centro del Perú</h3>
+                  <p className="text-gray-400">Ingeniería de Sistemas - 7mo ciclo</p>
+                </div>
               </div>
-              <div className="bg-gray-800 p-4 rounded-lg border-l-4 border-[#61DAFB] shadow-md">
-                <img src="https://aulavirtual.icpnarc.edu.pe/pluginfile.php/1/theme_moove/logo/1739894532/logo-icpna.jpg" alt="Logo ICPNA" />
-                <h3 className="text-xl font-semibold"> Instituto Cultural Peruano Norteamericano</h3>
-                <p className="text-gray-400">Ingles - Intermedio - TOEFL B2</p>
+              <div className="bg-gray-800 p-4 rounded-lg border-l-4 border-[#61DAFB] shadow-md flex flex-row items-center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSacvCIdoNf47zT9nl2qSXlS8nWDoxEJZ16Kg&s" alt="Logo ICPNA" className="w-30 h-30 " />
+                <div>
+                  <h3 className="text-xl font-semibold"> Instituto Cultural Peruano Norteamericano</h3>
+                  <p className="text-gray-400">Ingles - Intermedio - TOEFL B2</p>
+                </div>
               </div>
               <div className="bg-gray-800 p-4 rounded-lg border-l-4 border-[#61DAFB] shadow-md md:col-span-2">
                 <h3 className="text-xl font-semibold">📜 Cursos Destacados</h3>
@@ -101,7 +105,7 @@ export default function DashboardView() {
     <section id="portafolio" className="bg-gray-800 min-h-screen flex flex-col items-center text-white">
       <Portafolio />
     </section>
-      <section id="certificados" className="bg-gray-700 min-h-screen flex flex-col items-center  text-white">
+      <section id="certificados" className="bg-gray-700 min-h-screen flex flex-col items-center text-white">
         <h2 className="text-4xl font-bold text-[#61DAFB] mt-5">Certificados</h2>
         <Certificado />
       </section>
