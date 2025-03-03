@@ -1,7 +1,6 @@
 export const slugs = [
     "typescript",
     "javascript",
-    "dart",
     "react",
     "html5",
     "css3",
@@ -23,7 +22,7 @@ export const slugs = [
     "laravel",
     "angular",
     "tailwindcss",
-    // "visualstudiocode",
-    // "aws",
-    // "java",
+    "python",
+    "r",
+    "amazon",
   ];

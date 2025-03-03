@@ -2,16 +2,64 @@ import { skills } from "../data/skills";
 
 export default function SkillsAboutMe() {
   return (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 bg-gray-900 py-20 px-10">
+    <div className="bg-gray-900 p-10 grid grid-cols-2">
+        
+        <div className=" bg-gray-900">
+            <h3 className="text-3xl font-bold text-[#61DAFB] text-center">💻 Habilidades Técnicas</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-12 px-6">
             {skills.map((skill, index) => (
-                <div
-                    key={index} 
-                    className="flex flex-col items-center p-4 bg-gray-800 rounded-lg shadow-md border border-[#61DAFB] transform transition-all hover:scale-105 hover:shadow-lg text-white relative overflow-hidden">
-                    
-                    <img src={skill.img} alt={skill.name} className="w-16 h-16 mb-2" />
-                    <p className="text-lg font-semibold">{skill.name}</p>
-                </div>
+            <div
+                key={index}
+                className="flex flex-col items-center p-3 bg-gray-800 rounded-md border border-[#61DAFB] text-white text-center"
+            >
+                <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-1" />
+                <p className="text-sm font-medium">{skill.name}</p>
+                <span className="text-xs text-gray-400">{skill.level}</span>
+            </div>
             ))}
+            </div>
         </div>
+        <div className="bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-[#61DAFB]">
+        <h3 className="text-3xl font-bold text-[#61DAFB] text-center"> 🤝 Habilidades Blandas</h3>
+        <ul className="space-y-3 mt-4">
+            <li className="flex items-center gap-3 text-white">
+                <span className="text-[#61DAFB] text-xl">💬</span> Comunicación efectiva
+            </li>
+            <li className="flex items-center gap-3 text-white">
+                <span className="text-[#61DAFB] text-xl">👥</span> Trabajo en equipo
+            </li>
+            <li className="flex items-center gap-3 text-white">
+                <span className="text-[#61DAFB] text-xl">🎯</span> Resolución de problemas
+            </li>
+            <li className="flex items-center gap-3 text-white">
+                <span className="text-[#61DAFB] text-xl">🧠</span> Pensamiento crítico
+            </li>
+            <li className="flex items-center gap-3 text-white">
+                <span className="text-[#61DAFB] text-xl">⏳</span> Gestión del tiempo
+            </li>
+            <li className="flex items-center gap-3 text-white">
+                <span className="text-[#61DAFB] text-xl">🎨</span> Creatividad e innovación
+            </li>
+            <li className="flex items-center gap-3 text-white">
+                <span className="text-[#61DAFB] text-xl">📚</span> Aprendizaje continuo
+            </li>
+            <li className="flex items-center gap-3 text-white">
+                <span className="text-[#61DAFB] text-xl">💡</span> Adaptabilidad y flexibilidad
+            </li>
+            <li className="flex items-center gap-3 text-white">
+                <span className="text-[#61DAFB] text-xl">🤝</span> Liderazgo y empatía
+            </li>
+        </ul>
+            <div className="p-6 rounded-lg shadow-lg mt-6">
+            <h3 className="text-3xl font-bold text-[#61DAFB] text-center">👨‍💻 Sobre Mí</h3>
+            <p className="text-white mt-4 text-lg text-center">
+                Soy un apasionado desarrollador de software con experiencia en tecnologías web y backend. Me encanta aprender nuevas herramientas y 
+                afrontar desafíos tecnológicos. Destaco por mi capacidad de resolver problemas, trabajar en equipo y adaptarme a nuevos entornos. 
+                Siempre busco mejorar mis habilidades y contribuir con soluciones eficientes y creativas.
+            </p>
+        </div>
+        </div>
+        
+    </div>
   )
 }

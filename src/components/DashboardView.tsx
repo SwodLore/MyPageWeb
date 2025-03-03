@@ -69,14 +69,14 @@ export default function DashboardView() {
         <div className="mt-12 flex flex-col items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="text-3xl font-bold text-[#61DAFB] text-center mb-6">💻 Habilidades Técnicas</h3>
+              <h3 className="text-3xl font-bold text-[#61DAFB] text-center">💻 Habilidades Técnicas</h3>
               <div className="relative flex size-full items-center justify-center overflow-hidden">
                   <IconCloud images={images} />
               </div>
             </div>
             <div>
-              <h3 className="text-3xl font-bold text-[#61DAFB] text-center mb-6"> 🤝 Habilidades Blandas</h3>
-              <div className="bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-[#61DAFB] lg:mt-32">
+              <h3 className="text-3xl font-bold text-[#61DAFB] text-center"> 🤝 Habilidades Blandas</h3>
+              <div className="bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-[#61DAFB] lg:mt-24">
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3 text-white">
                     <span className="text-[#61DAFB] text-xl">💬</span> Comunicación efectiva
