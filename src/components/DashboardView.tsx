@@ -20,7 +20,7 @@ export default function DashboardView() {
   );
   return (
     <>
-      <ScrollProgress className="top-[80px] bg-[#61DAFB]" />
+      <ScrollProgress className="lg:top-[80px] bg-[#61DAFB]" />
       <WarpBackground className="bg-gray-900">
       <section id="sobre-mi" className="text-white">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-12">
@@ -131,7 +131,7 @@ export default function DashboardView() {
           <Certificado />
         </section>
       </WarpBackground>
-      <WarpBackground className="bg-gray-600">
+      <WarpBackground className="bg-gray-600 p-3">
         <section id="contacto" className="py-12 text-white">
           <Contacto />
         </section>
