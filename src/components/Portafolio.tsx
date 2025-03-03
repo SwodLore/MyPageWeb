@@ -17,7 +17,7 @@ export default function Portafolio() {
         setSelectedProject(null);
     };
   return (
-    <section className="py-12 bg-gray-800 text-white">
+    <section className="py-12 text-white">
       <div className="max-w-6xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-8 text-[#61DAFB]">Mi Portafolio</h2>
 
