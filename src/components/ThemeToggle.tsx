@@ -13,7 +13,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed top-4 right-4 flex items-center gap-2 px-3 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 shadow-md hover:scale-105 transition-transform"
+      className="fixed bottom-4 right-4 sm:top-4 sm:right-4 sm:bottom-auto flex items-center gap-2 px-3 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 shadow-md hover:scale-105 transition-transform z-51"
     >
       <span className="text-gray-800 dark:text-gray-100">
         {theme === "dark" ? "🌙" : "☀️"}
