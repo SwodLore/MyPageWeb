@@ -8,7 +8,16 @@ interface ThemeContextType {
 export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const getInitialTheme = () => {
+    if (typeof window !== "undefined") {
+      const storedTheme = localStorage.getItem("theme");
+      if (storedTheme) return storedTheme;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    return "dark";
+  };
+
+  const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
