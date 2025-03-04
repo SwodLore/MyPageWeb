@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
@@ -28,14 +29,14 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-slate-800 backdrop-blur-md shadow-md py-4 px-8 md:px-20 flex justify-between items-center fixed w-full top-0 z-50">
+    <header className="dark:bg-slate-800 bg-slate-200 backdrop-blur-md shadow-md py-4 px-8 md:px-20 flex justify-between items-center fixed w-full top-0 z-50">
     <div className="flex items-center gap-3">
         <img
           src="/logo.png"
           alt="Logo"
           className="w-12 h-12 animate-spin-slow" 
         />
-      <h1 className="text-3xl font-bold text-[#61DAFB] cursor-pointer"><a href="/">Alessandro Poves</a></h1>
+      <h1 className="text-3xl font-bold dark:text-[#61DAFB] text-[#007acc] cursor-pointer"><a href="/">Alessandro Poves</a></h1>
     </div>
     
       <nav className="hidden md:flex gap-6">
@@ -46,21 +47,22 @@ export default function Header() {
               key={id}
               onClick={() => scrollToSection(id)}
               className={`text-lg font-medium transition duration-300 cursor-pointer ${
-                activeSection === id ? "text-[#61DAFB]" : "text-white"
-              } hover:text-[#61DAFB]`}
+                activeSection === id ? "dark:text-[#61DAFB] text-[#007acc]" : "dark:text-white text-black"
+              } hover:dark:text-[#61DAFB] text-[#007acc]`}
             >
               {item}
             </button>
           );
         })}
+        <ThemeToggle />
       </nav>
-
+      
       <button className="md:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
-
+      
       {menuOpen && (
-        <nav className="absolute top-16 right-4 bg-white/10 backdrop-blur-md shadow-lg p-4 rounded-xl flex flex-col gap-4 md:hidden">
+        <nav className="absolute top-16 right-4 dark:bg-white/10 bg-black/10 backdrop-blur-md shadow-lg p-4 rounded-xl flex flex-col gap-4 md:hidden">
           {["Sobre Mi", "Portafolio", "Certificados", "Contacto"].map((item) => {
             const id = item.toLowerCase().replace(" ", "-");
             return (
@@ -68,7 +70,7 @@ export default function Header() {
                 key={id}
                 onClick={() => scrollToSection(id)}
                 className={`text-lg font-medium transition duration-300 ${
-                  activeSection === id ? "text-[#61DAFB]" : "text-white"
+                  activeSection === id ? "dark:text-[#61DAFB] text-[#007acc]" : "dark:text-white text-black"
                 } hover:text-[#61DAFB]`}
               >
                 {item}

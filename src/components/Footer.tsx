@@ -2,17 +2,15 @@ import { Linkedin, Github, Instagram } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-white py-8 px-10 md:px-20 text-center">
-      {/* Nombre y mensaje */}
-      <h2 className="text-2xl font-bold text-[#61DAFB]">Alessandro Poves</h2>
-      <p className="text-gray-400 mt-2">Ingeniero de Sistemas | Desarrollador Web | Full Stack | React | Laravel </p>
+    <footer className="dark:bg-gray-800 bg-slate-200 text-white py-8 px-10 md:px-20 text-center">
+      <h2 className="text-2xl font-bold dark:text-[#61DAFB] text-[#007acc]">Alessandro Poves</h2>
+      <p className="dark:text-gray-400 text-gray-800 mt-2">Ingeniero de Sistemas | Desarrollador Web | Full Stack | React | Laravel </p>
 
-      {/* Información de contacto */}
       <div className="mt-4">
-        <p className="text-gray-300">📩 Contáctame en:</p>
+        <p className="dark:text-gray-300 text-gray-700">📩 Contáctame en:</p>
         <a
           href="mailto:apovesmartinez@gmail.com"
-          className="text-[#61DAFB] hover:underline"
+          className="dark:text-[#61DAFB] text-[#007acc] hover:underline"
           target="_blank"
         >
           apovesmartinez@gmail.com
@@ -24,7 +22,7 @@ export default function Footer() {
           href="https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-400 hover:text-[#61DAFB] transition duration-300"
+          className="dark:text-gray-400 text-gray-700 dark:hover:text-[#61DAFB] hover:text-[#007acc] transition duration-300"
         >
           <Linkedin size={28} />
         </a>
@@ -32,7 +30,7 @@ export default function Footer() {
           href="https://github.com/SwodLore"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-400 hover:text-[#61DAFB] transition duration-300"
+          className="dark:text-gray-400 text-gray-700 dark:hover:text-[#61DAFB] hover:text-[#007acc] transition duration-300"
         >
           <Github size={28} />
         </a>
@@ -40,19 +38,19 @@ export default function Footer() {
           href="https://www.instagram.com/alepoves/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-400 hover:text-[#61DAFB] transition duration-300"
+          className="dark:text-gray-400 text-gray-700 dark:hover:text-[#61DAFB] hover:text-[#007acc] transition duration-300"
         >
           <Instagram size={28} />
         </a>
       </div>
 
-      <p className="text-gray-500 text-sm mt-6">
+      <p className="dark:text-gray-500 text-gray-700 text-sm mt-6">
         © {new Date().getFullYear() + ' '}
         <a
           href="https://www.instagram.com/alepoves/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-400 hover:text-[#61DAFB] transition duration-300"
+          className="dark:text-gray-400 text-gray-500 dark:hover:text-[#61DAFB] hover:text-[#007acc] transition duration-300"
         >
           Alessandro Poves
         </a> . Todos los derechos reservados.

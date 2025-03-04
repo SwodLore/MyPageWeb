@@ -13,18 +13,18 @@ export default function Contacto() {
               Estoy disponible para colaborar en proyectos de desarrollo y tecnología.
             </p>
             <ul className="mt-4 space-y-2 flex flex-col">
-              <li className="inline-flex"><MapPin className="w-5 h-5 text-[#61DAFB] mr-2" /> Ubicación: Huancayo, Perú</li>
-              <li className="inline-flex"><Mail className="w-5 h-5 text-[#61DAFB] mr-2" /> Email: <a href="mailto:apovesmartinez@gmail.com" className="text-[#61DAFB] underline"> apovesmartinez@gmail.com</a></li>
+              <li className="inline-flex"><MapPin className="w-5 h-5 dark:text-[#61DAFB] text-[#007acc] mr-2" /> Ubicación: Huancayo, Perú</li>
+              <li className="inline-flex"><Mail className="w-5 h-5 dark:text-[#61DAFB] text-[#007acc] mr-2" /> Email: <a href="mailto:apovesmartinez@gmail.com" className="dark:text-[#61DAFB] text-[#007acc] underline"> apovesmartinez@gmail.com</a></li>
               <li className="inline-flex"><a href="https://wa.me/51977776058" target="_blank" className="bg-green-500 px-4 py-2 rounded-lg text-white my-3 inline-flex">
                 <Phone className="w-5 h-5 text-white mr-2" /> WhatsApp
               </a></li>
               🔗 Redes: 
               <li className="flex items-start flex-col gap-4"> 
-                <a href="https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/" target="_blank" className="text-[#61DAFB] ml-2 inline-flex">
+                <a href="https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/" target="_blank" className="dark:text-[#61DAFB] text-[#007acc] ml-2 inline-flex">
                   <Linkedin className="w-5 h-5 mr-1" />
                   LinkedIn
                 </a>
-                <a href="https://github.com/SwodLore" target="_blank" className="text-[#61DAFB] ml-2 inline-flex">
+                <a href="https://github.com/SwodLore" target="_blank" className="dark:text-[#61DAFB] text-[#007acc] ml-2 inline-flex">
                   <Github className="w-5 h-5 mr-1" />
                   GitHub
                 </a>
@@ -37,7 +37,7 @@ export default function Contacto() {
             <Link
               to="/cv.pdf"
               target="_blank"
-              className="mt-4 px-6 py-3 bg-[#61DAFB] text-gray-900 font-semibold rounded-lg hover:bg-[#4bb0d7]"
+              className="mt-4 px-6 py-3 dark:bg-[#61DAFB] bg-[#007acc] text-gray-900 font-semibold rounded-lg dark:hover:bg-[#4bb3d6] hover:bg-[#007acce5]"
             >
               📥 Descargar CV
             </Link>

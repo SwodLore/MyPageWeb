@@ -2,15 +2,15 @@ import { skills } from "../data/skills";
 
 export default function SkillsAboutMe() {
   return (
-    <div className="bg-gray-900 p-10 grid md:grid-cols-2">
+    <div className="dark:bg-gray-900 bg-slate-200 p-10 grid md:grid-cols-2">
         
-        <div className=" bg-gray-900">
-            <h3 className="text-3xl font-bold text-[#61DAFB] text-center">💻 Habilidades Técnicas</h3>
+        <div>
+            <h3 className="text-3xl font-bold dark:text-[#61DAFB] text-[#007acc] text-center">💻 Habilidades Técnicas</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-12 px-6">
             {skills.map((skill, index) => (
             <div
                 key={index}
-                className="flex flex-col items-center p-3 bg-gray-800 rounded-md border border-[#61DAFB] text-white text-center"
+                className="flex flex-col items-center p-3 bg-gray-800 rounded-md border dark:border-[#61DAFB] border-[#007acc] text-white text-center"
             >
                 <img src={skill.img} alt={skill.name} className="w-12 h-12 mb-1" />
                 <p className="text-sm font-medium">{skill.name}</p>
@@ -19,39 +19,39 @@ export default function SkillsAboutMe() {
             ))}
             </div>
         </div>
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-[#61DAFB]">
-        <h3 className="text-3xl font-bold text-[#61DAFB] text-center"> 🤝 Habilidades Blandas</h3>
+        <div className="bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 dark:border-[#61DAFB] border-[#007acc]">
+        <h3 className="text-3xl font-bold dark:text-[#61DAFB] text-[#007acc] text-center"> 🤝 Habilidades Blandas</h3>
         <ul className="space-y-3 mt-4">
             <li className="flex items-center gap-3 text-white">
-                <span className="text-[#61DAFB] text-xl">💬</span> Comunicación efectiva
+                <span className="text-xl">💬</span> Comunicación efectiva
             </li>
             <li className="flex items-center gap-3 text-white">
-                <span className="text-[#61DAFB] text-xl">👥</span> Trabajo en equipo
+                <span className="text-xl">👥</span> Trabajo en equipo
             </li>
             <li className="flex items-center gap-3 text-white">
-                <span className="text-[#61DAFB] text-xl">🎯</span> Resolución de problemas
+                <span className="text-xl">🎯</span> Resolución de problemas
             </li>
             <li className="flex items-center gap-3 text-white">
-                <span className="text-[#61DAFB] text-xl">🧠</span> Pensamiento crítico
+                <span className="text-xl">🧠</span> Pensamiento crítico
             </li>
             <li className="flex items-center gap-3 text-white">
-                <span className="text-[#61DAFB] text-xl">⏳</span> Gestión del tiempo
+                <span className="text-xl">⏳</span> Gestión del tiempo
             </li>
             <li className="flex items-center gap-3 text-white">
-                <span className="text-[#61DAFB] text-xl">🎨</span> Creatividad e innovación
+                <span className="text-xl">🎨</span> Creatividad e innovación
             </li>
             <li className="flex items-center gap-3 text-white">
-                <span className="text-[#61DAFB] text-xl">📚</span> Aprendizaje continuo
+                <span className="text-xl">📚</span> Aprendizaje continuo
             </li>
             <li className="flex items-center gap-3 text-white">
-                <span className="text-[#61DAFB] text-xl">💡</span> Adaptabilidad y flexibilidad
+                <span className="text-xl">💡</span> Adaptabilidad y flexibilidad
             </li>
             <li className="flex items-center gap-3 text-white">
-                <span className="text-[#61DAFB] text-xl">🤝</span> Liderazgo y empatía
+                <span className="text-xl">🤝</span> Liderazgo y empatía
             </li>
         </ul>
             <div className="p-6 rounded-lg shadow-lg mt-6">
-            <h3 className="text-3xl font-bold text-[#61DAFB] text-center">👨‍💻 Sobre Mí</h3>
+            <h3 className="text-3xl font-bold dark:text-[#61DAFB] text-[#007acc] text-center">👨‍💻 Sobre Mí</h3>
             <p className="text-white mt-4 text-lg text-center">
                 Soy un apasionado desarrollador de software con experiencia en tecnologías web y backend. Me encanta aprender nuevas herramientas y 
                 afrontar desafíos tecnológicos. Destaco por mi capacidad de resolver problemas, trabajar en equipo y adaptarme a nuevos entornos. 

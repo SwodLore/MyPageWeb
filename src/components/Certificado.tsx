@@ -19,7 +19,7 @@ export default function Certificado() {
             <a
               href={cert.urlCertificate}
               target="_blank"
-              className="mt-3 block text-center bg-[#61DAFB] text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-[#4bb0d7]"
+              className="mt-3 block text-center dark:bg-[#61DAFB] bg-[#007acc] text-gray-900 px-4 py-2 rounded-lg font-semibold dark:hover:bg-[#4bb3d6] hover:bg-[#007acce5]"
             >
               📄 Ver Certificado
             </a>
@@ -30,7 +30,7 @@ export default function Certificado() {
         <div className="flex flex-col items-center mt-6">
           <button
             onClick={() => setMostrarTodos(!mostrarTodos)}
-            className="bg-[#61DAFB] text-gray-900 px-6 py-2 rounded-lg font-bold hover:bg-[#4bb3d6] transition-all cursor-pointer"
+            className="dark:bg-[#61DAFB] bg-[#007acc] text-gray-900 px-6 py-2 rounded-lg font-bold dark:hover:bg-[#4bb3d6] hover:bg-[#007acce5] transition-all cursor-pointer"
               >
               {mostrarTodos ? "Ver menos" : "Ver más"}
           </button>
