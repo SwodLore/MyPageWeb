@@ -5,7 +5,7 @@ export default function Contacto() {
   return (
     <>
       <div className="container mx-auto px-4 mt-5">
-        <div className="grid md:grid-cols-2 gap-8 rounded-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] shadow-md">
+        <div className="grid md:grid-cols-2 gap-8 rounded-lg border-l-4 shadow-md">
           <div className="dark:bg-gray-800 bg-slate-200 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold mb-4 dark:text-white text-black">📍 Información</h3>
             <p className="dark:text-gray-400 text-gray-800">
