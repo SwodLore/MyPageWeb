@@ -25,13 +25,13 @@ export default function Portafolio() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {proyectosVisibles.map((proyecto, index) => (
-            <div key={index} className="bg-gray-800 rounded-lg shadow-lg p-5 border-l-4 dark:border-[#61DAFB] border-[#007acc] hover:scale-[1.02] transition-transform">
-              <h3 className="text-xl font-semibold">{proyecto.name}</h3>
+            <div key={index} className="dark:bg-gray-800 bg-slate-200 rounded-lg shadow-lg p-5 border-l-4 dark:border-[#61DAFB] border-[#007acc] hover:scale-[1.02] transition-transform">
+              <h3 className="text-xl font-semibold dark:text-white text-black">{proyecto.name}</h3>
               <div className="flex gap-2 flex-wrap my-3">
                 {proyecto.tecnologias.map((tech, idx) => (
-                  <div key={idx} className="flex items-center gap-2 bg-gray-700 px-3 py-1 rounded-lg">
+                  <div key={idx} className="flex items-center gap-2 dark:bg-gray-700 bg-gray-300 px-3 py-1 rounded-lg">
                     <img src={tech.img} alt={tech.name} className="w-5 h-5" />
-                    <span className="text-sm">{tech.name}</span>
+                    <span className="text-sm dark:text-white text-black">{tech.name}</span>
                   </div>
                 ))}
               </div>

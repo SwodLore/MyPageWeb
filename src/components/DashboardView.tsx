@@ -40,24 +40,24 @@ export default function DashboardView() {
               </p>
 
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-center mx-3">
-              <div className="bg-gray-800 p-4 rounded-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] shadow-md flex flex-row items-center">
+              <div className="dark:bg-gray-800 bg-slate-200 p-4 rounded-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] shadow-md flex flex-row items-center">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Escudo_UNCP.png/800px-Escudo_UNCP.png" alt="Logo de la UNCP" className="w-30 h-30" />
                 <div>
-                  <h3 className="text-xl font-semibold text-white">  Universidad Nacional del Centro del Perú</h3>
-                  <p className="text-gray-400">Ingeniería de Sistemas - 7mo ciclo</p>
+                  <h3 className="text-xl font-semibold dark:text-white text-black">  Universidad Nacional del Centro del Perú</h3>
+                  <p className="dark:text-gray-400 text-gray-700">Ingeniería de Sistemas - 7mo ciclo</p>
                 </div>
               </div>
-              <div className="bg-gray-800 p-4 rounded-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] shadow-md flex flex-row items-center">
+              <div className="dark:bg-gray-800 bg-slate-200 p-4 rounded-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] shadow-md flex flex-row items-center">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSacvCIdoNf47zT9nl2qSXlS8nWDoxEJZ16Kg&s" alt="Logo ICPNA" className="w-30 h-30 " />
                 <div>
-                  <h3 className="text-xl font-semibold text-white"> Instituto Cultural Peruano Norteamericano</h3>
-                  <p className="text-gray-400">Ingles - Intermedio - TOEFL B2</p>
+                  <h3 className="text-xl font-semibold dark:text-white text-black"> Instituto Cultural Peruano Norteamericano</h3>
+                  <p className="dark:text-gray-400 text-gray-700">Ingles - Intermedio - TOEFL B2</p>
                 </div>
               </div>
-              <div className="bg-gray-800 p-4 rounded-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] shadow-md md:col-span-2">
-                <h3 className="text-xl font-semibold text-white">📜 Cursos Destacados</h3>
-                <p className="text-gray-400">Laravel, Spring Boot, Redes y Seguridad Informática {' '}
-                  <button onClick={handleScrollToCertificado} className="text-[#61DAFB] hover:underline cursor-pointer">
+              <div className="dark:bg-gray-800 bg-slate-200 p-4 rounded-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] shadow-md md:col-span-2">
+                <h3 className="text-xl font-semibold dark:text-white text-black">📜 Cursos Destacados</h3>
+                <p className="dark:text-gray-400 text-gray-700">Laravel, Spring Boot, Redes y Seguridad Informática {' '}
+                  <button onClick={handleScrollToCertificado} className="dark:text-[#61DAFB] text-[#007acc] hover:underline cursor-pointer">
                   Ver más
                   </button>  
                 </p>
@@ -76,22 +76,22 @@ export default function DashboardView() {
             </div>
             <div>
               <h3 className="text-3xl font-bold dark:text-[#61DAFB] text-[#007acc] text-center"> 🤝 Habilidades Blandas</h3>
-              <div className="bg-gray-800 p-6 rounded-lg shadow-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] lg:mt-24">
+              <div className="dark:bg-gray-800 bg-slate-200 p-6 rounded-lg shadow-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] lg:mt-24">
                 <ul className="space-y-3">
-                  <li className="flex items-center gap-3 text-white">
-                    <span className="text-[#61DAFB] text-xl">💬</span> Comunicación efectiva
+                  <li className="flex items-center gap-3 dark:text-white text-black">
+                    <span className=" text-xl">💬</span> Comunicación efectiva
                   </li>
-                  <li className="flex items-center gap-3 text-white">
-                    <span className="text-[#61DAFB] text-xl">👥</span> Trabajo en equipo
+                  <li className="flex items-center gap-3 dark:text-white text-black">
+                    <span className=" text-xl">👥</span> Trabajo en equipo
                   </li>
-                  <li className="flex items-center gap-3 text-white">
-                    <span className="text-[#61DAFB] text-xl">🎯</span> Resolución de problemas
+                  <li className="flex items-center gap-3 dark:text-white text-black">
+                    <span className=" text-xl">🎯</span> Resolución de problemas
                   </li>
-                  <li className="flex items-center gap-3 text-white">
-                    <span className="text-[#61DAFB] text-xl">🧠</span> Pensamiento crítico
+                  <li className="flex items-center gap-3 dark:text-white text-black">
+                    <span className=" text-xl">🧠</span> Pensamiento crítico
                   </li>
-                  <li className="flex items-center gap-3 text-white">
-                    <span className="text-[#61DAFB] text-xl">⏳</span> Gestión del tiempo
+                  <li className="flex items-center gap-3 dark:text-white text-black">
+                    <span className=" text-xl">⏳</span> Gestión del tiempo
                   </li>
                 </ul>
               </div>

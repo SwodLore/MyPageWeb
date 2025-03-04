@@ -9,12 +9,12 @@ export default function Certificado() {
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6">
         {certificadosVisibles.map((cert, index) => (
-          <div key={index} className="bg-gray-800 p-4 rounded-lg border-l-4 border-[#61DAFB] shadow-md">
+          <div key={index} className="dark:bg-gray-800 bg-slate-200 p-4 rounded-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] shadow-md">
             <img src={cert.imgInstitution} alt={cert.institution} className="h-10 mb-2" />
-            <h3 className="text-xl font-semibold">{cert.name}</h3>
-            <p className="text-gray-400">🎓 {cert.institution}</p>
-            <p className="text-gray-400">👨‍🏫 {cert.teacher}</p>
-            <p className="text-gray-400">📅 {cert.dateCertificate}</p>
+            <h3 className="text-xl font-semibold dark:text-white text-black">{cert.name}</h3>
+            <p className="dark:text-gray-400 text-gray-800">🎓 {cert.institution}</p>
+            <p className="dark:text-gray-400 text-gray-800">👨‍🏫 {cert.teacher}</p>
+            <p className="dark:text-gray-400 text-gray-800">📅 {cert.dateCertificate}</p>
 
             <a
               href={cert.urlCertificate}
