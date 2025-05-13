@@ -18,6 +18,54 @@ export const portafolio: Portfolio[] = [
       ]
     },
     {
+      name: "Maquinas de Ciberseguridad",
+      img: "/img/portafolio/h.png",
+      urlPageWeb: "",
+      urlPageGithub: "https://github.com/SwodLore/Search-machines-of-s4vitar",
+      description: "Aplicación en bash sobre maquinas de ciberseguridad de s4vitar",
+      tecnologias: [
+        { name: "Bash", img: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Bash_Logo_Colored.svg" },
+        { name: "Linux", img: "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png"},
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+      ]
+    },
+    {
+      name: "KeyLogger con Python y envio a email",
+      img: "/img/portafolio/prueba_key.png",
+      urlPageWeb: "",
+      urlPageGithub: "https://github.com/SwodLore/keylogger_with_mail",
+      description: "Un keylogger en python que envia las teclas a un email que puedes configurar",
+      tecnologias: [
+        { name: "Python", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/180px-Python-logo-notext.svg.png" },
+        { name: "Linux", img: "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png"},
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+      ]
+    },
+    {
+      name: "Ransonware con Python",
+      img: "/img/portafolio/ransonware.png",
+      urlPageWeb: "",
+      urlPageGithub: "https://github.com/SwodLore/ransonware_with_python",
+      description: "Ransonware en python que cifra archivos y decifrar archivos con una llave",
+      tecnologias: [
+        { name: "Python", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/180px-Python-logo-notext.svg.png" },
+        { name: "Linux", img: "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png"},
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+      ]
+    },
+    {
+      name: "Ruleta con bash para predecir resultados",
+      img: "/img/portafolio/help.png",
+      urlPageWeb: "",
+      urlPageGithub: "https://github.com/SwodLore/Ruleta_bash_tecnicas",
+      description: "Aplicación en bash sobre la ruleta con tecnicas como martingala, inverse Labouchere",
+      tecnologias: [
+        { name: "Bash", img: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Bash_Logo_Colored.svg" },
+        { name: "Linux", img: "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png"},
+        { name: "GitHub", img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+      ]
+    },
+    {
         name: "DevJobs",
         img: "/img/portafolio/devjobs.png",
         urlPageWeb: "",

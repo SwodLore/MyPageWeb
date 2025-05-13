@@ -51,7 +51,7 @@ export default function DashboardView() {
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSacvCIdoNf47zT9nl2qSXlS8nWDoxEJZ16Kg&s" alt="Logo ICPNA" className="w-30 h-30 " />
                 <div>
                   <h3 className="text-xl font-semibold dark:text-white text-black"> Instituto Cultural Peruano Norteamericano</h3>
-                  <p className="dark:text-gray-400 text-gray-700">Ingles - Intermedio - TOEFL B2</p>
+                  <p className="dark:text-gray-400 text-gray-700">Ingles - Intermedio - TOEFL B1</p>
                 </div>
               </div>
               <div className="dark:bg-gray-800 bg-slate-200 p-4 rounded-lg border-l-4 dark:border-[#61DAFB] border-[#007acc] shadow-md md:col-span-2">
