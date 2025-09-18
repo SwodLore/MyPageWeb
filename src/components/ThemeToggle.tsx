@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { ThemeContext } from "../ThemeContext";
+import { Sun, Moon } from "lucide-react";
 
 export default function ThemeToggle() {
   const themeContext = useContext(ThemeContext);
@@ -13,11 +14,20 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed bottom-4 right-4 sm:top-4 sm:right-4 sm:bottom-auto flex items-center gap-2 px-3 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 shadow-md hover:scale-105 transition-transform z-51"
+      className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 hover:scale-105 border border-slate-200 dark:border-slate-600"
+      aria-label={`Cambiar a tema ${theme === "dark" ? "claro" : "oscuro"}`}
     >
-      <span className="text-gray-800 dark:text-gray-100">
-        {theme === "dark" ? "🌙" : "☀️"}
-      </span>
+      {theme === "dark" ? (
+        <Sun
+          size={18}
+          className="text-yellow-500 transition-transform duration-200 hover:scale-110"
+        />
+      ) : (
+        <Moon
+          size={18}
+          className="text-slate-600 dark:text-slate-400 transition-transform duration-200 hover:scale-110"
+        />
+      )}
     </button>
   );
 }

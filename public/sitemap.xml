@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+        <loc>https://alessandropoves.dev/</loc>
+        <lastmod>2024-01-15T00:00:00+00:00</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://alessandropoves.dev/profile.jpg</image:loc>
+            <image:title>Alessandro Poves - Desarrollador Full Stack</image:title>
+            <image:caption>Foto profesional de Alessandro Poves, desarrollador full stack especializado en Laravel, React, Angular y Spring Boot</image:caption>
+        </image:image>
+    </url>
+    <url>
+        <loc>https://alessandropoves.dev/skills</loc>
+        <lastmod>2024-01-15T00:00:00+00:00</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+</urlset>
