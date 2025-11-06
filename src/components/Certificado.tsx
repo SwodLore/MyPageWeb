@@ -39,9 +39,8 @@ export default function Certificado() {
 
     const mediaQuery = window.matchMedia("(max-width: 767px)");
 
-    const updateIsMobile = (event: MediaQueryList | MediaQueryListEvent) => {
-      const matches = "matches" in event ? event.matches : event.currentTarget?.matches;
-      setIsMobile(Boolean(matches));
+    const updateIsMobile = (source: MediaQueryList | MediaQueryListEvent) => {
+      setIsMobile(Boolean(source.matches));
     };
 
     updateIsMobile(mediaQuery);
