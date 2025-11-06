@@ -87,6 +87,25 @@ const softHighlights = [
   },
 ];
 
+const educationHistory = [
+  {
+    institution: "Universidad Nacional del Centro del Perú (UNCP)",
+    program: "Ingeniería de Sistemas",
+    period: "2022 - Presente · VIII semestre",
+    highlight: "En 8.º semestre, profundizando en arquitectura de software, ciberseguridad y gestión de proyectos de alto impacto.",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Escudo_UNCP.png/330px-Escudo_UNCP.png",
+    accent: "from-indigo-500/15 via-indigo-500/10 to-transparent",
+  },
+  {
+    institution: "ICPNA",
+    program: "Programa de Inglés Profesional",
+    period: "2024 - Actualidad · Nivel intermedio",
+    highlight: "Formación activa en nivel intermedio para documentar proyectos y comunicarme con equipos globales en inglés técnico.",
+    logo: "https://www.icpna.edu.pe/static/img/logo.svg",
+    accent: "from-emerald-500/15 via-emerald-500/10 to-transparent",
+  },
+];
+
 function resolveSkill(name: string) {
   return skills.find((skill) => skill.name === name);
 }
@@ -212,6 +231,49 @@ export default function SkillsAboutMe() {
             <div className="rounded-2xl border border-blue-200 bg-blue-50 px-6 py-5 text-left text-sm text-blue-700 shadow-sm dark:border-blue-500/50 dark:bg-blue-500/15 dark:text-blue-200">
               Listo para integrarme en tu equipo o liderar la construcción end-to-end de tu siguiente producto. Transparencia, documentación y ownership en cada paso.
             </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="mx-auto max-w-3xl space-y-3 text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-700 dark:border-emerald-500/40 dark:bg-emerald-500/15 dark:text-emerald-200">
+              <Sparkles size={14} />
+              Formación
+            </div>
+            <h3 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl">
+              Mi trayectoria académica
+            </h3>
+            <p className="text-lg text-slate-600 dark:text-slate-300">
+              Combino la rigurosidad de la UNCP con la comunicación global del ICPNA para liderar proyectos multiculturales.
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {educationHistory.map((edu) => (
+              <div
+                key={edu.institution}
+                className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${edu.accent}`} aria-hidden="true" />
+                <div className="relative flex flex-col gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                      <img src={edu.logo} alt={`Logo ${edu.institution}`} className="h-10 w-10 object-contain" loading="lazy" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                        {edu.period}
+                      </p>
+                      <h4 className="text-lg font-bold text-slate-900 dark:text-white">{edu.institution}</h4>
+                    </div>
+                  </div>
+                  <div className="space-y-2 text-slate-600 dark:text-slate-300">
+                    <p className="text-base font-semibold text-slate-800 dark:text-slate-100">{edu.program}</p>
+                    <p className="text-sm leading-relaxed">{edu.highlight}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
