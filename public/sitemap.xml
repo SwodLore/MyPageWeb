@@ -8,7 +8,7 @@
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
         <image:image>
-            <image:loc>https://alessandropoves.dev/profile.jpg</image:loc>
+            <image:loc>https://alessandropoves.dev/profile.webp</image:loc>
             <image:title>Alessandro Poves - Desarrollador Full Stack</image:title>
             <image:caption>Foto profesional de Alessandro Poves, desarrollador full stack especializado en Laravel, React, Angular y Spring Boot</image:caption>
         </image:image>

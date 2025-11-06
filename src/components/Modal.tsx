@@ -1,6 +1,8 @@
+import { useEffect } from "react";
+import { motion } from "framer-motion";
 import { Portfolio } from "../types";
 import { X, ExternalLink, Github, Code, Layers } from "lucide-react";
-import { useEffect } from "react";
+import LazyImage from "./LazyImage";
 
 type ModalProps = {
     isOpen: boolean;
@@ -38,12 +40,21 @@ export default function Modal({ isOpen, onClose, project }: ModalProps) {
     };
 
     return (
-        <div
-            className="fixed inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80 backdrop-blur-2xl z-50 animate-fade-in overflow-y-auto"
+        <motion.div
+            className="fixed inset-0 bg-gradient-to-br from-black/80 via-black/70 to-black/80 backdrop-blur-2xl z-50 overflow-y-auto"
             onClick={handleOverlayClick}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
         >
             <div className="min-h-screen flex items-center justify-center p-4">
-                <div className="bg-gradient-to-br from-white/98 via-gray-50/95 to-blue-50/90 dark:from-gray-800/98 dark:via-gray-900/95 dark:to-slate-900/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl max-h-[80vh] overflow-y-auto shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] border border-white/60 dark:border-gray-700/60 animate-scale-in relative overflow-hidden">
+                <motion.div
+                    className="bg-gradient-to-br from-white/98 via-gray-50/95 to-blue-50/90 dark:from-gray-800/98 dark:via-gray-900/95 dark:to-slate-900/90 backdrop-blur-2xl rounded-2xl sm:rounded-3xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl max-h-[80vh] overflow-y-auto shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] border border-white/60 dark:border-gray-700/60 relative overflow-hidden"
+                    initial={{ opacity: 0, scale: 0.9, y: 24 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 24 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                >
                 {/* Header */}
                 <div className="relative">
                     <button
@@ -54,12 +65,13 @@ export default function Modal({ isOpen, onClose, project }: ModalProps) {
                     </button>
 
                     {/* Project Image */}
-                    <div className="relative aspect-[16/9] sm:aspect-[16/9] md:aspect-[16/9] overflow-hidden bg-gradient-to-br from-blue-100/60 via-purple-100/40 to-cyan-100/50 dark:from-blue-950/30 dark:via-purple-950/20 dark:to-cyan-950/25 rounded-t-2xl sm:rounded-t-3xl">
+                    <motion.div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-blue-100/60 via-purple-100/40 to-cyan-100/50 dark:from-blue-950/30 dark:via-purple-950/20 dark:to-cyan-950/25 rounded-t-2xl sm:rounded-t-3xl">
                         {project.img ? (
-                            <img
+                            <LazyImage
                                 src={project.img}
                                 alt={project.name}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full"
+                                imgClassName="w-full h-full object-cover"
                             />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500/30 via-purple-500/25 to-cyan-500/30 relative">
@@ -75,7 +87,7 @@ export default function Modal({ isOpen, onClose, project }: ModalProps) {
                         <div className="absolute top-2 left-2 sm:top-3 sm:left-3 md:top-4 md:left-4 px-2 py-1 sm:px-3 sm:py-1.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full border border-white/50 dark:border-gray-600/50">
                             <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">Vista Previa</span>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Content */}
@@ -111,6 +123,10 @@ export default function Modal({ isOpen, onClose, project }: ModalProps) {
                                         src={tech.img}
                                         alt={tech.name}
                                         className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 object-contain group-hover:scale-110 transition-transform duration-300"
+                                        loading="lazy"
+                                        decoding="async"
+                                        width={32}
+                                        height={32}
                                     />
                                     <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 leading-tight">
                                         {tech.name}
@@ -149,8 +165,8 @@ export default function Modal({ isOpen, onClose, project }: ModalProps) {
                     </div>
 
                 </div>
-                </div>
+                </motion.div>
             </div>
-        </div>
+        </motion.div>
     );
 }

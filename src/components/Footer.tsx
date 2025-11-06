@@ -1,76 +1,49 @@
-import { Linkedin, Github, Instagram, Mail, MapPin } from "lucide-react";
+import { Github, Instagram, Linkedin, Mail, MapPin } from "lucide-react";
+
+const socialLinks = [
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/", icon: Linkedin },
+  { name: "GitHub", href: "https://github.com/SwodLore", icon: Github },
+  { name: "Instagram", href: "https://www.instagram.com/alepoves/", icon: Instagram },
+];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const socialLinks = [
-    {
-      name: "LinkedIn",
-      href: "https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/",
-      icon: Linkedin
-    },
-    {
-      name: "GitHub",
-      href: "https://github.com/SwodLore",
-      icon: Github
-    },
-    {
-      name: "Instagram",
-      href: "https://www.instagram.com/alepoves/",
-      icon: Instagram
-    }
-  ];
-
   return (
-    <footer className="bg-gradient-to-br from-slate-50 to-blue-50 dark:bg-gradient-to-br dark:from-slate-900 dark:to-slate-800 border-t border-slate-200 dark:border-slate-700">
-      <div className="container-apple py-20">
-        {/* Main Footer Content */}
-        <div className="grid md:grid-cols-3 gap-12 mb-16">
-          {/* Brand Section */}
-          <div className="text-center md:text-left">
-            <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-4">
-              Alessandro Poves
-            </h3>
-            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-              Desarrollador Full Stack especializado en crear experiencias digitales
-              excepcionales con tecnologías modernas.
+    <footer className="border-t border-slate-200 bg-slate-50/70 text-slate-600 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300">
+      <div className="container-apple py-20 space-y-12">
+        <div className="grid gap-12 md:grid-cols-3">
+          <div className="space-y-4 text-center md:text-left">
+            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">Alessandro Poves</h3>
+            <p className="text-slate-500 dark:text-slate-300">
+              Desarrollador full stack que construye experiencias digitales elegantes, accesibles y enfocadas en el valor de negocio.
             </p>
           </div>
 
-          {/* Contact Info */}
-          <div className="text-center md:text-left">
-            <h4 className="text-lg font-semibold text-slate-800 dark:text-white mb-4">
-              Contacto
-            </h4>
-            <div className="space-y-3">
-              <div className="flex items-center justify-center md:justify-start gap-3">
-                <Mail size={18} className="text-blue-600" />
-                <a
-                  href="mailto:apovesmartinez@gmail.com"
-                  className="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors duration-200"
-                >
-                  apovesmartinez@gmail.com
-                </a>
-              </div>
-              <div className="flex items-center justify-center md:justify-start gap-3">
-                <MapPin size={18} className="text-blue-600" />
-                <span className="text-gray-600 dark:text-gray-400">
-                  Huancayo, Perú
-                </span>
+          <div className="space-y-4 text-center md:text-left">
+            <h4 className="text-lg font-semibold text-slate-900 dark:text-white">Contacto</h4>
+            <div className="space-y-3 text-sm">
+              <a
+                href="mailto:apovesmartinez@gmail.com"
+                className="flex items-center justify-center gap-3 transition hover:text-blue-600 md:justify-start dark:hover:text-blue-300"
+              >
+                <Mail size={18} className="text-blue-600 dark:text-blue-400" />
+                apovesmartinez@gmail.com
+              </a>
+              <div className="flex items-center justify-center gap-3 text-slate-600 md:justify-start dark:text-slate-300">
+                <MapPin size={18} className="text-blue-600 dark:text-blue-400" />
+                Huancayo, Peru
               </div>
             </div>
           </div>
 
-          {/* Skills */}
-          <div className="text-center md:text-left">
-            <h4 className="text-lg font-semibold text-slate-800 dark:text-white mb-4">
-              Especialidades
-            </h4>
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-              {['Laravel', 'Spring Boot', 'React', 'Angular', 'TypeScript', 'Python'].map((skill) => (
+          <div className="space-y-4 text-center md:text-left">
+            <h4 className="text-lg font-semibold text-slate-900 dark:text-white">Stack destacado</h4>
+            <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+              {["Laravel", "Spring Boot", "React", "Angular", "TypeScript", "Python"].map((skill) => (
                 <span
                   key={skill}
-                  className="px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-medium rounded-full"
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
                 >
                   {skill}
                 </span>
@@ -79,54 +52,33 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Social Links */}
-        <div className="flex justify-center gap-6 mb-12">
-          {socialLinks.map((social) => {
-            const Icon = social.icon;
-            return (
-              <a
-                key={social.name}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-200 dark:border-gray-700 group"
-                aria-label={social.name}
-              >
-                <Icon
-                  size={20}
-                  className="text-gray-600 dark:text-gray-400 group-hover:text-blue-600 transition-colors duration-200"
-                />
-              </a>
-            );
-          })}
+        <div className="flex justify-center gap-6">
+          {socialLinks.map(({ name, href, icon: Icon }) => (
+            <a
+              key={name}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+              aria-label={name}
+            >
+              <Icon size={20} />
+            </a>
+          ))}
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-200 dark:border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-600 dark:text-gray-400 text-sm">
-              © {currentYear} Alessandro Poves. Todos los derechos reservados.
-            </p>
-            <div className="flex items-center gap-6 text-sm">
-              <a
-                href="#sobre-mi"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors duration-200"
-              >
-                Inicio
-              </a>
-              <a
-                href="#portafolio"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors duration-200"
-              >
-                Proyectos
-              </a>
-              <a
-                href="#contacto"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors duration-200"
-              >
-                Contacto
-              </a>
-            </div>
+        <div className="border-t border-slate-200 pt-6 text-center text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400 md:flex md:items-center md:justify-between">
+          <p>© {currentYear} Alessandro Poves. Todos los derechos reservados.</p>
+          <div className="mt-4 flex justify-center gap-6 md:mt-0">
+            <a href="#sobre-mi" className="transition hover:text-blue-600 dark:hover:text-blue-300">
+              Inicio
+            </a>
+            <a href="#portafolio" className="transition hover:text-blue-600 dark:hover:text-blue-300">
+              Proyectos
+            </a>
+            <a href="#contacto" className="transition hover:text-blue-600 dark:hover:text-blue-300">
+              Contacto
+            </a>
           </div>
         </div>
       </div>

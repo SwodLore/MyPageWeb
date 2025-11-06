@@ -1,26 +1,29 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { LayoutGroup, motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 
+const NAV_ITEMS = [
+  { id: "sobre-mi", label: "Inicio" },
+  { id: "portafolio", label: "Proyectos" },
+  { id: "certificados", label: "Certificados" },
+  { id: "contacto", label: "Contacto" },
+];
+
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
-    const sections = document.querySelectorAll("section");
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const sections = document.querySelectorAll<HTMLElement>("section[id]");
     const observer = new IntersectionObserver(
       (entries) => {
-        const visibleSection = entries.find((entry) => entry.isIntersecting);
-        if (visibleSection) {
-          setActiveSection(visibleSection.target.id);
-        }
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible) setActiveSection(visible.target.id);
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -32,136 +35,136 @@ export default function Header() {
     };
   }, []);
 
-  const scrollToSection = (id: string) => {
+  const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
 
-  const navItems = [
-    { name: "Inicio", id: "sobre-mi" },
-    { name: "Proyectos", id: "portafolio" },
-    { name: "Certificados", id: "certificados" },
-    { name: "Contacto", id: "contacto" }
-  ];
-
   return (
-    <header
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ease-out ${
-        scrolled
-          ? "bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-slate-700/50"
-          : "bg-transparent"
-      }`}
-      style={{
-        backdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'none'
-      }}
-    >
-      <div className="container-apple">
-        <div
-          className={`flex justify-between items-center transition-all duration-300 ${
-            scrolled ? 'h-16' : 'h-20'
-          }`}
-        >
-          {/* Apple Logo */}
-          <div className="flex items-center">
-            <a
-              href="/"
-              className="flex items-center gap-3 group hover:opacity-80 transition-opacity duration-200"
-            >
-              <div className="w-7 h-7 relative">
-                <img
-                  src="/logo.png"
-                  alt="Alessandro Poves"
-                  className="w-full h-full object-contain"
+    <>
+      <motion.header
+        className={`fixed top-0 left-0 right-0 z-50 w-full border-b backdrop-blur-md transition-all duration-300 ${
+          scrolled
+            ? "bg-white/90 border-slate-200 shadow-md dark:bg-slate-900/90 dark:border-slate-800"
+            : "bg-white/70 border-transparent dark:bg-slate-900/70"
+        }`}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        <div className="container-apple">
+          <div className="flex h-16 items-center justify-between">
+            {/* Logo */}
+            <a href="/" className="flex items-center gap-2.5 shrink-0">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 dark:bg-blue-500">
+                <img 
+                  src="/logo.webp" 
+                  alt="AP" 
+                  className="h-5 w-5 object-contain brightness-0 invert"
                 />
               </div>
-              <span className="text-xl font-semibold text-gray-900 dark:text-slate-100 hidden sm:block">
+              <span className="hidden sm:inline-block text-base font-semibold text-slate-900 dark:text-white">
                 Alessandro Poves
               </span>
             </a>
-          </div>
 
-          {/* Apple Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`text-sm font-normal transition-colors duration-200 relative py-2 ${
-                  activeSection === item.id
-                    ? "text-blue-600 dark:text-blue-400"
-                    : "text-gray-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
-                }`}
-                style={{
-                  fontSize: '14px',
-                  letterSpacing: '0.01em'
-                }}
-              >
-                {item.name}
-              </button>
-            ))}
-          </nav>
-
-          {/* Right Side */}
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors duration-200"
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Menu"
-            >
-              {menuOpen ? (
-                <X size={20} className="text-gray-700 dark:text-slate-300" />
-              ) : (
-                <Menu size={20} className="text-gray-700 dark:text-slate-300" />
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Apple Mobile Menu */}
-      {menuOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/20 dark:bg-black/50 z-40 md:hidden animate-fade-up"
-            onClick={() => setMenuOpen(false)}
-          />
-          <div
-            className="absolute top-full left-0 right-0 z-50 md:hidden animate-scale-in"
-            style={{ animationDuration: '0.15s' }}
-          >
-            <div
-              className="mx-4 mt-2 bg-white/95 dark:bg-slate-900/95 rounded-2xl shadow-2xl overflow-hidden border border-gray-200/50 dark:border-slate-700/50"
-              style={{
-                backdropFilter: 'saturate(180%) blur(20px)',
-                WebkitBackdropFilter: 'saturate(180%) blur(20px)'
-              }}
-            >
-              <nav className="py-4">
-                {navItems.map((item, index) => (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    className={`w-full text-left px-6 py-4 text-lg font-normal transition-colors duration-200 ${
-                      activeSection === item.id
-                        ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20"
-                        : "text-gray-800 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800/50"
-                    }`}
-                    style={{
-                      animationDelay: `${index * 0.05}s`
-                    }}
-                  >
-                    {item.name}
-                  </button>
-                ))}
+            {/* Desktop Navigation */}
+            <LayoutGroup>
+              <nav className="hidden md:flex items-center gap-1">
+                {NAV_ITEMS.map((item) => {
+                  const isActive = activeSection === item.id;
+                  return (
+                    <motion.button
+                      key={item.id}
+                      onClick={() => scrollTo(item.id)}
+                      className={`relative px-4 py-2 text-sm font-medium transition-colors ${
+                        isActive
+                          ? "text-blue-600 dark:text-blue-400"
+                          : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {item.label}
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeTab"
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
               </nav>
+            </LayoutGroup>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="md:hidden flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors"
+                aria-label="Toggle menu"
+              >
+                {menuOpen ? (
+                  <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                ) : (
+                  <Menu className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                )}
+              </button>
             </div>
           </div>
-        </>
-      )}
-    </header>
+        </div>
+      </motion.header>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMenuOpen(false)}
+            />
+            
+            {/* Menu Panel */}
+            <motion.div
+              className="fixed top-16 left-0 right-0 z-40 md:hidden"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="mx-4 mt-2 rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-800">
+                <nav className="p-2">
+                  {NAV_ITEMS.map((item, index) => (
+                    <motion.button
+                      key={item.id}
+                      onClick={() => scrollTo(item.id)}
+                      className={`w-full rounded-xl px-4 py-3 text-left text-base font-medium transition-colors ${
+                        activeSection === item.id
+                          ? "bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+                          : "text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700/50"
+                      }`}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {item.label}
+                    </motion.button>
+                  ))}
+                </nav>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

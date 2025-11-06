@@ -1,149 +1,216 @@
+import type { ComponentType } from "react";
 import { skills } from "../data/skills";
-import { Code, Heart, User, Star, Zap } from "lucide-react";
+import {
+  CheckCircle2,
+  Layers,
+  Palette,
+  Rocket,
+  Server,
+  Sparkles,
+  Target,
+  Users,
+} from "lucide-react";
+
+type SkillSummary = {
+  title: string;
+  icon: ComponentType<{ size?: number }>;
+  description: string;
+  items: string[];
+};
+
+const skillCategories: SkillSummary[] = [
+  {
+    title: "Frontend & Experiencia",
+    icon: Palette,
+    description:
+      "Interfaces reactivas optimizadas para performance, accesibilidad y branding consistente.",
+    items: ["React", "Next.js", "TypeScript", "TailwindCSS"],
+  },
+  {
+    title: "Backend & APIs",
+    icon: Server,
+    description:
+      "Servicios escalables, APIs REST y microservicios integrados con ecosistemas cloud.",
+    items: ["Laravel", "Spring Boot", "Express", "Java"],
+  },
+  {
+    title: "DevOps & Data",
+    icon: Layers,
+    description:
+      "Automatización de despliegues, observabilidad y bases de datos robustas para productos en producción.",
+    items: ["Docker", "AWS", "MySQL", "Git"],
+  },
+];
+
+const deliveryHighlights = [
+  {
+    label: "Descubrimiento & arquitectura",
+    details: [
+      "Kick-off estratégico para alinear objetivos de negocio.",
+      "Diagramas de arquitectura y modelado de datos colaborativo.",
+    ],
+  },
+  {
+    label: "Implementación iterativa",
+    details: [
+      "Sprints con demos quincenales y documentación viva.",
+      "QA automatizado, code reviews y estándares de seguridad.",
+    ],
+  },
+  {
+    label: "Lanzamiento & evolución",
+    details: [
+      "Pipelines CI/CD, monitorización y handoff guiado.",
+      "Roadmap de mejoras basado en métricas reales.",
+    ],
+  },
+];
+
+const softHighlights = [
+  {
+    title: "Colaboración transparente",
+    description:
+      "Trabajo mano a mano con founders, PM y designers para mantener visibilidad total del progreso.",
+    icon: Users,
+  },
+  {
+    title: "Focus en impacto",
+    description:
+      "Priorizo funcionalidades que aceleran resultados y reduzco fricción para el usuario final.",
+    icon: Target,
+  },
+  {
+    title: "Iteración guiada por datos",
+    description:
+      "Analizo métricas y feedback para definir nuevas releases y optimizaciones continuas.",
+    icon: Sparkles,
+  },
+];
+
+function resolveSkill(name: string) {
+  return skills.find((skill) => skill.name === name);
+}
 
 export default function SkillsAboutMe() {
-  const softSkills = [
-    { icon: "💬", name: "Comunicación efectiva", description: "Capacidad para transmitir ideas de forma clara" },
-    { icon: "👥", name: "Trabajo en equipo", description: "Colaboración efectiva con equipos multidisciplinarios" },
-    { icon: "🎯", name: "Resolución de problemas", description: "Análisis y solución de desafíos complejos" },
-    { icon: "🧠", name: "Pensamiento crítico", description: "Evaluación objetiva y toma de decisiones" },
-    { icon: "⏳", name: "Gestión del tiempo", description: "Organización y priorización eficiente" },
-    { icon: "🎨", name: "Creatividad e innovación", description: "Búsqueda de soluciones originales" },
-    { icon: "📚", name: "Aprendizaje continuo", description: "Actualización constante de conocimientos" },
-    { icon: "💡", name: "Adaptabilidad", description: "Flexibilidad ante cambios y nuevos entornos" },
-    { icon: "🤝", name: "Liderazgo y empatía", description: "Guía de equipos con comprensión humana" }
-  ];
-
   return (
-    <section className="section-padding bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-cyan-50/30 dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="container-apple">
-        {/* Section Header */}
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 dark:from-blue-400 dark:via-purple-400 dark:to-cyan-400 bg-clip-text text-transparent mb-6">
-            Habilidades & Experiencia
+    <section className="section-padding bg-slate-50 dark:bg-slate-950">
+      <div className="container-apple space-y-16">
+        <div className="mx-auto max-w-4xl space-y-6 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 dark:border-blue-500/50 dark:bg-blue-500/15 dark:text-blue-200">
+            <Sparkles size={14} />
+            Skillset 360°
+          </div>
+          <h2 className="text-4xl font-bold text-slate-900 dark:text-white md:text-5xl">
+            Habilidades que convierten ideas en productos reales
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Una combinación de competencias técnicas y habilidades blandas que me permiten
-            crear soluciones tecnológicas excepcionales.
+          <p className="text-lg leading-relaxed text-slate-600 dark:text-slate-300">
+            Orquesto cada etapa del desarrollo —desde estrategia y arquitectura hasta despliegue y crecimiento— integrando
+            tecnologías modernas con procesos colaborativos.
           </p>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              { title: "+30 proyectos", caption: "en sectores fintech, retail y educación" },
+              { title: "Stack full stack", caption: "React · Laravel · Spring Boot · AWS" },
+              { title: "Certificaciones clave", caption: "Arquitectura de software y ciberseguridad" },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-slate-200 bg-white px-4 py-5 text-sm shadow-sm dark:border-slate-800/60 dark:bg-slate-900/80"
+              >
+                <p className="text-base font-semibold text-slate-900 dark:text-white">{item.title}</p>
+                <p className="mt-1 text-slate-500 dark:text-slate-300">{item.caption}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 mb-16">
-          {/* Technical Skills */}
-          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center">
-                <Code size={24} className="text-blue-600" />
+        <div className="grid gap-8 lg:grid-cols-3">
+          {skillCategories.map(({ title, icon: Icon, description, items }) => (
+            <div
+              key={title}
+              className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80"
+            >
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300">
+                  <Icon size={24} />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-white">{title}</h3>
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-                Habilidades Técnicas
-              </h3>
+              <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">{description}</p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {items.map((name) => {
+                  const skill = resolveSkill(name);
+                  if (!skill) return null;
+                  return (
+                    <span
+                      key={name}
+                      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70 dark:text-slate-200"
+                    >
+                      <img src={skill.img} alt={skill.name} className="h-4 w-4 object-contain" loading="lazy" />
+                      {skill.name}
+                    </span>
+                  );
+                })}
+              </div>
             </div>
+          ))}
+        </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {skills.map((skill, index) => (
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-3xl border border-slate-200 bg-white p-10 shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-300">
+                <Rocket size={24} />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Cómo impulso cada entrega</h3>
+            </div>
+            <div className="space-y-6">
+              {deliveryHighlights.map((highlight) => (
                 <div
-                  key={index}
-                  className="group bg-gray-50/80 dark:bg-gray-700/50 backdrop-blur-sm rounded-2xl p-4 text-center hover:bg-blue-50 dark:hover:bg-gray-600/60 transition-all duration-300 hover:-translate-y-1"
+                  key={highlight.label}
+                  className="rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70"
                 >
-                  <div className="w-12 h-12 mx-auto mb-3 flex items-center justify-center">
-                    <img
-                      src={skill.img}
-                      alt={skill.name}
-                      className="w-10 h-10 object-contain group-hover:scale-110 transition-transform duration-300"
-                    />
-                  </div>
-                  <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                    {skill.name}
-                  </p>
-                  <div className="flex items-center justify-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        size={12}
-                        className={`${
-                          i < parseInt(skill.level)
-                            ? "text-yellow-400 fill-current"
-                            : "text-gray-300 dark:text-gray-600"
-                        }`}
-                      />
+                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{highlight.label}</p>
+                  <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                    {highlight.details.map((detail) => (
+                      <li key={detail} className="flex items-start gap-2">
+                        <CheckCircle2 size={16} className="mt-0.5 text-emerald-500 dark:text-emerald-300" />
+                        <span>{detail}</span>
+                      </li>
                     ))}
-                  </div>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    Nivel {skill.level}/5
-                  </span>
+                  </ul>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Soft Skills */}
-          <div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 border border-gray-200/50 dark:border-gray-700/50">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center">
-                <Heart size={24} className="text-purple-600" />
+          <div className="flex h-full flex-col justify-between gap-8 rounded-3xl border border-slate-200 bg-white p-10 shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80">
+            <div>
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-300">
+                  <Users size={24} />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-900 dark:text-white">Cómo colaboro</h3>
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-                Habilidades Blandas
-              </h3>
-            </div>
-
-            <div className="space-y-4">
-              {softSkills.map((skill, index) => (
-                <div
-                  key={index}
-                  className="group p-4 bg-gray-50/80 dark:bg-gray-700/50 backdrop-blur-sm rounded-2xl hover:bg-purple-50 dark:hover:bg-gray-600/60 transition-all duration-300"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-white dark:bg-gray-800 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-lg">{skill.icon}</span>
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">
-                        {skill.name}
-                      </h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">
-                        {skill.description}
-                      </p>
+              <div className="space-y-4">
+                {softHighlights.map(({ title, description, icon: Icon }) => (
+                  <div
+                    key={title}
+                    className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70"
+                  >
+                    <div className="flex items-start gap-3">
+                      <Icon size={18} className="mt-0.5 text-blue-500 dark:text-blue-300" />
+                      <div className="space-y-1">
+                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{title}</p>
+                        <p className="text-sm text-slate-600 dark:text-slate-300">{description}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-
-        {/* About Me Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 md:p-12 text-white text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-              <User size={24} className="text-white" />
-            </div>
-            <h3 className="text-2xl md:text-3xl font-bold">
-              Sobre Mí
-            </h3>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <p className="text-lg md:text-xl leading-relaxed text-blue-100 mb-6">
-              Soy un <strong className="text-white">desarrollador full stack apasionado</strong> con experiencia en tecnologías
-              web modernas y backend robusto. Mi enfoque se centra en crear experiencias digitales excepcionales
-              que combinen funcionalidad, rendimiento y diseño elegante.
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-6 mt-8">
-              <div className="flex items-center gap-3">
-                <Zap className="text-yellow-300 flex-shrink-0" size={20} />
-                <span className="text-blue-100">Soluciones eficientes</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Heart className="text-red-300 flex-shrink-0" size={20} />
-                <span className="text-blue-100">Trabajo colaborativo</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Star className="text-yellow-300 flex-shrink-0" size={20} />
-                <span className="text-blue-100">Calidad premium</span>
-              </div>
+            <div className="rounded-2xl border border-blue-200 bg-blue-50 px-6 py-5 text-left text-sm text-blue-700 shadow-sm dark:border-blue-500/50 dark:bg-blue-500/15 dark:text-blue-200">
+              Listo para integrarme en tu equipo o liderar la construcción end-to-end de tu siguiente producto. Transparencia, documentación y ownership en cada paso.
             </div>
           </div>
         </div>

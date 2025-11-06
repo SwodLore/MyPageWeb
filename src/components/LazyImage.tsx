@@ -4,6 +4,8 @@ interface LazyImageProps {
   src: string;
   alt: string;
   className?: string;
+  imgClassName?: string;
+  placeholderClassName?: string;
   placeholder?: string;
   onLoad?: () => void;
   onError?: () => void;
@@ -13,6 +15,8 @@ export default function LazyImage({
   src,
   alt,
   className = '',
+  imgClassName = '',
+  placeholderClassName = '',
   placeholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2Y1ZjVmNyIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjODY4NjhiIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2VuPC90ZXh0Pjwvc3ZnPg==',
   onLoad,
   onError
@@ -20,7 +24,7 @@ export default function LazyImage({
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -57,7 +61,7 @@ export default function LazyImage({
     <div ref={imgRef} className={`relative overflow-hidden ${className}`}>
       {/* Placeholder */}
       {!isLoaded && !hasError && (
-        <div className="absolute inset-0 bg-gradient-to-br from-muted to-accent/20 flex items-center justify-center">
+        <div className={`absolute inset-0 bg-gradient-to-br from-muted to-accent/20 flex items-center justify-center ${placeholderClassName}`}>
           <div className="loading-shimmer absolute inset-0"></div>
           <img
             src={placeholder}
@@ -74,7 +78,7 @@ export default function LazyImage({
           alt={alt}
           className={`w-full h-full object-cover transition-opacity duration-500 ${
             isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
+          } ${imgClassName}`}
           onLoad={handleLoad}
           onError={handleError}
           loading="lazy"

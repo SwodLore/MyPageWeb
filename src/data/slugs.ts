@@ -3,7 +3,6 @@ export const slugs = [
     "javascript",
     "react",
     "html5",
-    "css3",
     "express",
     "prisma",
     "postgresql",
@@ -24,5 +23,4 @@ export const slugs = [
     "tailwindcss",
     "python",
     "r",
-    "amazon",
   ];
