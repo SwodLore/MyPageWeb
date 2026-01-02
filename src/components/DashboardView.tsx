@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ScrollProgress } from "./magicui/scroll-progress";
 import { ArrowRight, ChevronDown, Sparkles, Github, Download, Award, Zap } from "lucide-react";
-import CertificadoSection from "./Certificado";
-import ContactoSection from "./Contacto";
 import { AnimatedCounter, GlowButton, GlassCard, Typewriter, SkillsMarquee } from "./ui";
+
+// Lazy load de componentes below-the-fold para reducir bundle inicial
+const CertificadoSection = lazy(() => import("./Certificado"));
+const ContactoSection = lazy(() => import("./Contacto"));
 
 const PortafolioSection = lazy(() => import("./Portafolio"));
 
@@ -200,7 +202,7 @@ function HeroSection() {
           {/* Left: Text Content */}
           <motion.div
             className="text-center lg:text-left space-y-6 order-2 lg:order-1"
-            style={{ y: textY }}
+            style={{ y: textY, willChange: "transform" }}
           >
             {/* Badge */}
             <motion.div variants={fadeInUp}>
@@ -749,7 +751,9 @@ export default function DashboardView() {
             Certificaciones que respaldan mi experiencia técnica y compromiso con la excelencia.
           </p>
         </div>
-        <CertificadoSection />
+        <Suspense fallback={<SectionFallback label="certificados" />}>
+          <CertificadoSection />
+        </Suspense>
       </motion.section>
 
       {/* Contact Section */}
@@ -760,7 +764,9 @@ export default function DashboardView() {
         viewport={{ once: true, amount: 0.1 }}
         variants={fadeInUp}
       >
-        <ContactoSection />
+        <Suspense fallback={<SectionFallback label="contacto" />}>
+          <ContactoSection />
+        </Suspense>
       </motion.section>
     </>
   );

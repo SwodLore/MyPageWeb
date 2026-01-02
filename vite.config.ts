@@ -21,6 +21,7 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
           icons: ['lucide-react'],
+          motion: ['framer-motion', 'motion'],
         },
       },
     },

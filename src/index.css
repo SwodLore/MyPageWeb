@@ -9,20 +9,26 @@
 
 :root {
   /* Primary Colors */
-  --color-primary: 59 130 246;        /* Blue-500 */
-  --color-primary-light: 96 165 250;  /* Blue-400 */
-  --color-primary-dark: 37 99 235;    /* Blue-600 */
-  
+  --color-primary: 59 130 246;
+  /* Blue-500 */
+  --color-primary-light: 96 165 250;
+  /* Blue-400 */
+  --color-primary-dark: 37 99 235;
+  /* Blue-600 */
+
   /* Accent Colors */
-  --color-accent: 139 92 246;         /* Violet-500 */
-  --color-accent-light: 167 139 250;  /* Violet-400 */
-  --color-cyan: 34 211 238;           /* Cyan-400 */
-  
+  --color-accent: 139 92 246;
+  /* Violet-500 */
+  --color-accent-light: 167 139 250;
+  /* Violet-400 */
+  --color-cyan: 34 211 238;
+  /* Cyan-400 */
+
   /* Glass Effect */
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.3);
   --glass-blur: 16px;
-  
+
   /* Glow Effects */
   --glow-primary: 0 0 20px rgba(59, 130, 246, 0.5);
   --glow-accent: 0 0 20px rgba(139, 92, 246, 0.5);
@@ -32,7 +38,7 @@
 .dark {
   --glass-bg: rgba(15, 23, 42, 0.8);
   --glass-border: rgba(148, 163, 184, 0.1);
-  
+
   --glow-primary: 0 0 30px rgba(96, 165, 250, 0.4);
   --glow-accent: 0 0 30px rgba(167, 139, 250, 0.4);
   --glow-cyan: 0 0 30px rgba(34, 211, 238, 0.4);
@@ -44,19 +50,19 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  html, body {
+
+  html,
+  body {
     @apply overflow-x-hidden;
   }
-  
+
   * {
     @apply box-border;
   }
-  
+
   ::selection {
     @apply bg-blue-500/30 text-blue-900 dark:bg-blue-400/30 dark:text-blue-100;
   }
@@ -74,16 +80,16 @@
   .section-padding {
     @apply py-16 md:py-24 lg:py-32;
   }
-  
+
   /* Text Gradients */
   .text-gradient-primary {
     @apply bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 bg-clip-text text-transparent;
   }
-  
+
   .text-gradient-primary-dark {
     @apply bg-gradient-to-r from-blue-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent;
   }
-  
+
   /* Glassmorphism */
   .glass {
     background: var(--glass-bg);
@@ -91,7 +97,7 @@
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
   }
-  
+
   .glass-strong {
     background: var(--glass-bg);
     backdrop-filter: blur(24px);
@@ -105,9 +111,12 @@
    ═══════════════════════════════════════════════════════════════ */
 
 @keyframes glow-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: var(--glow-primary);
   }
+
   50% {
     box-shadow: 0 0 40px rgba(59, 130, 246, 0.8), 0 0 60px rgba(139, 92, 246, 0.4);
   }
@@ -117,56 +126,93 @@
   0% {
     background-position: -200% center;
   }
+
   100% {
     background-position: 200% center;
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
 }
 
 @keyframes float-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   33% {
     transform: translateY(-8px) rotate(1deg);
   }
+
   66% {
     transform: translateY(4px) rotate(-1deg);
   }
 }
 
 @keyframes aurora {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.5;
     transform: translateX(0%) translateY(0%) scale(1);
   }
+
   25% {
     opacity: 0.7;
     transform: translateX(5%) translateY(-5%) scale(1.05);
   }
+
   50% {
     opacity: 0.5;
     transform: translateX(-5%) translateY(5%) scale(1);
   }
+
   75% {
     opacity: 0.7;
     transform: translateX(3%) translateY(-3%) scale(1.02);
   }
 }
 
+/* Aurora Background Blobs */
+.aurora-blob {
+  @apply absolute rounded-full blur-3xl opacity-50;
+  animation: aurora 15s ease-in-out infinite;
+}
+
+.aurora-blob-1 {
+  @apply bg-gradient-to-br from-blue-400/40 via-cyan-300/30 to-transparent;
+}
+
+.aurora-blob-2 {
+  @apply bg-gradient-to-br from-violet-400/40 via-purple-300/30 to-transparent;
+  animation-delay: -5s;
+}
+
+.aurora-blob-3 {
+  @apply bg-gradient-to-br from-pink-400/30 via-rose-300/20 to-transparent;
+  animation-delay: -10s;
+}
+
+
 @keyframes border-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: rgba(59, 130, 246, 0.5);
     box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
   }
+
   50% {
     border-color: rgba(139, 92, 246, 0.5);
     box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
@@ -178,6 +224,7 @@
     opacity: 0;
     transform: translate3d(0, var(--sr-distance, 24px), 0);
   }
+
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0);
@@ -189,6 +236,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -200,6 +248,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 @layer components {
+
   /* Scroll Reveal */
   .scroll-reveal {
     opacity: 0;
@@ -209,22 +258,21 @@
   }
 
   .scroll-reveal.revealed {
-    animation: scroll-reveal-slide 0.5s var(--reveal-delay, 0ms)
-      cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: scroll-reveal-slide 0.5s var(--reveal-delay, 0ms) cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  
+
   /* Glow Button */
   .btn-glow {
     @apply relative overflow-hidden rounded-2xl px-8 py-4 font-semibold text-white shadow-xl transition-all duration-300;
     background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
     animation: glow-pulse 3s ease-in-out infinite;
   }
-  
+
   .btn-glow:hover {
     @apply scale-105 -translate-y-1;
     box-shadow: 0 0 50px rgba(59, 130, 246, 0.6), 0 0 80px rgba(139, 92, 246, 0.4);
   }
-  
+
   .btn-glow::before {
     content: '';
     position: absolute;
@@ -232,25 +280,23 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.3),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent);
     transition: left 0.5s ease;
   }
-  
+
   .btn-glow:hover::before {
     left: 100%;
   }
-  
+
   /* Shimmer Button */
   .btn-shimmer {
     @apply relative overflow-hidden rounded-2xl px-8 py-4 font-semibold text-white;
     background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
   }
-  
+
   .btn-shimmer::after {
     content: '';
     position: absolute;
@@ -258,18 +304,16 @@
     left: 0;
     width: 200%;
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      transparent 40%,
-      rgba(255, 255, 255, 0.4) 50%,
-      transparent 60%,
-      transparent 100%
-    );
+    background: linear-gradient(90deg,
+        transparent 0%,
+        transparent 40%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 60%,
+        transparent 100%);
     background-size: 200% 100%;
     animation: shimmer 3s linear infinite;
   }
-  
+
   /* Glass Card */
   .glass-card {
     @apply rounded-3xl p-6 transition-all duration-300;
@@ -278,76 +322,87 @@
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid var(--glass-border);
   }
-  
+
   .glass-card:hover {
     @apply scale-[1.02] -translate-y-1;
     box-shadow: var(--glow-primary);
   }
-  
+
   /* Animated Border */
   .animated-border {
     @apply relative rounded-2xl;
   }
-  
+
   .animated-border::before {
     content: '';
     position: absolute;
     inset: -2px;
     border-radius: inherit;
     padding: 2px;
-    background: linear-gradient(
-      90deg,
-      rgb(var(--color-primary)),
-      rgb(var(--color-accent)),
-      rgb(var(--color-cyan)),
-      rgb(var(--color-primary))
-    );
+    background: linear-gradient(90deg,
+        rgb(var(--color-primary)),
+        rgb(var(--color-accent)),
+        rgb(var(--color-cyan)),
+        rgb(var(--color-primary)));
     background-size: 300% 100%;
     animation: shimmer 4s linear infinite;
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
-    mask: 
-      linear-gradient(#fff 0 0) content-box, 
+    mask:
+      linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-  
+
   .animated-border:hover::before,
   .animated-border:focus-within::before {
     opacity: 1;
   }
-  
+
   /* Float Animation */
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
-  
+
   .animate-float-slow {
     animation: float-slow 6s ease-in-out infinite;
   }
-  
-  /* Aurora Background Blobs */
+
+  /* Aurora Background Blobs - Optimizados para GPU */
   .aurora-blob {
-    @apply absolute rounded-full blur-3xl opacity-50;
-    animation: aurora 15s ease-in-out infinite;
+    @apply absolute rounded-full blur-2xl opacity-50;
+    will-change: transform;
   }
-  
+
   .aurora-blob-1 {
     @apply bg-gradient-to-br from-blue-400/40 via-cyan-300/30 to-transparent;
   }
-  
+
   .aurora-blob-2 {
     @apply bg-gradient-to-br from-violet-400/40 via-purple-300/30 to-transparent;
-    animation-delay: -5s;
   }
-  
+
   .aurora-blob-3 {
     @apply bg-gradient-to-br from-pink-400/30 via-rose-300/20 to-transparent;
-    animation-delay: -10s;
+  }
+
+  /* Animaciones específicas para cada blob */
+  .animate-aurora-blob-1 {
+    animation: aurora-blob-1 20s ease-in-out infinite;
+  }
+
+  .animate-aurora-blob-2 {
+    animation: aurora-blob-2 25s ease-in-out infinite;
+    animation-delay: -2s;
+  }
+
+  .animate-aurora-blob-3 {
+    animation: aurora-blob-3 18s ease-in-out infinite;
+    animation-delay: -4s;
   }
 }
 
@@ -365,7 +420,7 @@
   .scroll-reveal.revealed {
     animation: none !important;
   }
-  
+
   .btn-glow,
   .btn-shimmer::after,
   .animated-border::before,
@@ -374,7 +429,7 @@
   .animate-float-slow {
     animation: none !important;
   }
-  
+
   .btn-glow {
     box-shadow: var(--glow-primary) !important;
   }
