@@ -4,15 +4,11 @@ Allow: /
 # Sitemap
 Sitemap: https://alessandro-poves.vercel.app/sitemap.xml
 
-# Crawl-delay
-Crawl-delay: 1
-
 # Googlebot
 User-agent: Googlebot
 Allow: /
 Allow: /assets/
 Allow: /pdf/
-Crawl-delay: 0
 
 # Block internal
 Disallow: /src/
