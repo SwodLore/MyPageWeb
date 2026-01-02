@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
-  ChevronDown,
   Download,
   Github,
   Linkedin,
@@ -12,47 +11,167 @@ import {
   Phone,
   Send,
   Sparkles,
+  MessageCircle,
 } from "lucide-react";
+import { GlowButton, GlassCard } from "./ui";
+
+// ═══════════════════════════════════════════════════════════════
+// Animation Config
+// ═══════════════════════════════════════════════════════════════
 
 const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: easing },
+  },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════
+// Animated Input Component
+// ═══════════════════════════════════════════════════════════════
+
+interface AnimatedInputProps {
+  id: string;
+  name: string;
+  type?: string;
+  label: string;
+  placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  required?: boolean;
+  isTextarea?: boolean;
+  rows?: number;
+}
+
+function AnimatedInput({
+  id,
+  name,
+  type = "text",
+  label,
+  placeholder,
+  value,
+  onChange,
+  required = false,
+  isTextarea = false,
+  rows = 5,
+}: AnimatedInputProps) {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const inputClasses = `
+    w-full px-5 py-4 rounded-2xl
+    bg-white dark:bg-slate-800
+    border-2 transition-all duration-300
+    text-slate-900 dark:text-white
+    placeholder:text-slate-400 dark:placeholder:text-slate-500
+    focus:outline-none
+    ${isFocused
+      ? "border-blue-500 dark:border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.3)]"
+      : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
+    }
+  `;
+
+  const commonProps = {
+    id,
+    name,
+    value,
+    onChange,
+    required,
+    placeholder,
+    className: inputClasses,
+    onFocus: () => setIsFocused(true),
+    onBlur: () => setIsFocused(false),
+  };
+
+  return (
+    <motion.div
+      className="space-y-2"
+      variants={fadeInUp}
+    >
+      <label
+        htmlFor={id}
+        className={`block text-sm font-medium transition-colors duration-300 ${isFocused
+          ? "text-blue-600 dark:text-blue-400"
+          : "text-slate-600 dark:text-slate-400"
+          }`}
+      >
+        {label}
+      </label>
+      {isTextarea ? (
+        <textarea {...commonProps} rows={rows} style={{ resize: "none" }} />
+      ) : (
+        <input {...commonProps} type={type} />
+      )}
+    </motion.div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Contact Info Card
+// ═══════════════════════════════════════════════════════════════
+
+const contactItems = [
+  {
+    icon: Mail,
+    title: "Email",
+    value: "apovesmartinez@gmail.com",
+    href: "mailto:apovesmartinez@gmail.com",
+    color: "text-blue-500 bg-blue-100 dark:bg-blue-900/30"
+  },
+  {
+    icon: Phone,
+    title: "WhatsApp",
+    value: "+51 977 776 058",
+    href: "https://wa.me/51977776058",
+    color: "text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30"
+  },
+  {
+    icon: MapPin,
+    title: "Ubicación",
+    value: "Huancayo, Perú",
+    color: "text-rose-500 bg-rose-100 dark:bg-rose-900/30"
+  },
+];
+
+const socialLinks = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/",
+    icon: Linkedin,
+    color: "hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-700"
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/SwodLore",
+    icon: Github,
+    color: "hover:bg-slate-100 hover:border-slate-300 dark:hover:bg-slate-800 dark:hover:border-slate-600"
+  },
+];
+
+const collaborationBenefits = [
+  "Reuniones estratégicas sin costo",
+  "Entrega en sprints con demos",
+  "Seguimiento post-lanzamiento",
+];
+
+// ═══════════════════════════════════════════════════════════════
+// Main Contact Component
+// ═══════════════════════════════════════════════════════════════
+
 export default function Contacto() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [isMobile, setIsMobile] = useState(false);
-  const [showAllBenefits, setShowAllBenefits] = useState(false);
-
-  const socialLinks = [
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/", icon: Linkedin },
-    { label: "GitHub", href: "https://github.com/SwodLore", icon: Github },
-  ];
-  const collaborationBenefits = useMemo(
-    () => [
-      "Reuniones estratégicas sin costo para definir alcance.",
-      "Entrega en sprints con demos y documentación viva.",
-      "Seguimiento post-lanzamiento y optimización continua.",
-    ],
-    [],
-  );
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const handleResize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      setShowAllBenefits((prev) => (mobile ? prev : true));
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const displayedBenefits =
-    !isMobile || showAllBenefits ? collaborationBenefits : collaborationBenefits.slice(0, 2);
-  const hiddenBenefitsCount = Math.max(collaborationBenefits.length - displayedBenefits.length, 0);
-  const canToggleBenefits = isMobile && collaborationBenefits.length > 2;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -61,6 +180,8 @@ export default function Contacto() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    setIsSubmitting(true);
+
     const { name, email, message } = formData;
     const whatsappNumber = "51977776058";
     const text = [
@@ -75,171 +196,164 @@ export default function Contacto() {
 
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank", "noopener,noreferrer");
+
+    setTimeout(() => setIsSubmitting(false), 1000);
   };
 
   return (
-    <section className="section-padding bg-slate-50 dark:bg-slate-950">
-      <div className="container-apple flex flex-col gap-16 lg:gap-20">
+    <section className="section-padding bg-gradient-to-b from-white via-slate-50 to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950/20">
+      <div className="container-apple">
+        {/* Section Header */}
         <motion.div
-          className="rounded-3xl border border-slate-200 bg-white px-8 py-12 text-center shadow-xl backdrop-blur dark:border-slate-800/60 dark:bg-slate-900/80 dark:shadow-[0_25px_45px_-20px_rgba(15,23,42,0.6)] sm:px-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.45, ease: easing }}
+          className="text-center mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={staggerContainer}
         >
-          <div className="mx-auto flex max-w-4xl flex-col items-center gap-8">
-            <span className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-blue-700 dark:border-blue-500/50 dark:bg-blue-500/15 dark:text-blue-200">
-              <Sparkles size={14} />
-              Contacto
+          <motion.span
+            variants={fadeInUp}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6"
+          >
+            <Sparkles size={14} />
+            Contacto
+          </motion.span>
+
+          <motion.h2
+            variants={fadeInUp}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4"
+          >
+            Trabajemos{" "}
+            <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
+              Juntos
             </span>
-            <div className="space-y-4">
-              <h2 className="text-4xl font-bold text-slate-900 dark:text-white md:text-5xl">
-                Trabajemos Juntos
-              </h2>
-              <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">
-                Cuéntame tu idea y alineemos roadmap, tecnología y objetivos comerciales. Diseñamos soluciones precisas,
-                medibles y con un look & feel impecable para tus usuarios.
-              </p>
-            </div>
-            <div className="grid w-full gap-3 text-left text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-3">
-              {displayedBenefits.map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-start gap-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/70"
-                >
-                  <CheckCircle2 size={18} className="mt-0.5 text-emerald-500 dark:text-emerald-300" />
-                  <span>{item}</span>
-                </span>
-              ))}
-            </div>
-            {canToggleBenefits && (
-              <motion.button
-                onClick={() => setShowAllBenefits((prev) => !prev)}
-                className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 px-5 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
+          </motion.h2>
+
+          <motion.p
+            variants={fadeInUp}
+            className="max-w-2xl mx-auto text-lg text-slate-500 dark:text-slate-400"
+          >
+            Cuéntame tu idea y diseñemos soluciones precisas, medibles y con un look & feel impecable.
+          </motion.p>
+
+          {/* Benefits */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-3 mt-8"
+            variants={fadeInUp}
+          >
+            {collaborationBenefits.map((benefit) => (
+              <span
+                key={benefit}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm text-slate-600 dark:text-slate-300 shadow-sm"
               >
-                {showAllBenefits
-                  ? "Ver menos"
-                  : hiddenBenefitsCount > 0
-                    ? `Ver más (+${hiddenBenefitsCount})`
-                    : "Ver más"}
-                <ChevronDown
-                  size={16}
-                  className={`transition-transform ${showAllBenefits ? "rotate-180" : ""}`}
-                />
-              </motion.button>
-            )}
-          </div>
+                <CheckCircle2 size={14} className="text-emerald-500" />
+                {benefit}
+              </span>
+            ))}
+          </motion.div>
         </motion.div>
 
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-start lg:gap-16 xl:gap-20">
+        {/* Two Column Layout */}
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
+          {/* Contact Form */}
           <motion.div
-            className="rounded-3xl border border-slate-100 bg-white p-10 shadow-xl dark:border-gray-700 dark:bg-gray-800"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.45, ease: easing }}
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: easing }}
           >
-            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">Envíame un mensaje</h3>
-            <p className="text-slate-500 dark:text-slate-300 mb-8">
-              Completa el formulario y me pondré en contacto cuanto antes.
-            </p>
+            <GlassCard className="p-8 md:p-10" hover={false}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 text-white">
+                  <MessageCircle size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                    Envíame un mensaje
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    Respondo en menos de 24 horas
+                  </p>
+                </div>
+              </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="name" className="block text-sm font-medium text-slate-600 dark:text-slate-300">
-                  Nombre completo
-                </label>
-                <input
-                  type="text"
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <AnimatedInput
                   id="name"
                   name="name"
+                  label="Nombre completo"
+                  placeholder="Tu nombre"
                   value={formData.name}
                   onChange={handleInputChange}
                   required
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                  placeholder="Tu nombre"
                 />
-              </div>
 
-              <div className="space-y-2">
-                <label htmlFor="email" className="block text-sm font-medium text-slate-600 dark:text-slate-300">
-                  Correo electrónico
-                </label>
-                <input
-                  type="email"
+                <AnimatedInput
                   id="email"
                   name="email"
+                  type="email"
+                  label="Correo electrónico"
+                  placeholder="tu@email.com"
                   value={formData.email}
                   onChange={handleInputChange}
                   required
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
-                  placeholder="tu@email.com"
                 />
-              </div>
 
-              <div className="space-y-2">
-                <label htmlFor="message" className="block text-sm font-medium text-slate-600 dark:text-slate-300">
-                  Mensaje
-                </label>
-                <textarea
+                <AnimatedInput
                   id="message"
                   name="message"
+                  label="Mensaje"
+                  placeholder="Cuéntame sobre tu proyecto, tiempos y objetivos..."
                   value={formData.message}
                   onChange={handleInputChange}
                   required
-                  rows={5}
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:border-gray-700 dark:bg-gray-800 dark:text-white resize-none"
-                  placeholder="Cuéntame sobre tu proyecto, tiempos y objetivos..."
+                  isTextarea
+                  rows={4}
                 />
-              </div>
 
-              <motion.button
-                type="submit"
-                className="w-full flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 text-white font-semibold shadow-lg hover:shadow-xl transition-shadow"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Enviar mensaje
-                <Send size={18} />
-              </motion.button>
-            </form>
+                <GlowButton
+                  onClick={() => { }}
+                  variant="primary"
+                  className="w-full"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Enviando..." : "Enviar mensaje"}
+                  <Send size={18} />
+                </GlowButton>
+              </form>
+            </GlassCard>
           </motion.div>
 
+          {/* Contact Info & Social */}
           <motion.div
-            className="space-y-8"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.5, ease: easing }}
+            className="space-y-6"
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: easing, delay: 0.1 }}
           >
-            <motion.div
-              className="rounded-3xl border border-slate-100 bg-white p-8 shadow-xl dark:border-gray-700 dark:bg-gray-800"
-              whileHover={{ y: -4 }}
-            >
-              <h3 className="text-2xl font-semibold text-slate-900 dark:text-white mb-6">Información de contacto</h3>
-              <p className="text-slate-500 dark:text-slate-300 mb-6">
-                También puedes escribirme directamente a mis canales habituales.
-              </p>
+            {/* Contact Info Card */}
+            <GlassCard className="p-6 md:p-8">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
+                Información de contacto
+              </h3>
 
-              <div className="space-y-6">
-                {[
-                  { icon: Mail, title: "Email", value: "apovesmartinez@gmail.com", href: "mailto:apovesmartinez@gmail.com" },
-                  { icon: MapPin, title: "Ubicación", value: "Huancayo, Perú" },
-                  { icon: Phone, title: "WhatsApp", value: "+51 977 776 058", href: "https://wa.me/51977776058" },
-                ].map((item) => (
+              <div className="space-y-5">
+                {contactItems.map((item, index) => (
                   <motion.div
                     key={item.title}
                     className="flex items-center gap-4"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
                     whileHover={{ x: 6 }}
-                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center dark:bg-blue-900/30">
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${item.color}`}>
                       <item.icon size={20} />
                     </div>
                     <div>
-                      <p className="text-sm font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
                         {item.title}
                       </p>
                       {item.href ? (
@@ -247,42 +361,43 @@ export default function Contacto() {
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-slate-800 dark:text-white font-semibold hover:text-blue-600 transition-colors"
+                          className="text-slate-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                         >
                           {item.value}
                         </a>
                       ) : (
-                        <p className="text-slate-800 dark:text-white font-semibold">{item.value}</p>
+                        <p className="text-slate-900 dark:text-white font-semibold">
+                          {item.value}
+                        </p>
                       )}
                     </div>
                   </motion.div>
                 ))}
               </div>
-            </motion.div>
+            </GlassCard>
 
-            <motion.div
-              className="rounded-3xl border border-slate-100 bg-white p-8 shadow-xl dark:border-gray-700 dark:bg-gray-800 space-y-5"
-              whileHover={{ y: -4 }}
-            >
-              <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
+            {/* Social Links Card */}
+            <GlassCard className="p-6 md:p-8">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
                 Sígueme en redes
               </h3>
-              <div className="space-y-4">
+
+              <div className="space-y-3">
                 {socialLinks.map((social) => (
                   <motion.a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition-transform hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+                    className={`flex items-center justify-between px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 transition-all ${social.color}`}
                     whileHover={{ scale: 1.02, x: 4 }}
-                    whileTap={{ scale: 0.97 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    <div className="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                    <div className="flex items-center gap-3 text-slate-700 dark:text-slate-300">
                       <social.icon size={18} />
                       <span className="font-medium">{social.label}</span>
                     </div>
-                    <ArrowRight size={16} className="text-slate-400 dark:text-slate-500" />
+                    <ArrowRight size={16} className="text-slate-400" />
                   </motion.a>
                 ))}
               </div>
@@ -290,14 +405,14 @@ export default function Contacto() {
               <motion.a
                 href="/cv.pdf"
                 download="Alessandro-Poves-CV.pdf"
-                className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-colors dark:border-gray-700 dark:text-slate-300 dark:hover:bg-gray-700"
+                className="inline-flex items-center gap-2 mt-4 px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
+                whileTap={{ scale: 0.98 }}
               >
                 <Download size={16} />
-                Solicitar CV
+                Descargar CV
               </motion.a>
-            </motion.div>
+            </GlassCard>
           </motion.div>
         </div>
       </div>

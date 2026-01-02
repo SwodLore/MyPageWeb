@@ -31,7 +31,7 @@ const skillCategories: SkillSummary[] = [
     icon: Server,
     description:
       "Servicios escalables, APIs REST y microservicios integrados con ecosistemas cloud.",
-    items: ["Laravel", "Spring Boot", "Express", "Java"],
+    items: ["Laravel", "NestJS", "Express", "Java"],
   },
   {
     title: "DevOps & Data",
@@ -129,7 +129,7 @@ export default function SkillsAboutMe() {
           <div className="grid gap-4 sm:grid-cols-3">
             {[
               { title: "+30 proyectos", caption: "en sectores fintech, retail y educación" },
-              { title: "Stack full stack", caption: "React · Laravel · Spring Boot · AWS" },
+              { title: "Stack full stack", caption: "React · Laravel · NestJS · AWS" },
               { title: "Certificaciones clave", caption: "Arquitectura de software y ciberseguridad" },
             ].map((item) => (
               <div

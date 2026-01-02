@@ -1,193 +1,109 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, animate } from "framer-motion";
-import { slugs } from "../data/slugs";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ScrollProgress } from "./magicui/scroll-progress";
-import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, Sparkles, Github, Download, Award, Zap } from "lucide-react";
 import CertificadoSection from "./Certificado";
 import ContactoSection from "./Contacto";
+import { AnimatedCounter, GlowButton, GlassCard, Typewriter, SkillsMarquee } from "./ui";
+
 const PortafolioSection = lazy(() => import("./Portafolio"));
-const IconCloudCanvas = lazy(() =>
-  import("./magicui/icon-cloud").then((module) => ({ default: module.IconCloud })),
-);
+
+// ═══════════════════════════════════════════════════════════════
+// Animation Variants
+// ═══════════════════════════════════════════════════════════════
 
 const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const heroContainer = {
+const staggerContainer = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.05 },
+    transition: { staggerChildren: 0.15, delayChildren: 0.1 },
   },
 };
 
-const heroItem = {
-  hidden: { opacity: 1, y: 0 },
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: easing },
+    transition: { duration: 0.8, ease: easing },
   },
 };
 
-const heroContent = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.18, delayChildren: 0.12 },
-  },
-};
-
-const photoVariants = {
-  hidden: { opacity: 1, scale: 1, rotate: 0, y: 0 },
+const fadeInScale = {
+  hidden: { opacity: 0, scale: 0.9 },
   visible: {
     opacity: 1,
     scale: 1,
-    rotate: 0,
-    y: 0,
-    transition: { duration: 0.7, ease: easing, delay: 0.2 },
-  },
-};
-
-const sectionVariants = {
-  hidden: { opacity: 1, y: 0 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: easing },
-  },
-};
-
-const cardsContainer = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 0.2 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 1, y: 0 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: easing },
+    transition: { duration: 0.8, ease: easing },
   },
 };
 
 const MotionLink = motion.create(Link);
 
+// ═══════════════════════════════════════════════════════════════
+// Highlight Cards Data
+// ═══════════════════════════════════════════════════════════════
+
 const highlightCards = [
   {
-    title: "+30",
-    subtitle: "Proyectos integrales",
-    badge: "Experiencia",
-    description:
-      "Soluciones completas con foco en calidad, accesibilidad y resultados de negocio.",
-    count: 30,
+    value: 30,
     prefix: "+",
+    suffix: "",
+    label: "Proyectos",
+    description: "Aplicaciones web y APIs",
+    Icon: Sparkles,
+    gradient: "from-blue-600 via-blue-500 to-cyan-400",
+    shadowColor: "shadow-blue-500/20",
+    borderColor: "border-blue-500/20",
   },
   {
-    title: "Stack moderno",
-    subtitle: "End-to-end",
-    badge: "Tecnologia",
-    description:
-      "React, Laravel, Spring Boot, Tailwind CSS, Docker, AWS y metodologias agiles.",
+    value: 8,
+    prefix: "",
+    suffix: "",
+    label: "Certificaciones",
+    description: "React, Laravel y más",
+    Icon: Award,
+    gradient: "from-violet-600 via-purple-500 to-fuchsia-400",
+    shadowColor: "shadow-violet-500/20",
+    borderColor: "border-violet-500/20",
   },
   {
-    title: "Experiencia full stack",
-    subtitle: "Arquitectura & UI",
-    badge: "Colaboracion",
-    description:
-      "Arquitecturas escalables, interfaces elegantes y procesos colaborativos.",
+    value: 20,
+    prefix: "+",
+    suffix: "",
+    label: "Tecnologías",
+    description: "Stack moderno full stack",
+    Icon: Zap,
+    gradient: "from-rose-600 via-pink-500 to-orange-400",
+    shadowColor: "shadow-rose-500/20",
+    borderColor: "border-rose-500/20",
   },
 ];
 
 const workflowHighlights = [
   {
     tag: "Discovery",
-    heading: "Kick-off y roadmap compartido",
-    body: "Workshops de descubrimiento, mapeo de usuarios y priorizacion de valor junto al equipo del proyecto.",
+    heading: "Análisis y planificación",
+    body: "Entiendo tus necesidades y diseño la arquitectura óptima para tu proyecto.",
   },
   {
-    tag: "Iteracion",
-    heading: "Entrega continua y feedback real",
-    body: "Sprints con demos, documentacion viva, QA automatizado y mejoras acordadas en cada release.",
+    tag: "Build",
+    heading: "Desarrollo iterativo",
+    body: "Código limpio, buenas prácticas y entregas incrementales.",
   },
   {
-    tag: "Escala",
-    heading: "Observabilidad y evolucion guiada por datos",
-    body: "Metricas, pipelines CI/CD y decisiones informadas para seguir optimizando el producto una vez en produccion.",
+    tag: "Deploy",
+    heading: "Despliegue y soporte",
+    body: "CI/CD, monitoreo y optimización continua en producción.",
   },
 ];
 
-function IconCloudSkeleton() {
-  return (
-    <div className="flex h-full w-full items-center justify-center rounded-2xl border border-dashed border-slate-200/80 bg-slate-50/80 text-slate-400 dark:border-slate-700/70 dark:bg-slate-900/40 dark:text-slate-500">
-      <Sparkles className="h-7 w-7 animate-spin" aria-hidden="true" />
-      <span className="sr-only">Cargando nube de tecnologías</span>
-    </div>
-  );
-}
-
-function DeferredIconCloud({ images, className }: { images: string[]; className?: string }) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [shouldRender, setShouldRender] = useState(false);
-
-  useEffect(() => {
-    if (shouldRender) return;
-    const node = containerRef.current;
-
-    if (!node) {
-      return;
-    }
-
-    if (typeof window === "undefined" || typeof IntersectionObserver === "undefined") {
-      setShouldRender(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setShouldRender(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" },
-    );
-
-    observer.observe(node);
-
-    return () => observer.disconnect();
-  }, [shouldRender]);
-
-  return (
-    <div ref={containerRef} className={className}>
-      {shouldRender ? (
-        <Suspense fallback={<IconCloudSkeleton />}>
-          <IconCloudCanvas images={images} />
-        </Suspense>
-      ) : (
-        <IconCloudSkeleton />
-      )}
-    </div>
-  );
-}
-
-function AnimatedCounter({ value, duration = 1.1 }: { value: number; duration?: number }) {
-  const [displayValue, setDisplayValue] = useState(0);
-
-  useEffect(() => {
-    const controls = animate(0, value, {
-      duration,
-      ease: easing,
-      onUpdate: (latest) => setDisplayValue(Math.round(latest)),
-    });
-
-    return () => controls.stop();
-  }, [value, duration]);
-
-  return <span>{displayValue}</span>;
-}
+// ═══════════════════════════════════════════════════════════════
+// Helper Components
+// ═══════════════════════════════════════════════════════════════
 
 function SectionFallback({ label }: { label: string }) {
   return (
@@ -197,326 +113,655 @@ function SectionFallback({ label }: { label: string }) {
   );
 }
 
-export default function DashboardView() {
-  const images = slugs.map((slug) => `https://cdn.simpleicons.org/${slug}`);
+// ═══════════════════════════════════════════════════════════════
+// Aurora Background Component
+// ═══════════════════════════════════════════════════════════════
+
+function AuroraBackground() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Main gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/50 to-violet-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950" />
+
+      {/* Animated aurora blobs */}
+      <motion.div
+        className="aurora-blob aurora-blob-1 w-[600px] h-[600px] top-[-200px] left-[-100px]"
+        animate={{
+          x: [0, 50, 0],
+          y: [0, 30, 0],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="aurora-blob aurora-blob-2 w-[500px] h-[500px] top-[100px] right-[-150px]"
+        animate={{
+          x: [0, -40, 0],
+          y: [0, 50, 0],
+          scale: [1, 1.15, 1],
+        }}
+        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      />
+      <motion.div
+        className="aurora-blob aurora-blob-3 w-[400px] h-[400px] bottom-[-100px] left-[30%]"
+        animate={{
+          x: [0, 30, 0],
+          y: [0, -40, 0],
+          scale: [1, 1.08, 1],
+        }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+      />
+
+      {/* Subtle grid pattern overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
+          backgroundSize: '40px 40px',
+        }}
+      />
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Hero Section Component
+// ═══════════════════════════════════════════════════════════════
+
+function HeroSection() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Parallax effect for profile image
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 50]);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <>
-      <ScrollProgress className="fixed top-0 left-0 right-0 z-40 h-0.5 bg-blue-600" />
+    <motion.section
+      ref={heroRef}
+      id="sobre-mi"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-16"
+      initial="hidden"
+      animate="visible"
+      variants={staggerContainer}
+    >
+      <AuroraBackground />
 
-      <motion.section
-        id="sobre-mi"
-        className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-b from-white via-slate-50 to-sky-100 py-28 sm:py-32 lg:py-40 dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950"
-        initial="hidden"
-        animate="visible"
-        variants={heroContainer}
-      >
-        <div className="absolute inset-0 opacity-40 dark:opacity-20">
+      <div className="container-apple relative z-10">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* Left: Text Content */}
           <motion.div
-            className="absolute top-16 left-10 h-72 w-72 rounded-full bg-gradient-to-br from-blue-200 via-sky-100 to-cyan-100 blur-[110px]"
-            animate={{ y: [-12, 12, -12], scale: [1, 1.05, 1] }}
-            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute bottom-24 right-12 h-72 w-72 rounded-full bg-gradient-to-br from-purple-200 via-fuchsia-100 to-pink-100 blur-[130px]"
-            animate={{ y: [10, -10, 10], scale: [1, 1.08, 1] }}
-            transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          />
-        </div>
-
-        <div className="container-apple relative z-10">
-          <motion.div
-            className="grid items-center gap-12 lg:grid-cols-[1.1fr_minmax(0,0.9fr)]"
-            variants={heroContent}
+            className="text-center lg:text-left space-y-6 order-2 lg:order-1"
+            style={{ y: textY }}
           >
-            <motion.div
-              className="mx-auto max-w-2xl space-y-6 text-center lg:mx-0 lg:text-left"
-              variants={heroItem}
+            {/* Badge */}
+            <motion.div variants={fadeInUp}>
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium backdrop-blur-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                Disponible para proyectos
+              </span>
+            </motion.div>
+
+            {/* Main Title */}
+            <motion.h1
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight"
+              variants={fadeInUp}
             >
-              <motion.h1
-                className="text-5xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-slate-900 via-blue-600 to-purple-600 bg-clip-text text-transparent dark:from-white dark:via-blue-400 dark:to-purple-400"
-                style={{ backgroundSize: "200% 100%" }}
-                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+              <span className="block text-slate-900 dark:text-white">
+                Hola, soy
+              </span>
+              <motion.span
+                className="block mt-2 bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent"
+                animate={{
+                  backgroundPosition: ["0% center", "100% center", "0% center"],
+                }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                style={{ backgroundSize: "200% auto" }}
               >
                 Alessandro Poves
-              </motion.h1>
-              <motion.p className="text-xl md:text-2xl font-medium text-slate-600 dark:text-slate-300" variants={heroItem}>
-                Desarrollador full stack
-              </motion.p>
-              <motion.p className="mx-auto max-w-xl text-lg text-slate-600 dark:text-slate-300 lg:mx-0" variants={heroItem}>
-                Especializado en <span className="font-semibold text-blue-600 dark:text-blue-400">Laravel</span>,{" "}
-                <span className="font-semibold text-purple-600 dark:text-purple-400">Spring Boot</span>,{" "}
-                <span className="font-semibold text-cyan-600 dark:text-cyan-400">React</span> y{" "}
-                <span className="font-semibold text-indigo-600 dark:text-indigo-400">Angular</span>. Construyo productos digitales centrados en diseno, rendimiento y seguridad.
-              </motion.p>
-              <motion.div
-                className="flex flex-col items-center justify-center gap-4 pt-6 sm:flex-row lg:justify-start"
-                variants={heroItem}
-              >
-                <motion.button
-                  onClick={() => scrollTo("portafolio")}
-                  className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-semibold text-white shadow-xl transition hover:shadow-2xl"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Ver portafolio
-                  <ChevronDown size={18} className="transition group-hover:translate-y-1" />
-                </motion.button>
-                <motion.a
-                  href="https://github.com/SwodLore"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/80 px-8 py-4 font-semibold text-slate-700 shadow-sm transition hover:-translate-y-1 hover:shadow-md dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
-                  whileHover={{ scale: 1.04, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Ver GitHub
-                  <ArrowRight size={18} className="transition group-hover:translate-x-1" />
-                </motion.a>
-              </motion.div>
-            </motion.div>
+              </motion.span>
+            </motion.h1>
 
+            {/* Subtitle with Typewriter */}
             <motion.div
-              className="relative mx-auto w-full max-w-xs sm:max-w-sm lg:max-w-md"
-              variants={photoVariants}
+              className="text-xl md:text-2xl font-medium text-slate-600 dark:text-slate-300"
+              variants={fadeInUp}
             >
-              <div
-                className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-tr from-blue-500/25 via-purple-500/15 to-cyan-500/25 blur-3xl"
-                aria-hidden="true"
-              />
-              <motion.div
-                className="relative overflow-hidden rounded-[2.5rem] border border-slate-200/60 bg-gradient-to-br from-white/70 via-slate-50/40 to-blue-100/40 shadow-2xl dark:border-slate-700/60 dark:from-slate-900/60 dark:via-slate-900/30 dark:to-slate-800/40"
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <img
-                  src="/profile.webp"
-                  alt="Alessandro Poves"
-                  className="h-full w-full object-cover"
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                  width={640}
-                  height={640}
-                />
-              </motion.div>
-              <div
-                className="absolute -bottom-10 left-1/2 h-32 w-48 -translate-x-1/2 rounded-full bg-blue-500/25 blur-3xl dark:bg-blue-500/15"
-                aria-hidden="true"
+              <Typewriter
+                words={[
+                  "Desarrollador Full Stack",
+                  "Especialista en React & Angular",
+                  "Experto en Laravel & NestJS",
+                  "Apasionado por la Ciberseguridad"
+                ]}
+                typingSpeed={80}
+                deletingSpeed={40}
+                delayBetweenWords={2500}
               />
             </motion.div>
-          </motion.div>
 
-          <motion.div className="mt-16 grid gap-6 lg:grid-cols-3" variants={cardsContainer}>
-            {highlightCards.map((card, index) => (
-              <motion.div
-                key={card.title}
-                className="rounded-3xl border border-slate-200 bg-white px-6 py-7 text-left shadow-lg transition hover:-translate-y-1 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900 dark:text-white"
-                variants={cardVariants}
-                whileHover={{ y: -6, scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 260, damping: 22, delay: index * 0.04 }}
+            {/* Description */}
+            <motion.p
+              className="max-w-xl mx-auto lg:mx-0 text-lg text-slate-500 dark:text-slate-400 leading-relaxed"
+              variants={fadeInUp}
+            >
+              Especializado en{" "}
+              <span className="font-semibold text-blue-600 dark:text-blue-400">React</span>,{" "}
+              <span className="font-semibold text-red-600 dark:text-red-400">Laravel</span>,{" "}
+              <span className="font-semibold text-green-600 dark:text-green-400">NestJS</span> y{" "}
+              <span className="font-semibold text-violet-600 dark:text-violet-400">Ciberseguridad</span>.
+              Construyo productos digitales centrados en diseño, rendimiento y seguridad.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4"
+              variants={fadeInUp}
+            >
+              <GlowButton onClick={() => scrollTo("portafolio")} variant="primary">
+                Ver portafolio
+                <ChevronDown size={18} className="animate-bounce" />
+              </GlowButton>
+
+              <GlowButton
+                href="https://github.com/SwodLore"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="secondary"
               >
-                <span className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
-                  {card.badge}
-                </span>
-                <p className="mt-3 text-3xl font-bold text-slate-900 dark:text-white">
-                  {typeof card.count === "number" ? (
-                    <span className="inline-flex items-baseline gap-1">
-                      {card.prefix ? <span>{card.prefix}</span> : null}
-                      <AnimatedCounter value={card.count} />
-                    </span>
-                  ) : (
-                    card.title
-                  )}
+                <Github size={18} />
+                GitHub
+                <ArrowRight size={16} />
+              </GlowButton>
+            </motion.div>
+
+            {/* Quick Stats */}
+            <motion.div
+              className="flex items-center justify-center lg:justify-start gap-8 pt-6"
+              variants={fadeInUp}
+            >
+              <div className="text-center">
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                  <AnimatedCounter value={30} prefix="+" />
                 </p>
-                <p className="text-sm uppercase tracking-wide text-slate-500 dark:text-slate-300">{card.subtitle}</p>
-                <p className="mt-4 text-slate-500 dark:text-slate-300">{card.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            className="flex flex-col items-center justify-between gap-6 rounded-3xl border border-slate-200 bg-white px-8 py-10 text-slate-900 shadow-xl sm:flex-row dark:border-slate-700 dark:bg-slate-900 dark:text-white"
-            variants={heroItem}
-          >
-            <div className="space-y-3 text-center sm:text-left">
-              <p className="text-sm uppercase tracking-[0.2em] text-blue-600 dark:text-blue-300">Disponibilidad</p>
-              <h2 className="text-3xl font-semibold">Lista para colaborar en tu siguiente proyecto</h2>
-              <p className="max-w-xl text-slate-500 dark:text-slate-300">
-                Aporto vision estrategica, ejecucion tecnica y sensibilidad por el detalle para construir experiencias que generan resultados.
-              </p>
-            </div>
-            <motion.button
-              onClick={() => scrollTo("certificados")}
-              className="group inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-4 font-semibold text-white shadow-xl transition hover:shadow-2xl"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Ver certificaciones
-              <ArrowRight size={18} className="transition group-hover:translate-x-1" />
-            </motion.button>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      <motion.section
-        id="skills-overview"
-        className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-white via-slate-50 to-blue-50/40 dark:bg-gradient-to-br dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
-        <div className="container-apple flex flex-col gap-10 sm:gap-14 lg:gap-20">
-          <motion.div className="space-y-4 sm:space-y-6 text-center" variants={heroItem}>
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 sm:px-4 py-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-wider sm:tracking-[0.3em] text-blue-700 dark:border-blue-500/50 dark:bg-blue-500/15 dark:text-blue-200">
-              <Sparkles size={12} className="sm:w-3.5 sm:h-3.5" />
-              Skillset 360
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white px-4 leading-tight">
-              Habilidades que convierten ideas en productos reales
-            </h2>
-            <p className="mx-auto max-w-3xl text-sm sm:text-base md:text-lg lg:text-xl text-slate-500 dark:text-slate-300 px-4 leading-relaxed">
-              Orquesto cada etapa del desarrollo combinando tecnología moderna con procesos colaborativos que aceleran resultados y elevan la experiencia del usuario.
-            </p>
-            <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3 px-4 sm:px-0 pt-2">
-              {[
-                { title: "+30 proyectos", caption: "Fintech, retail, educación, impacto social" },
-                { title: "Stack full stack", caption: "React + Laravel + Spring Boot + AWS" },
-                { title: "Certificaciones", caption: "Arquitectura de software y ciberseguridad" },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-xl sm:rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:py-5 text-sm shadow-sm hover:shadow-md transition-shadow dark:border-slate-800/60 dark:bg-slate-900/80"
-                >
-                  <p className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">{item.title}</p>
-                  <p className="mt-1.5 text-xs sm:text-sm text-slate-500 dark:text-slate-300 leading-relaxed">{item.caption}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Grid Stack Visualizado y Cómo trabajo */}
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10" 
-            variants={cardsContainer}
-          >
-            {/* Stack Visualizado */}
-            <motion.div 
-              className="w-full space-y-5"
-              variants={cardVariants}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h3 className="no-scroll-reveal text-2xl md:text-3xl font-bold text-slate-900 dark:text-white text-center lg:text-left">
-                Stack visualizado
-              </h3>
-              <DeferredIconCloud
-                images={images}
-                className="relative w-full aspect-square max-w-md mx-auto lg:mx-0 lg:max-w-none rounded-2xl border border-slate-200 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900 overflow-hidden p-8"
-              />
-            </motion.div>
-
-            {/* Cómo trabajo */}
-            <motion.div 
-              className="w-full space-y-5"
-              variants={cardVariants}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <h3 className="no-scroll-reveal text-2xl md:text-3xl font-bold text-slate-900 dark:text-white text-center lg:text-left">
-                Cómo trabajo
-              </h3>
-              <div className="space-y-4 rounded-2xl border border-slate-200 bg-white shadow-lg dark:border-slate-800 dark:bg-slate-900/90 p-6 md:p-8">
-                {workflowHighlights.map((item) => (
-                  <div
-                    key={item.tag}
-                    className="rounded-xl border border-slate-200/70 bg-slate-50/50 dark:border-slate-700/60 dark:bg-slate-800/50 p-5 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-200"
-                  >
-                    <span className="no-scroll-reveal inline-block px-3 py-1 text-xs font-bold uppercase tracking-wide bg-blue-500 text-white rounded-md">
-                      {item.tag}
-                    </span>
-                    <h4 className="no-scroll-reveal mt-3 text-base md:text-lg font-bold text-slate-900 dark:text-white">
-                      {item.heading}
-                    </h4>
-                    <p className="no-scroll-reveal mt-2 text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-                      {item.body}
-                    </p>
-                  </div>
-                ))}
+                <p className="text-sm text-slate-500 dark:text-slate-400">Proyectos</p>
+              </div>
+              <div className="w-px h-10 bg-slate-200 dark:bg-slate-700" />
+              <div className="text-center">
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                  <AnimatedCounter value={8} />
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Certificados</p>
+              </div>
+              <div className="w-px h-10 bg-slate-200 dark:bg-slate-700" />
+              <div className="text-center">
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">
+                  <AnimatedCounter value={3} prefix="+" />
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Años exp.</p>
               </div>
             </motion.div>
           </motion.div>
 
-          <motion.div className="text-center px-4" variants={heroItem}>
-            <MotionLink
-              to="/skills"
-              className="inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-2xl transition hover:shadow-[0_25px_45px_-30px_rgba(59,130,246,0.8)]"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+          {/* Right: Profile Image with Parallax */}
+          <motion.div
+            className="relative order-1 lg:order-2 flex justify-center"
+            variants={fadeInScale}
+          >
+            {/* Glow behind image */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.div
+                className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-blue-500/30 via-violet-500/20 to-cyan-500/30 blur-3xl"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.5, 0.7, 0.5],
+                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </div>
+
+            {/* Profile image container */}
+            <motion.div
+              className="relative"
+              style={{ y: imageY, scale: imageScale }}
             >
-              Ver todas las habilidades
-              <ArrowRight size={18} className="sm:w-5 sm:h-5" />
-            </MotionLink>
+              {/* Decorative ring */}
+              <motion.div
+                className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 opacity-20 blur-sm"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              />
+
+              {/* Image with glass border */}
+              <div className="relative rounded-full overflow-hidden border-4 border-white/50 dark:border-slate-800/50 shadow-2xl">
+                <motion.div
+                  className="w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <img
+                    src="/profile.webp"
+                    alt="Alessandro Poves - Desarrollador Full Stack"
+                    className="w-full h-full object-cover"
+                    loading="eager"
+                    fetchPriority="high"
+                  />
+                </motion.div>
+              </div>
+
+              {/* Orbiting Tech Icons */}
+              <motion.div
+                className="absolute inset-[-40px]"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                style={{ transformOrigin: "center center" }}
+              >
+                {/* React - Top */}
+                <motion.div
+                  className="absolute left-1/2 -translate-x-1/2 -top-2 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" className="w-6 h-6" />
+                </motion.div>
+
+                {/* Laravel - Top Right */}
+                <motion.div
+                  className="absolute right-4 top-4 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg" alt="Laravel" className="w-6 h-6" />
+                </motion.div>
+
+                {/* NestJS - Right */}
+                <motion.div
+                  className="absolute -right-2 top-1/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg" alt="NestJS" className="w-6 h-6" />
+                </motion.div>
+
+                {/* Angular - Right Bottom */}
+                <motion.div
+                  className="absolute -right-2 top-2/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular" className="w-6 h-6" />
+                </motion.div>
+
+                {/* Next.js - Bottom Right */}
+                <motion.div
+                  className="absolute right-8 bottom-0 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" className="w-6 h-6 invert" />
+                </motion.div>
+
+                {/* Docker - Bottom */}
+                <motion.div
+                  className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" className="w-6 h-6" />
+                </motion.div>
+
+                {/* PostgreSQL - Bottom Left */}
+                <motion.div
+                  className="absolute left-8 bottom-0 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" className="w-6 h-6" />
+                </motion.div>
+
+                {/* MongoDB - Left Bottom */}
+                <motion.div
+                  className="absolute -left-2 top-2/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" className="w-6 h-6" />
+                </motion.div>
+
+                {/* Vercel - Left */}
+                <motion.div
+                  className="absolute -left-2 top-1/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" alt="Vercel" className="w-6 h-6 invert" />
+                </motion.div>
+
+                {/* AWS - Top Left */}
+                <motion.div
+                  className="absolute left-4 top-4 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                >
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" alt="AWS" className="w-6 h-6" />
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
-      </motion.section>
 
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+        >
+          <span className="text-xs text-slate-400 dark:text-slate-500">Scroll</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            <ChevronDown size={20} className="text-slate-400 dark:text-slate-500" />
+          </motion.div>
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Stats Cards Section
+// ═══════════════════════════════════════════════════════════════
+
+function StatsSection() {
+  return (
+    <section className="relative py-20 md:py-28 overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950" />
+
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl" />
+
+      <div className="container-apple relative z-10">
+        <div className="grid gap-6 md:gap-8 md:grid-cols-3">
+          {highlightCards.map((card, index) => (
+            <motion.div
+              key={card.label}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="group relative"
+            >
+              {/* Glow effect behind card */}
+              <div className={`absolute -inset-1 bg-gradient-to-r ${card.gradient} rounded-3xl opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500`} />
+
+              {/* Card */}
+              <div className={`relative p-8 rounded-2xl bg-slate-800/50 backdrop-blur-xl border ${card.borderColor} shadow-2xl ${card.shadowColor} transition-all duration-300`}>
+                {/* Icon */}
+                <div className="mb-6">
+                  <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${card.gradient} shadow-lg`}>
+                    <card.Icon size={24} className="text-white" />
+                  </div>
+                </div>
+
+                {/* Counter */}
+                <div className="mb-4">
+                  <span className={`text-5xl md:text-6xl font-bold bg-gradient-to-r ${card.gradient} bg-clip-text text-transparent`}>
+                    <AnimatedCounter
+                      value={card.value}
+                      prefix={card.prefix}
+                      suffix={card.suffix}
+                    />
+                  </span>
+                </div>
+
+                {/* Label */}
+                <h3 className="text-xl font-bold text-white mb-2">
+                  {card.label}
+                </h3>
+
+                {/* Description */}
+                <p className="text-slate-400 text-sm">
+                  {card.description}
+                </p>
+
+                {/* Decorative line */}
+                <div className={`absolute bottom-0 left-8 right-8 h-1 bg-gradient-to-r ${card.gradient} rounded-full opacity-50`} />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Skills Overview Section
+// ═══════════════════════════════════════════════════════════════
+
+function SkillsOverviewSection() {
+
+  return (
+    <motion.section
+      id="skills-overview"
+      className="relative section-padding overflow-hidden"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={staggerContainer}
+    >
+      {/* Dark gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" />
+
+      {/* Decorative blurs */}
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+
+      <div className="container-apple relative z-10">
+        {/* Section Header */}
+        <motion.div className="text-center mb-16" variants={fadeInUp}>
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-sm font-medium mb-6">
+            <Sparkles size={14} />
+            Stack Tecnológico
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            Habilidades que convierten
+            <br />
+            <span className="bg-gradient-to-r from-violet-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              ideas en productos reales
+            </span>
+          </h2>
+          <p className="max-w-2xl mx-auto text-lg text-slate-400">
+            Combino tecnología moderna con procesos colaborativos para crear experiencias digitales excepcionales.
+          </p>
+        </motion.div>
+
+        {/* Skills Marquee - Full Width with Two Rows */}
+        <motion.div variants={fadeInUp} className="mb-12">
+          <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <span className="w-8 h-1 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full" />
+            Mis Tecnologías
+          </h3>
+          <div className="space-y-4">
+            {/* First row - moves left */}
+            <SkillsMarquee speed={35} pauseOnHover={true} reverse={false} />
+            {/* Second row - moves right */}
+            <SkillsMarquee speed={40} pauseOnHover={true} reverse={true} />
+          </div>
+        </motion.div>
+
+        {/* Workflow Cards - Horizontal Grid */}
+        <motion.div variants={fadeInUp}>
+          <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <span className="w-8 h-1 bg-gradient-to-r from-violet-500 to-pink-500 rounded-full" />
+            Cómo Trabajo
+          </h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {workflowHighlights.map((item, index) => (
+              <motion.div
+                key={item.tag}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+                className="p-5 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 hover:border-violet-500/50 transition-all duration-300"
+              >
+                <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-blue-500 to-violet-500 text-white rounded-md mb-3">
+                  {item.tag}
+                </span>
+                <h4 className="text-lg font-bold text-white mb-2">
+                  {item.heading}
+                </h4>
+                <p className="text-slate-400 text-sm">
+                  {item.body}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div className="text-center mt-12" variants={fadeInUp}>
+          <MotionLink
+            to="/skills"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-blue-600 text-white font-semibold shadow-xl hover:shadow-2xl transition-shadow"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Ver todas las habilidades
+            <ArrowRight size={18} />
+          </MotionLink>
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CTA Section
+// ═══════════════════════════════════════════════════════════════
+
+function CTASection() {
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <section className="py-16">
+      <div className="container-apple">
+        <GlassCard className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 md:p-10">
+          <div className="text-center md:text-left">
+            <span className="text-sm font-semibold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+              Disponibilidad
+            </span>
+            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mt-2">
+              ¿Listo para tu siguiente proyecto?
+            </h3>
+            <p className="text-slate-500 dark:text-slate-400 mt-2 max-w-lg">
+              Aporto visión estratégica, ejecución técnica y atención al detalle para construir productos que generan resultados.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <GlowButton onClick={() => scrollTo("contacto")} variant="primary">
+              Contáctame
+              <ArrowRight size={18} />
+            </GlowButton>
+            <GlowButton href="/cv.pdf" target="_blank" variant="secondary">
+              <Download size={18} />
+              Descargar CV
+            </GlowButton>
+          </div>
+        </GlassCard>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Main Dashboard View
+// ═══════════════════════════════════════════════════════════════
+
+export default function DashboardView() {
+  return (
+    <>
+      <ScrollProgress className="fixed top-0 left-0 right-0 z-50 h-1 bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500" />
+
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Stats Section */}
+      <StatsSection />
+
+      {/* Skills Overview */}
+      <SkillsOverviewSection />
+
+      {/* CTA Section */}
+      <CTASection />
+
+      {/* Portfolio Section */}
       <motion.section
         id="portafolio"
         className="section-padding bg-slate-50 dark:bg-slate-950"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={sectionVariants}
+        viewport={{ once: true, amount: 0.1 }}
+        variants={fadeInUp}
       >
         <Suspense fallback={<SectionFallback label="proyectos" />}>
           <PortafolioSection />
         </Suspense>
       </motion.section>
 
+      {/* Certificates Section */}
       <motion.section
         id="certificados"
-        className="section-padding bg-gradient-to-b from-slate-50 via-indigo-50/50 to-purple-50/40 dark:bg-gradient-to-br dark:from-purple-950/20 dark:via-blue-950/20 dark:to-slate-950"
+        className="section-padding bg-gradient-to-b from-white via-violet-50/30 to-blue-50/30 dark:from-slate-950 dark:via-violet-950/10 dark:to-slate-950"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={sectionVariants}
+        viewport={{ once: true, amount: 0.1 }}
+        variants={fadeInUp}
       >
-        <motion.div className="container-apple flex flex-col gap-6 text-center" variants={heroItem}>
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent dark:from-purple-400 dark:via-blue-400 dark:to-cyan-400">
-            Certificados
+        <div className="container-apple text-center mb-12">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100/80 dark:bg-amber-900/30 border border-amber-200/50 dark:border-amber-700/50 text-amber-700 dark:text-amber-300 text-sm font-medium mb-6">
+            🏆 Formación Continua
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 dark:from-amber-400 dark:via-orange-400 dark:to-rose-400 bg-clip-text text-transparent">
+            Certificaciones
           </h2>
-          <p className="mx-auto max-w-3xl text-xl text-slate-500 dark:text-slate-300">
-            Certificaciones que respaldan mi experiencia tecnica, buenas practicas y compromiso con la excelencia.
+          <p className="max-w-2xl mx-auto text-lg text-slate-500 dark:text-slate-400 mt-4">
+            Certificaciones que respaldan mi experiencia técnica y compromiso con la excelencia.
           </p>
-        </motion.div>
+        </div>
         <CertificadoSection />
       </motion.section>
 
+      {/* Contact Section */}
       <motion.section
         id="contacto"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={sectionVariants}
+        viewport={{ once: true, amount: 0.1 }}
+        variants={fadeInUp}
       >
         <ContactoSection />
       </motion.section>
     </>
   );
 }
-
-
-
-
-
