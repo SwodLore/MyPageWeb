@@ -2,29 +2,19 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://alessandropoves.dev/sitemap.xml
+Sitemap: https://alessandro-poves.vercel.app/sitemap.xml
 
-# Crawl-delay for better indexing
+# Crawl-delay
 Crawl-delay: 1
 
-# Específicamente para Googlebot
+# Googlebot
 User-agent: Googlebot
 Allow: /
+Allow: /assets/
+Allow: /pdf/
 Crawl-delay: 0
 
-# Para Bingbot
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-# Para buscadores de imágenes
-User-agent: Googlebot-Image
-Allow: /
-
-# Bloquear archivos innecesarios
+# Block internal
 Disallow: /src/
 Disallow: /node_modules/
 Disallow: /.git/
-Disallow: /dist/assets/
-Allow: /dist/assets/*.css
-Allow: /dist/assets/*.js
