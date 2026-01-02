@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Award, Calendar, ChevronDown, ChevronUp, ExternalLink, Building, User, BadgeCheck } from "lucide-react";
 import { certificados } from "../data/certificados";
 import { GlowButton } from "./ui";
+import { TiltCard } from "./ui/TiltCard";
 
 // ═══════════════════════════════════════════════════════════════
 // Animation Variants
@@ -17,15 +18,7 @@ const gridVariants = {
   },
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.6, ease: easing },
-  },
-};
+
 
 // ═══════════════════════════════════════════════════════════════
 // 3D Tilt Card Component
@@ -40,43 +33,14 @@ interface Certificate {
   dateCertificate: string;
 }
 
-interface TiltCardProps {
+interface CertificateCardProps {
   cert: Certificate;
   index: number;
 }
 
-function TiltCard({ cert, index }: TiltCardProps) {
+function CertificateCard({ cert, index }: CertificateCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: "-50px" });
-
-  // Mouse position for 3D tilt
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Smooth spring animation
-  const springConfig = { damping: 25, stiffness: 150 };
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), springConfig);
-
-  // Glare effect position
-  const glareX = useSpring(useTransform(mouseX, [-0.5, 0.5], [0, 100]), springConfig);
-  const glareY = useSpring(useTransform(mouseY, [-0.5, 0.5], [0, 100]), springConfig);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (!rect) return;
-
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
 
   // Category color based on certificate name
   const getCategoryColor = () => {
@@ -98,48 +62,51 @@ function TiltCard({ cert, index }: TiltCardProps) {
   const categoryColor = getCategoryColor();
 
   return (
-    <motion.div
-      ref={cardRef}
-      variants={cardVariants}
-      style={{
-        rotateX,
-        rotateY,
-        transformPerspective: 1000,
-        transformStyle: "preserve-3d",
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="group relative"
-    >
-      {/* Card */}
+    <TiltCard className="h-full">
       <motion.div
+        ref={cardRef}
         initial={{ opacity: 0, y: 40 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
         transition={{ duration: 0.6, delay: index * 0.1, ease: easing }}
-        className="relative overflow-hidden rounded-2xl md:rounded-3xl border border-slate-200/80 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-xl transition-shadow duration-500 hover:shadow-2xl hover:shadow-blue-500/10"
+        className="relative h-full overflow-hidden rounded-2xl md:rounded-3xl border border-slate-200/80 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-xl transition-shadow duration-500 hover:shadow-2xl hover:shadow-blue-500/10"
       >
-        {/* Glare Effect */}
-        <motion.div
-          className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.15) 0%, transparent 60%)`,
-          }}
-        />
-
         {/* Header with Gradient */}
-        <div className={`relative h-24 bg-gradient-to-br ${categoryColor.bg} overflow-hidden`}>
-          {/* Decorative pattern */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-2 left-2 w-16 h-16 border border-white/30 rounded-full" />
-            <div className="absolute bottom-2 right-2 w-24 h-24 border border-white/20 rounded-full" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-white/10 rounded-full" />
+        <div className="relative h-24">
+          {/* Background & Shapes Wrapper (Clipped) */}
+          <div className={`absolute inset-0 bg-gradient-to-br ${categoryColor.bg} overflow-hidden`}>
+            {/* Decorative pattern */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute top-2 left-2 w-16 h-16 border border-white/30 rounded-full" />
+              <div className="absolute bottom-2 right-2 w-24 h-24 border border-white/20 rounded-full" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-white/10 rounded-full" />
+            </div>
           </div>
 
-          {/* Award Icon */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white dark:bg-slate-900 shadow-xl border border-slate-200/50 dark:border-slate-700/50">
-              <Award size={28} className="text-slate-700 dark:text-slate-300" />
-            </div>
+          {/* Medal Icon (Unclipped) */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 filter drop-shadow-xl z-20 group-hover:scale-110 transition-transform duration-300">
+            <svg width="68" height="68" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16">
+              {/* Ribbon */}
+              <path d="M16 4L16 28L32 16L48 28V4H16Z" fill="#3B82F6" className="dark:fill-blue-600" />
+              <path d="M16 4H48V8H16V4Z" fill="#2563EB" className="dark:fill-blue-500" />
+
+              {/* Medal Circle Background */}
+              <circle cx="32" cy="42" r="18" fill="url(#medal_gradient)" stroke="white" strokeWidth="2" className="dark:stroke-slate-700" />
+
+              {/* Medal Shine */}
+              <circle cx="32" cy="42" r="14" stroke="white" strokeOpacity="0.3" strokeWidth="1" />
+
+              {/* Star Icon in Medal */}
+              <path d="M32 32L34.3511 36.7639L39.6085 37.5279L35.8042 41.2361L36.7023 46.4721L32 44L27.2977 46.4721L28.1958 41.2361L24.3915 37.5279L29.6489 36.7639L32 32Z" fill="white" className="dark:fill-slate-100" />
+
+              {/* Gradients */}
+              <defs>
+                <linearGradient id="medal_gradient" x1="14" y1="24" x2="50" y2="60" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#F59E0B" />
+                  <stop offset="50%" stopColor="#D97706" />
+                  <stop offset="100%" stopColor="#B45309" />
+                </linearGradient>
+              </defs>
+            </svg>
           </div>
         </div>
 
@@ -197,7 +164,7 @@ function TiltCard({ cert, index }: TiltCardProps) {
           </motion.a>
         </div>
       </motion.div>
-    </motion.div>
+    </TiltCard>
   );
 }
 
@@ -247,7 +214,7 @@ export default function Certificado() {
       {/* Certificates Grid */}
       <motion.div className="grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" variants={gridVariants}>
         {displayed.map((cert: Certificate, index: number) => (
-          <TiltCard key={cert.name} cert={cert} index={index} />
+          <CertificateCard key={cert.name} cert={cert} index={index} />
         ))}
       </motion.div>
 

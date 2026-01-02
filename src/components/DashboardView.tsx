@@ -4,6 +4,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ScrollProgress } from "./magicui/scroll-progress";
 import { ArrowRight, ChevronDown, Sparkles, Github, Download, Award, Zap } from "lucide-react";
 import { AnimatedCounter, GlowButton, GlassCard, Typewriter, SkillsMarquee } from "./ui";
+import { TiltCard } from "./ui/TiltCard";
+import { triggerSimpleConfetti } from "../lib/confetti";
 
 // Lazy load de componentes below-the-fold para reducir bundle inicial
 const CertificadoSection = lazy(() => import("./Certificado"));
@@ -190,7 +192,7 @@ function HeroSection() {
     <motion.section
       ref={heroRef}
       id="sobre-mi"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-16"
+      className="relative min-h-screen flex items-center justify-center pt-20 pb-16"
       initial="hidden"
       animate="visible"
       variants={staggerContainer}
@@ -513,7 +515,7 @@ function StatsSection() {
               <div className={`absolute -inset-1 bg-gradient-to-r ${card.gradient} rounded-3xl opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500`} />
 
               {/* Card */}
-              <div className={`relative p-8 rounded-2xl bg-slate-800/50 backdrop-blur-xl border ${card.borderColor} shadow-2xl ${card.shadowColor} transition-all duration-300`}>
+              <TiltCard className={`relative p-8 rounded-2xl bg-slate-800/50 backdrop-blur-xl border ${card.borderColor} shadow-2xl ${card.shadowColor} transition-all duration-300 h-full`}>
                 {/* Icon */}
                 <div className="mb-6">
                   <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${card.gradient} shadow-lg`}>
@@ -544,7 +546,7 @@ function StatsSection() {
 
                 {/* Decorative line */}
                 <div className={`absolute bottom-0 left-8 right-8 h-1 bg-gradient-to-r ${card.gradient} rounded-full opacity-50`} />
-              </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>
@@ -685,7 +687,7 @@ function CTASection() {
               Contáctame
               <ArrowRight size={18} />
             </GlowButton>
-            <GlowButton href="/cv.pdf" target="_blank" variant="secondary">
+            <GlowButton href="/cv.pdf" target="_blank" variant="secondary" onClick={triggerSimpleConfetti}>
               <Download size={18} />
               Descargar CV
             </GlowButton>

@@ -14,6 +14,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { GlowButton, GlassCard } from "./ui";
+import { triggerSimpleConfetti } from "../lib/confetti";
 
 // ═══════════════════════════════════════════════════════════════
 // Animation Config
@@ -405,6 +406,7 @@ export default function Contacto() {
               <motion.a
                 href="/cv.pdf"
                 download="Alessandro-Poves-CV.pdf"
+                onClick={triggerSimpleConfetti}
                 className="inline-flex items-center gap-2 mt-4 px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

@@ -57,6 +57,7 @@
   html,
   body {
     @apply overflow-x-hidden;
+    touch-action: pan-y;
   }
 
   * {
@@ -64,7 +65,13 @@
   }
 
   ::selection {
-    @apply bg-blue-500/30 text-blue-900 dark:bg-blue-400/30 dark:text-blue-100;
+    background-color: rgba(59, 130, 246, 0.3);
+    color: #1e3a8a;
+  }
+
+  .dark ::selection {
+    background-color: rgba(96, 165, 250, 0.3);
+    color: #dbeafe;
   }
 }
 

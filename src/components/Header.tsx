@@ -28,7 +28,7 @@ export default function Header() {
     );
 
     sections.forEach((section) => observer.observe(section));
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       observer.disconnect();
