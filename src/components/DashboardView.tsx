@@ -1,7 +1,6 @@
-import { lazy, Suspense, useRef } from "react";
+import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ScrollProgress } from "./magicui/scroll-progress";
+import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown, Sparkles, Github, Download, Award, Zap } from "lucide-react";
 import { AnimatedCounter, GlowButton, GlassCard, Typewriter, SkillsMarquee } from "./ui";
 import { TiltCard } from "./ui/TiltCard";
@@ -173,16 +172,6 @@ function AuroraBackground() {
 // ═══════════════════════════════════════════════════════════════
 
 function HeroSection() {
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  // Parallax effect for profile image
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 50]);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -190,7 +179,6 @@ function HeroSection() {
 
   return (
     <motion.section
-      ref={heroRef}
       id="sobre-mi"
       className="relative min-h-screen flex items-center justify-center pt-20 pb-16"
       initial="hidden"
@@ -204,7 +192,7 @@ function HeroSection() {
           {/* Left: Text Content */}
           <motion.div
             className="text-center lg:text-left space-y-6 order-2 lg:order-1"
-            style={{ y: textY, willChange: "transform" }}
+            variants={fadeInUp}
           >
             {/* Badge */}
             <motion.div variants={fadeInUp}>
@@ -338,7 +326,6 @@ function HeroSection() {
             {/* Profile image container */}
             <motion.div
               className="relative"
-              style={{ y: imageY, scale: imageScale }}
             >
               {/* Decorative ring */}
               <motion.div
@@ -464,22 +451,6 @@ function HeroSection() {
             </motion.div>
           </motion.div>
         </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-        >
-          <span className="text-xs text-slate-400 dark:text-slate-500">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <ChevronDown size={20} className="text-slate-400 dark:text-slate-500" />
-          </motion.div>
-        </motion.div>
       </div>
     </motion.section>
   );
@@ -705,8 +676,6 @@ function CTASection() {
 export default function DashboardView() {
   return (
     <>
-      <ScrollProgress className="fixed top-0 left-0 right-0 z-50 h-1 bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500" />
-
       {/* Hero Section */}
       <HeroSection />
 

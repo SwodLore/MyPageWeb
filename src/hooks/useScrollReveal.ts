@@ -52,8 +52,10 @@ export function useScrollReveal() {
       element.classList.add("scroll-reveal");
       element.classList.remove("revealed");
 
-      const delay = Math.min(index * 20, 200);
-      const distance = 24 + (index % 3) * 4;
+      // Faster stagger: 8ms per element, max 80ms delay
+      const delay = Math.min(index * 8, 80);
+      // Smaller distance for subtler effect
+      const distance = 16 + (index % 3) * 2;
 
       element.style.setProperty("--reveal-delay", `${delay}ms`);
       element.style.setProperty("--sr-distance", `${distance}px`);
@@ -75,8 +77,9 @@ export function useScrollReveal() {
         });
       },
       {
-        threshold: 0,
-        rootMargin: "0px 0px 300px 0px",
+        threshold: 0.05,
+        // Trigger earlier: -100px means element reveals when 100px below viewport
+        rootMargin: "0px 0px -100px 0px",
       },
     );
 

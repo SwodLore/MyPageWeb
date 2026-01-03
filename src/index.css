@@ -52,11 +52,13 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
 
-  html,
   body {
-    @apply overflow-x-hidden;
+    overflow: visible;
+    min-height: 100vh;
     touch-action: pan-y;
   }
 
