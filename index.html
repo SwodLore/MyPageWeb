@@ -5,6 +5,42 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/webp" href="/icon.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Critical CSS for faster FCP/LCP -->
+  <style>
+    /* Prevent FOUC and set base styles */
+    html {
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    .dark body {
+      background: #020617;
+      color: #f1f5f9;
+    }
+
+    /* Critical layout for header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      height: 64px;
+    }
+
+    /* Hide content until React hydrates to prevent layout shift */
+    #root {
+      min-height: 100vh;
+    }
+  </style>
   <script>
     (() => {
       try {

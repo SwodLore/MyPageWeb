@@ -53,7 +53,7 @@ export default function Header() {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="container-apple">
-          <div className="flex h-16 md:h-18 items-center justify-between">
+          <div className="flex h-14 items-center justify-between">
             {/* Logo */}
             <motion.a
               href="/"

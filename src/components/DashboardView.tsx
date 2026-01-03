@@ -314,34 +314,19 @@ function HeroSection() {
           >
             {/* Glow behind image */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div
-                className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-blue-500/30 via-violet-500/20 to-cyan-500/30 blur-3xl"
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.5, 0.7, 0.5],
-                }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full bg-blue-500/20 blur-3xl animate-pulse-glow" />
             </div>
 
             {/* Profile image container */}
-            <motion.div
-              className="relative"
-            >
+            <div className="relative animate-float-slow">
               {/* Decorative ring */}
-              <motion.div
-                className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 opacity-20 blur-sm"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              <div
+                className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 opacity-20 blur-sm animate-spin-slow"
               />
 
               {/* Image with glass border */}
               <div className="relative rounded-full overflow-hidden border-4 border-white/50 dark:border-slate-800/50 shadow-2xl">
-                <motion.div
-                  className="w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80"
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                >
+                <div className="w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80 animate-float-slow">
                   <img
                     src="/profile.webp"
                     alt="Alessandro Poves - Desarrollador Full Stack"
@@ -349,107 +334,65 @@ function HeroSection() {
                     loading="eager"
                     fetchPriority="high"
                   />
-                </motion.div>
+                </div>
               </div>
 
               {/* Orbiting Tech Icons */}
-              <motion.div
-                className="absolute inset-[-40px]"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+              <div
+                className="absolute inset-[-40px] animate-spin-slower"
                 style={{ transformOrigin: "center center" }}
               >
                 {/* React - Top */}
-                <motion.div
-                  className="absolute left-1/2 -translate-x-1/2 -top-2 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute left-1/2 -translate-x-1/2 -top-2 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" className="w-6 h-6" />
-                </motion.div>
+                </div>
 
                 {/* Laravel - Top Right */}
-                <motion.div
-                  className="absolute right-4 top-4 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute right-4 top-4 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg" alt="Laravel" className="w-6 h-6" />
-                </motion.div>
+                </div>
 
                 {/* NestJS - Right */}
-                <motion.div
-                  className="absolute -right-2 top-1/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute -right-2 top-1/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg" alt="NestJS" className="w-6 h-6" />
-                </motion.div>
+                </div>
 
                 {/* Angular - Right Bottom */}
-                <motion.div
-                  className="absolute -right-2 top-2/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute -right-2 top-2/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular" className="w-6 h-6" />
-                </motion.div>
+                </div>
 
                 {/* Next.js - Bottom Right */}
-                <motion.div
-                  className="absolute right-8 bottom-0 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute right-8 bottom-0 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt="Next.js" className="w-6 h-6 invert" />
-                </motion.div>
+                </div>
 
                 {/* Docker - Bottom */}
-                <motion.div
-                  className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute left-1/2 -translate-x-1/2 -bottom-2 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" className="w-6 h-6" />
-                </motion.div>
+                </div>
 
                 {/* PostgreSQL - Bottom Left */}
-                <motion.div
-                  className="absolute left-8 bottom-0 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute left-8 bottom-0 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" className="w-6 h-6" />
-                </motion.div>
+                </div>
 
                 {/* MongoDB - Left Bottom */}
-                <motion.div
-                  className="absolute -left-2 top-2/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute -left-2 top-2/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" className="w-6 h-6" />
-                </motion.div>
+                </div>
 
                 {/* Vercel - Left */}
-                <motion.div
-                  className="absolute -left-2 top-1/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute -left-2 top-1/3 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" alt="Vercel" className="w-6 h-6 invert" />
-                </motion.div>
+                </div>
 
                 {/* AWS - Top Left */}
-                <motion.div
-                  className="absolute left-4 top-4 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                >
+                <div className="absolute left-4 top-4 w-10 h-10 rounded-xl bg-slate-900/90 shadow-lg backdrop-blur-sm border border-slate-700/50 flex items-center justify-center animate-spin-slower-reverse">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" alt="AWS" className="w-6 h-6" />
-                </motion.div>
-              </motion.div>
-            </motion.div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
