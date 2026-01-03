@@ -70,9 +70,9 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
       }}
       className="group relative"
     >
-      <div className="relative overflow-hidden rounded-2xl md:rounded-3xl border border-slate-700/80 bg-slate-900 shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-500/30">
+      <div className="relative overflow-hidden rounded-2xl md:rounded-3xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900 shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-500/30">
         {/* Image Container - Shows full image */}
-        <div className="relative aspect-video overflow-hidden bg-slate-800">
+        <div className="relative aspect-video overflow-hidden bg-slate-100 dark:bg-slate-800">
           {project.img ? (
             <>
               {/* Frame border */}
@@ -92,10 +92,10 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
               </motion.div>
 
               {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-slate-900 via-transparent to-transparent opacity-60" />
             </>
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900">
               <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-violet-500">
                 <Github size={32} className="text-white" />
               </div>
@@ -123,10 +123,10 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
         <div className="p-5 md:p-6 space-y-4">
           {/* Title */}
           <div>
-            <h3 className="text-lg md:text-xl font-bold text-white transition-colors group-hover:text-blue-400">
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400">
               {project.name}
             </h3>
-            <p className="mt-2 text-sm md:text-base text-slate-400 line-clamp-2 leading-relaxed">
+            <p className="mt-2 text-sm md:text-base text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
               {project.description}
             </p>
           </div>
@@ -139,7 +139,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                 transition={{ delay: index * 0.1 + techIndex * 0.05 + 0.3 }}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700/50 text-xs font-medium text-slate-300 transition-all hover:bg-slate-700 hover:border-blue-500/50"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50 text-xs font-medium text-slate-700 dark:text-slate-300 transition-all hover:bg-slate-200 dark:hover:bg-slate-700 hover:border-blue-500/50"
               >
                 <img
                   src={tech.img}
@@ -175,9 +175,9 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
                   href={project.urlPageWeb}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-800 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md hover:border-blue-500/50 hover:bg-slate-700"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md hover:border-blue-500/50 hover:bg-slate-200 dark:hover:bg-slate-700"
                 >
-                  <ExternalLink size={16} className="text-slate-300" />
+                  <ExternalLink size={16} className="text-slate-600 dark:text-slate-300" />
                 </a>
               )}
               {project.urlPageGithub && (
@@ -185,9 +185,9 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
                   href={project.urlPageGithub}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-800 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md hover:border-blue-500/50 hover:bg-slate-700"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md hover:border-blue-500/50 hover:bg-slate-200 dark:hover:bg-slate-700"
                 >
-                  <Github size={16} className="text-slate-300" />
+                  <Github size={16} className="text-slate-600 dark:text-slate-300" />
                 </a>
               )}
             </div>

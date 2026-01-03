@@ -5,6 +5,7 @@ import { ArrowRight, ChevronDown, Sparkles, Github, Download, Award, Zap } from 
 import { AnimatedCounter, GlowButton, GlassCard, Typewriter, SkillsMarquee } from "./ui";
 import { TiltCard } from "./ui/TiltCard";
 import { triggerSimpleConfetti } from "../lib/confetti";
+import { useGuidedScroll } from "../hooks/useGuidedScroll";
 
 // Lazy load de componentes below-the-fold para reducir bundle inicial
 const CertificadoSection = lazy(() => import("./Certificado"));
@@ -462,9 +463,9 @@ function HeroSection() {
 
 function StatsSection() {
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden">
+    <section id="stats-section" className="relative py-20 md:py-28 overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-slate-100 to-slate-200 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950" />
 
       {/* Decorative elements */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
@@ -486,7 +487,7 @@ function StatsSection() {
               <div className={`absolute -inset-1 bg-gradient-to-r ${card.gradient} rounded-3xl opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500`} />
 
               {/* Card */}
-              <TiltCard className={`relative p-8 rounded-2xl bg-slate-800/50 backdrop-blur-xl border ${card.borderColor} shadow-2xl ${card.shadowColor} transition-all duration-300 h-full`}>
+              <TiltCard className={`relative p-8 rounded-2xl bg-white/80 dark:bg-slate-800/50 backdrop-blur-xl border ${card.borderColor} shadow-2xl ${card.shadowColor} transition-all duration-300 h-full`}>
                 {/* Icon */}
                 <div className="mb-6">
                   <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${card.gradient} shadow-lg`}>
@@ -506,12 +507,12 @@ function StatsSection() {
                 </div>
 
                 {/* Label */}
-                <h3 className="text-xl font-bold text-white mb-2">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                   {card.label}
                 </h3>
 
                 {/* Description */}
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-600 dark:text-slate-400 text-sm">
                   {card.description}
                 </p>
 
@@ -541,8 +542,8 @@ function SkillsOverviewSection() {
       viewport={{ once: true, amount: 0.2 }}
       variants={staggerContainer}
     >
-      {/* Dark gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" />
+      {/* Gradient background - responsive to theme */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-slate-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
 
       {/* Decorative blurs */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl" />
@@ -555,21 +556,21 @@ function SkillsOverviewSection() {
             <Sparkles size={14} />
             Stack Tecnológico
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6">
             Habilidades que convierten
             <br />
-            <span className="bg-gradient-to-r from-violet-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-violet-600 via-blue-600 to-cyan-500 dark:from-violet-400 dark:via-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
               ideas en productos reales
             </span>
           </h2>
-          <p className="max-w-2xl mx-auto text-lg text-slate-400">
+          <p className="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400">
             Combino tecnología moderna con procesos colaborativos para crear experiencias digitales excepcionales.
           </p>
         </motion.div>
 
         {/* Skills Marquee - Full Width with Two Rows */}
         <motion.div variants={fadeInUp} className="mb-12">
-          <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
             <span className="w-8 h-1 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full" />
             Mis Tecnologías
           </h3>
@@ -583,7 +584,7 @@ function SkillsOverviewSection() {
 
         {/* Workflow Cards - Horizontal Grid */}
         <motion.div variants={fadeInUp}>
-          <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
             <span className="w-8 h-1 bg-gradient-to-r from-violet-500 to-pink-500 rounded-full" />
             Cómo Trabajo
           </h3>
@@ -596,15 +597,15 @@ function SkillsOverviewSection() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="p-5 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 hover:border-violet-500/50 transition-all duration-300"
+                className="p-5 rounded-xl bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 hover:border-violet-500/50 transition-all duration-300"
               >
                 <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-blue-500 to-violet-500 text-white rounded-md mb-3">
                   {item.tag}
                 </span>
-                <h4 className="text-lg font-bold text-white mb-2">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                   {item.heading}
                 </h4>
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-600 dark:text-slate-400 text-sm">
                   {item.body}
                 </p>
               </motion.div>
@@ -674,6 +675,9 @@ function CTASection() {
 // ═══════════════════════════════════════════════════════════════
 
 export default function DashboardView() {
+  // Scroll guiado automático hacia la sección de stats en primera visita
+  useGuidedScroll("stats-section", { delay: 2500, offset: -60 });
+
   return (
     <>
       {/* Hero Section */}

@@ -55,13 +55,11 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-500 shadow-lg shadow-blue-500/25">
-                <img
-                  src="/logo.webp"
-                  alt="AP"
-                  className="h-6 w-6 object-contain brightness-0 invert"
-                />
-              </div>
+              <img
+                src="/icon.webp"
+                alt="AP"
+                className="h-16 w-16 object-contain"
+              />
               <div>
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                   Alessandro Poves

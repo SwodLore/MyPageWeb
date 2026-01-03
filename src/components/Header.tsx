@@ -44,7 +44,7 @@ export default function Header() {
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ${scrolled
+        className={`fixed top-0 left-0 right-0 z-50 w-full overflow-x-hidden transition-all duration-500 ${scrolled
           ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-lg shadow-slate-200/20 dark:shadow-slate-900/30"
           : "bg-transparent"
           }`}
@@ -63,9 +63,9 @@ export default function Header() {
             >
               <div className="flex items-center gap-3 shrink-0">
                 <motion.img
-                  src="/logo.webp"
+                  src="/icon.webp"
                   alt="Alessandro Poves"
-                  className="h-10 w-auto object-contain"
+                  className="h-14 w-auto object-contain"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 />
