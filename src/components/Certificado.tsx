@@ -1,27 +1,95 @@
-import { useEffect, useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Award, Calendar, ChevronDown, ChevronUp, ExternalLink, Building, User, BadgeCheck } from "lucide-react";
+import {
+  Award,
+  Building,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
+  User,
+} from "lucide-react";
 import { certificados } from "../data/certificados";
 import { GlowButton } from "./ui";
-import { TiltCard } from "./ui/TiltCard";
 
 // ═══════════════════════════════════════════════════════════════
-// Animation Variants
+// Category color resolver
 // ═══════════════════════════════════════════════════════════════
 
-const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const gridVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
-  },
+type CertColor = {
+  gradient: string;
+  medalFrom: string;
+  medalTo: string;
+  badge: string;
 };
 
+function getCertColor(name: string): CertColor {
+  const n = name.toLowerCase();
 
+  if (
+    n.includes("hack") ||
+    n.includes("ciber") ||
+    n.includes("security") ||
+    n.includes("segur") ||
+    n.includes("pentest")
+  )
+    return {
+      gradient: "from-red-500 to-orange-500",
+      medalFrom: "#ef4444",
+      medalTo: "#f97316",
+      badge: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+    };
+
+  if (n.includes("react") || n.includes("typescript") || n.includes("web"))
+    return {
+      gradient: "from-blue-500 to-cyan-500",
+      medalFrom: "#3b82f6",
+      medalTo: "#06b6d4",
+      badge: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+    };
+
+  if (n.includes("laravel") || n.includes("php"))
+    return {
+      gradient: "from-rose-500 to-pink-500",
+      medalFrom: "#f43f5e",
+      medalTo: "#ec4899",
+      badge: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300",
+    };
+
+  if (
+    n.includes("cisco") ||
+    n.includes("network") ||
+    n.includes("ccna") ||
+    n.includes("ip")
+  )
+    return {
+      gradient: "from-emerald-500 to-teal-500",
+      medalFrom: "#10b981",
+      medalTo: "#14b8a6",
+      badge:
+        "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
+    };
+
+  if (n.includes("java") || n.includes("python") || n.includes("backend"))
+    return {
+      gradient: "from-amber-500 to-yellow-500",
+      medalFrom: "#f59e0b",
+      medalTo: "#eab308",
+      badge:
+        "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
+    };
+
+  return {
+    gradient: "from-violet-500 to-purple-500",
+    medalFrom: "#8b5cf6",
+    medalTo: "#a855f7",
+    badge:
+      "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300",
+  };
+}
 
 // ═══════════════════════════════════════════════════════════════
-// 3D Tilt Card Component
+// Flip Card
 // ═══════════════════════════════════════════════════════════════
 
 interface Certificate {
@@ -39,190 +107,190 @@ interface CertificateCardProps {
 }
 
 function CertificateCard({ cert, index }: CertificateCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(cardRef, { once: true, margin: "-50px" });
-
-  // Category color based on certificate name
-  const getCategoryColor = () => {
-    if (cert.name.toLowerCase().includes("hack") || cert.name.toLowerCase().includes("ciber") || cert.name.toLowerCase().includes("security")) {
-      return { bg: "from-red-500 to-orange-500", badge: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300" };
-    }
-    if (cert.name.toLowerCase().includes("react") || cert.name.toLowerCase().includes("typescript") || cert.name.toLowerCase().includes("web")) {
-      return { bg: "from-blue-500 to-cyan-500", badge: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" };
-    }
-    if (cert.name.toLowerCase().includes("laravel") || cert.name.toLowerCase().includes("php")) {
-      return { bg: "from-rose-500 to-pink-500", badge: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300" };
-    }
-    if (cert.name.toLowerCase().includes("cisco") || cert.name.toLowerCase().includes("network") || cert.name.toLowerCase().includes("ip")) {
-      return { bg: "from-emerald-500 to-teal-500", badge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" };
-    }
-    return { bg: "from-violet-500 to-purple-500", badge: "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300" };
-  };
-
-  const categoryColor = getCategoryColor();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [flipped, setFlipped] = useState(false);
+  const colors = getCertColor(cert.name);
 
   return (
-    <TiltCard className="h-full">
-      <motion.div
-        ref={cardRef}
-        initial={{ opacity: 0, y: 40 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-        transition={{ duration: 0.6, delay: index * 0.1, ease: easing }}
-        className="relative h-full overflow-hidden rounded-2xl md:rounded-3xl border border-slate-200/80 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-xl transition-shadow duration-500 hover:shadow-2xl hover:shadow-blue-500/10"
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{
+        duration: 0.55,
+        delay: (index % 6) * 0.08,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      onClick={() => setFlipped((f) => !f)}
+      style={{ perspective: "1200px" }}
+      className="h-[280px] cursor-pointer select-none"
+      aria-label={`Certificado: ${cert.name} — clic para voltear`}
+    >
+      {/* Inner wrapper — rotates */}
+      <div
+        style={{
+          transformStyle: "preserve-3d",
+          transition: "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          width: "100%",
+          height: "100%",
+          position: "relative",
+        }}
       >
-        {/* Header with Gradient */}
-        <div className="relative h-24">
-          {/* Background & Shapes Wrapper (Clipped) */}
-          <div className={`absolute inset-0 bg-gradient-to-br ${categoryColor.bg} overflow-hidden`}>
-            {/* Decorative pattern */}
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute top-2 left-2 w-16 h-16 border border-white/30 rounded-full" />
-              <div className="absolute bottom-2 right-2 w-24 h-24 border border-white/20 rounded-full" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-white/10 rounded-full" />
+        {/* ── FRONT ─────────────────────────────────────────── */}
+        <div
+          style={{ backfaceVisibility: "hidden" }}
+          className="absolute inset-0 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-lg overflow-hidden"
+        >
+          {/* Header gradient */}
+          <div
+            className={`relative h-[88px] bg-gradient-to-br ${colors.gradient} flex-shrink-0 overflow-hidden`}
+          >
+            {/* Decorative rings */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none">
+              <div className="absolute top-2 left-3 w-14 h-14 border border-white/50 rounded-full" />
+              <div className="absolute bottom-0 right-3 w-20 h-20 border border-white/30 rounded-full" />
+            </div>
+
+            {/* Medal — bottom-centered, overflow onto content */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-10">
+              <div
+                className="w-14 h-14 rounded-full border-[3px] border-white dark:border-slate-900 shadow-xl flex items-center justify-center"
+                style={{
+                  background: `linear-gradient(135deg, ${colors.medalFrom}, ${colors.medalTo})`,
+                }}
+              >
+                <Award size={22} className="text-white" />
+              </div>
             </div>
           </div>
 
-          {/* Medal Icon (Unclipped) */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 filter drop-shadow-xl z-20 group-hover:scale-110 transition-transform duration-300">
-            <svg width="68" height="68" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16">
-              {/* Ribbon */}
-              <path d="M16 4L16 28L32 16L48 28V4H16Z" fill="#3B82F6" className="dark:fill-blue-600" />
-              <path d="M16 4H48V8H16V4Z" fill="#2563EB" className="dark:fill-blue-500" />
+          {/* Content */}
+          <div className="flex-1 flex flex-col items-center gap-2 pt-10 px-4 pb-4">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white text-center leading-snug line-clamp-2">
+              {cert.name}
+            </h3>
 
-              {/* Medal Circle Background */}
-              <circle cx="32" cy="42" r="18" fill="url(#medal_gradient)" stroke="white" strokeWidth="2" className="dark:stroke-slate-700" />
+            <span className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
+              <Building size={11} className="flex-shrink-0" />
+              <span className="truncate max-w-[160px]">{cert.institution}</span>
+            </span>
 
-              {/* Medal Shine */}
-              <circle cx="32" cy="42" r="14" stroke="white" strokeOpacity="0.3" strokeWidth="1" />
+            <span
+              className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold ${colors.badge}`}
+            >
+              Verificado
+            </span>
 
-              {/* Star Icon in Medal */}
-              <path d="M32 32L34.3511 36.7639L39.6085 37.5279L35.8042 41.2361L36.7023 46.4721L32 44L27.2977 46.4721L28.1958 41.2361L24.3915 37.5279L29.6489 36.7639L32 32Z" fill="white" className="dark:fill-slate-100" />
-
-              {/* Gradients */}
-              <defs>
-                <linearGradient id="medal_gradient" x1="14" y1="24" x2="50" y2="60" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#F59E0B" />
-                  <stop offset="50%" stopColor="#D97706" />
-                  <stop offset="100%" stopColor="#B45309" />
-                </linearGradient>
-              </defs>
-            </svg>
+            <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-auto">
+              Toca para ver detalles
+            </p>
           </div>
         </div>
 
-        {/* Content */}
-        <div className="pt-12 p-6 space-y-4">
-          {/* Title */}
-          <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white text-center leading-snug line-clamp-2 min-h-[2.5rem] transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400">
-            {cert.name}
-          </h3>
+        {/* ── BACK ──────────────────────────────────────────── */}
+        <div
+          style={{
+            backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+          }}
+          className="absolute inset-0 flex flex-col rounded-2xl border border-slate-700/60 bg-slate-900 shadow-lg overflow-hidden p-5 gap-4"
+        >
+          {/* Top: gradient strip + title */}
+          <div className="flex items-start gap-3">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+              style={{
+                background: `linear-gradient(135deg, ${colors.medalFrom}, ${colors.medalTo})`,
+              }}
+            >
+              <Award size={18} className="text-white" />
+            </div>
+            <p className="text-xs font-bold text-white leading-snug line-clamp-3 flex-1">
+              {cert.name}
+            </p>
+          </div>
 
           {/* Details */}
-          <div className="space-y-2.5 text-sm">
-            <div className="flex items-center gap-3 text-slate-600 dark:text-slate-400">
-              <Building size={15} className="flex-shrink-0 text-blue-500" />
-              <span className="truncate font-medium">{cert.institution}</span>
+          <div className="flex-1 space-y-2.5">
+            <div className="flex items-center gap-2 text-xs">
+              <Building size={12} className="text-blue-400 flex-shrink-0" />
+              <span className="text-slate-200 font-medium truncate">
+                {cert.institution}
+              </span>
             </div>
-            <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400">
-              <User size={15} className="flex-shrink-0 text-violet-500" />
-              <span className="truncate">{cert.teacher}</span>
+            <div className="flex items-center gap-2 text-xs">
+              <User size={12} className="text-violet-400 flex-shrink-0" />
+              <span className="text-slate-400 truncate">{cert.teacher}</span>
             </div>
-            <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400">
-              <Calendar size={15} className="flex-shrink-0 text-slate-400" />
-              <span>{cert.dateCertificate}</span>
+            <div className="flex items-center gap-2 text-xs">
+              <Calendar size={12} className="text-slate-500 flex-shrink-0" />
+              <span className="text-slate-500">{cert.dateCertificate}</span>
             </div>
           </div>
 
-          {/* Badges */}
-          <div className="flex flex-wrap gap-2 justify-center">
-            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${categoryColor.badge}`}>
-              <BadgeCheck size={12} />
-              Verificado
-            </span>
-          </div>
-
-          {/* Action Button */}
-          <motion.a
+          {/* Link — stops propagation so clicking doesn't flip back */}
+          <a
             href={cert.urlCertificate}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold shadow-lg overflow-hidden transition-all hover:shadow-xl"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-white text-xs font-bold shadow-lg hover:opacity-90 transition-opacity"
+            style={{
+              background: `linear-gradient(90deg, ${colors.medalFrom}, ${colors.medalTo})`,
+            }}
           >
-            {/* Shimmer effect */}
-            <span
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: "linear-gradient(90deg, transparent 0%, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%, transparent 100%)",
-                backgroundSize: "200% 100%",
-                animation: "shimmer 3s linear infinite",
-              }}
-            />
-            <ExternalLink size={14} />
+            <ExternalLink size={13} />
             Ver Certificado
-          </motion.a>
+          </a>
         </div>
-      </motion.div>
-    </TiltCard>
+      </div>
+    </motion.div>
   );
 }
 
 // ═══════════════════════════════════════════════════════════════
-// Main Certificates Component
+// Main
 // ═══════════════════════════════════════════════════════════════
+
+const INITIAL_COUNT = 6;
+const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Certificado() {
   const [showAll, setShowAll] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || typeof window.matchMedia === "undefined") return;
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const updateIsMobile = (source: MediaQueryList | MediaQueryListEvent) => {
-      setIsMobile(Boolean(source.matches));
-    };
-
-    updateIsMobile(mediaQuery);
-
-    const listener = (event: MediaQueryListEvent) => updateIsMobile(event);
-
-    if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener("change", listener);
-    }
-
-    return () => {
-      if (mediaQuery.removeEventListener) {
-        mediaQuery.removeEventListener("change", listener);
-      }
-    };
-  }, []);
-
-  const baseCount = isMobile ? 3 : 6;
-  const displayed = showAll ? certificados : certificados.slice(0, baseCount);
-  const hasMore = certificados.length > baseCount;
+  const displayed = showAll
+    ? certificados
+    : certificados.slice(0, INITIAL_COUNT);
+  const hasMore = certificados.length > INITIAL_COUNT;
 
   return (
-    <motion.div
-      className="container-apple flex flex-col gap-12 md:gap-16"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
-      variants={gridVariants}
-    >
-      {/* Certificates Grid */}
-      <motion.div className="grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" variants={gridVariants}>
+    <div className="container-apple flex flex-col gap-12 md:gap-16">
+
+      {/* Hint */}
+      <motion.p
+        className="text-center text-sm text-slate-400 dark:text-slate-500 -mb-4"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+      >
+        Toca o pasa el cursor sobre una card para ver los detalles
+      </motion.p>
+
+      {/* Grid */}
+      <div className="grid gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {displayed.map((cert: Certificate, index: number) => (
           <CertificateCard key={cert.name} cert={cert} index={index} />
         ))}
-      </motion.div>
+      </div>
 
-      {/* Toggle Button */}
+      {/* Expand / collapse */}
       {hasMore && (
         <motion.div
           className="text-center"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
@@ -243,7 +311,7 @@ export default function Certificado() {
         </motion.div>
       )}
 
-      {/* Stats Banner */}
+      {/* Stats banner */}
       <motion.div
         className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-500 p-8 md:p-10 shadow-2xl"
         initial={{ opacity: 0, y: 40 }}
@@ -251,24 +319,25 @@ export default function Certificado() {
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: easing }}
       >
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
         <div className="relative text-center text-white">
           <div className="flex justify-center mb-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
-              <Award size={32} />
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
+              <Award size={28} />
             </div>
           </div>
           <h3 className="text-2xl md:text-3xl font-bold mb-3">
             Competencias Certificadas
           </h3>
           <p className="text-blue-100 text-lg max-w-2xl mx-auto">
-            <span className="font-bold text-white">{certificados.length}</span> certificaciones que avalan mi experiencia en desarrollo web, ciberseguridad, redes y metodologías modernas.
+            <span className="font-bold text-white">{certificados.length}</span>{" "}
+            certificaciones que avalan mi experiencia en desarrollo web,
+            ciberseguridad, redes y metodologías modernas.
           </p>
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }

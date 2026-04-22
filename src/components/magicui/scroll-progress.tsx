@@ -1,7 +1,5 @@
-"use client";
-
 import { cn } from "@/lib/utils";
-import { motion, MotionProps, useScroll } from "motion/react";
+import { motion, MotionProps, useScroll } from "framer-motion";
 import React from "react";
 
 interface ScrollProgressProps
@@ -17,28 +15,24 @@ export const ScrollProgress = React.forwardRef<
 
   return (
     <>
-      {/* Background line */}
-      <div className="fixed inset-x-0 top-0 z-40 h-0.5 bg-slate-200/30 dark:bg-slate-700/30 backdrop-blur-sm" />
+      {/* Track line */}
+      <div className="fixed inset-x-0 top-0 z-[70] h-[3px] bg-slate-200/20 dark:bg-slate-700/20" />
 
-      {/* Progress line with Apple-style gradient */}
+      {/* Progress fill */}
       <motion.div
         ref={ref}
         className={cn(
-          "fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 dark:from-blue-400 dark:via-purple-400 dark:to-cyan-400 shadow-lg",
+          "fixed inset-x-0 top-0 z-[71] h-[3px] origin-left bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-400",
           className,
         )}
-        style={{
-          scaleX: scrollYProgress,
-        }}
+        style={{ scaleX: scrollYProgress }}
         {...props}
       />
 
-      {/* Glow effect */}
+      {/* Glow beneath the bar */}
       <motion.div
-        className="fixed inset-x-0 top-0 z-40 h-1 origin-left bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-cyan-500/30 blur-sm"
-        style={{
-          scaleX: scrollYProgress,
-        }}
+        className="fixed inset-x-0 top-0 z-[70] h-[6px] origin-left bg-gradient-to-r from-blue-500/40 via-violet-500/40 to-cyan-400/40 blur-[4px]"
+        style={{ scaleX: scrollYProgress }}
       />
     </>
   );

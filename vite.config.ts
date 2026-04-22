@@ -21,12 +21,13 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
           icons: ['lucide-react'],
-          motion: ['framer-motion', 'motion'],
+          motion: ['framer-motion'],
+          lenis: ['lenis'],
         },
       },
     },
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
+    include: ['react', 'react-dom', 'react-router-dom', 'lucide-react', 'lenis'],
   },
 })

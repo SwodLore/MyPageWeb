@@ -1,4 +1,19 @@
+@import '@fontsource-variable/geist';
 @import "tailwindcss";
+
+/* ─── Lenis: prevent browser scroll-behavior from conflicting ─── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
 
 @custom-variant dark (&:where(.dark *), &:where([data-theme="dark"] *));
 
@@ -50,13 +65,17 @@
 
 @layer base {
   html {
+    font-family: 'Geist Variable', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     overflow-y: scroll;
+    /* Lenis maneja el smooth scroll — el navegador no debe interferir */
+    scroll-behavior: auto;
   }
 
   body {
+    font-family: inherit;
     overflow-x: hidden;
     overflow-y: visible;
     min-height: 100vh;
@@ -67,14 +86,46 @@
     @apply box-border;
   }
 
+  /* ── Custom scrollbar ──────────────────────────── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.25);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.55);
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgba(96, 165, 250, 0.2);
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(96, 165, 250, 0.5);
+  }
+
+  /* ── Selection ─────────────────────────────────── */
   ::selection {
-    background-color: rgba(59, 130, 246, 0.3);
+    background-color: rgba(59, 130, 246, 0.25);
     color: #1e3a8a;
   }
 
   .dark ::selection {
-    background-color: rgba(96, 165, 250, 0.3);
+    background-color: rgba(96, 165, 250, 0.25);
     color: #dbeafe;
+  }
+
+  /* ── Focus visible ─────────────────────────────── */
+  :focus-visible {
+    outline: 2px solid rgba(59, 130, 246, 0.7);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* ── Custom cursor — hide native on pointer-fine ── */
+  @media (pointer: fine) {
+    html, a, button, [role="button"], input, textarea, select, label {
+      cursor: none !important;
+    }
   }
 }
 
@@ -504,11 +555,22 @@
   .animated-border::before,
   .aurora-blob,
   .animate-float,
-  .animate-float-slow {
+  .animate-float-slow,
+  .animate-spin-slow,
+  .animate-spin-slower,
+  .animate-spin-slower-reverse,
+  .animate-pulse-glow {
     animation: none !important;
   }
 
   .btn-glow {
     box-shadow: var(--glow-primary) !important;
+  }
+
+  /* Hide custom cursor for reduced-motion — native cursor is shown via media query inversion */
+  @media (pointer: fine) {
+    html, a, button, [role="button"], input, textarea, select, label {
+      cursor: auto !important;
+    }
   }
 }

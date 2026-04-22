@@ -1,171 +1,238 @@
 import { motion } from "framer-motion";
-import { Github, Instagram, Linkedin, Mail, MapPin, Heart, ArrowUp, Code2 } from "lucide-react";
+import { useLenis } from "lenis/react";
+import {
+  Github, Instagram, Linkedin, Mail, MapPin,
+  ArrowUp, Clock, Briefcase, Sparkles, ExternalLink,
+} from "lucide-react";
+import { personal } from "../data/personal";
 
-const socialLinks = [
+// ═══════════════════════════════════════════════════════════════
+// Data
+// ═══════════════════════════════════════════════════════════════
+
+const SOCIAL = [
   {
     name: "LinkedIn",
-    href: "https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/",
+    href: personal.social.linkedin,
     icon: Linkedin,
-    color: "hover:bg-blue-100 hover:text-blue-600 hover:border-blue-200 dark:hover:bg-blue-900/30 dark:hover:text-blue-400"
+    color: "hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 dark:hover:bg-blue-900/20 dark:hover:text-blue-400 dark:hover:border-blue-700/50",
   },
   {
     name: "GitHub",
-    href: "https://github.com/SwodLore",
+    href: personal.social.github,
     icon: Github,
-    color: "hover:bg-slate-200 hover:text-slate-900 hover:border-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+    color: "hover:bg-slate-100 hover:text-slate-900 hover:border-slate-300 dark:hover:bg-slate-700 dark:hover:text-white dark:hover:border-slate-600",
   },
   {
     name: "Instagram",
-    href: "https://www.instagram.com/alepoves/",
+    href: personal.social.instagram,
     icon: Instagram,
-    color: "hover:bg-pink-100 hover:text-pink-600 hover:border-pink-200 dark:hover:bg-pink-900/30 dark:hover:text-pink-400"
+    color: "hover:bg-pink-50 hover:text-pink-600 hover:border-pink-200 dark:hover:bg-pink-900/20 dark:hover:text-pink-400 dark:hover:border-pink-700/50",
   },
 ];
 
-const techStack = ["React", "Laravel", "NestJS", "TypeScript", "Docker", "AWS"];
-
-const navLinks = [
-  { label: "Inicio", href: "#sobre-mi" },
-  { label: "Skills", href: "#skills-overview" },
-  { label: "Proyectos", href: "#portafolio" },
-  { label: "Certificados", href: "#certificados" },
-  { label: "Contacto", href: "#contacto" },
+const NAV_ITEMS = [
+  { id: "sobre-mi",        label: "Inicio" },
+  { id: "skills-overview", label: "Skills" },
+  { id: "portafolio",      label: "Proyectos" },
+  { id: "certificados",    label: "Certificados" },
+  { id: "contacto",        label: "Contacto" },
 ];
 
+const STATUS_ITEMS = [
+  { icon: MapPin,    label: "Ubicación",    value: personal.location },
+  { icon: Clock,     label: "Zona horaria", value: "UTC−5 (Perú)" },
+  { icon: Briefcase, label: "Modalidad",    value: "Remoto / Híbrido" },
+];
+
+// ═══════════════════════════════════════════════════════════════
+// Footer
+// ═══════════════════════════════════════════════════════════════
+
 export default function Footer() {
+  const lenis = useLenis();
   const currentYear = new Date().getFullYear();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) lenis?.scrollTo(el, { offset: -80, duration: 1.4 });
   };
 
-  return (
-    <footer className="relative border-t border-slate-200/50 dark:border-slate-800/50 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-      {/* Decorative gradient */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+  const scrollToTop = () => lenis?.scrollTo(0, { duration: 1.6 });
 
-      <div className="container-apple py-16 md:py-20">
-        {/* Main Footer Content */}
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+  return (
+    <footer className="relative border-t border-slate-200/60 dark:border-slate-800/60 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-900 dark:to-slate-950">
+      {/* Top gradient line */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/60 to-transparent" />
+
+      {/* ── CTA block ──────────────────────────────────────────── */}
+      <div className="container-apple pt-16 pb-12">
+        <motion.div
+          className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 p-8 md:p-10 text-white"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {/* Background decoration */}
+          <div className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+          <div className="absolute -left-8 -bottom-8 h-36 w-36 rounded-full bg-cyan-400/20 blur-2xl pointer-events-none" />
+
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-sm font-medium text-blue-200">{personal.availableText}</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold">¿Tienes un proyecto en mente?</h3>
+              <p className="mt-1.5 text-blue-200 max-w-md">
+                Cuéntame tu idea — construyamos algo que valga la pena.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <motion.button
+                onClick={() => scrollTo("contacto")}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-blue-700 font-semibold text-sm hover:bg-blue-50 transition-colors shadow-md cursor-pointer"
+                whileHover={{ scale: 1.04, y: -1 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Sparkles size={15} />
+                Hablemos
+              </motion.button>
+              <motion.a
+                href={personal.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-colors"
+                whileHover={{ scale: 1.04, y: -1 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Github size={15} />
+                GitHub
+                <ExternalLink size={12} className="opacity-60" />
+              </motion.a>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* ── Main grid ──────────────────────────────────────────── */}
+      <div className="container-apple pb-12">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+
           {/* Brand */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-5">
             <motion.div
               className="flex items-center gap-3"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <img
-                src="/icon.webp"
-                alt="AP"
-                className="h-16 w-16 object-contain"
-              />
+              <img src="/icon.webp" alt="AP" className="h-14 w-auto object-contain" />
               <div>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                  Alessandro Poves
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                  {personal.fullName}
                 </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Full Stack Developer
-                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{personal.title}</p>
               </div>
             </motion.div>
 
-            <p className="max-w-md text-slate-500 dark:text-slate-400 leading-relaxed">
-              Desarrollador full stack que construye experiencias digitales elegantes,
-              accesibles y enfocadas en el valor de negocio.
+            <p className="max-w-sm text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              {personal.bioshort}
             </p>
 
-            {/* Tech Stack */}
-            <div className="flex flex-wrap gap-2">
-              {techStack.map((tech, index) => (
-                <motion.span
-                  key={tech}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/50 dark:border-slate-700/50"
-                >
-                  {tech}
-                </motion.span>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
-              Navegación
-            </h4>
-            <nav className="flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-900 dark:text-white">
-              Contacto
-            </h4>
-            <div className="space-y-3">
-              <a
-                href="mailto:apovesmartinez@gmail.com"
-                className="flex items-center gap-3 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                <Mail size={16} className="text-blue-500" />
-                apovesmartinez@gmail.com
-              </a>
-              <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400">
-                <MapPin size={16} className="text-rose-500" />
-                Huancayo, Perú
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex gap-2 pt-2">
-              {socialLinks.map(({ name, href, icon: Icon, color }) => (
+            {/* Social */}
+            <div className="flex gap-2">
+              {SOCIAL.map(({ name, href, icon: Icon, color }) => (
                 <motion.a
                   key={name}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 transition-all ${color}`}
                   aria-label={name}
-                  whileHover={{ y: -3, scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 transition-all ${color}`}
+                  whileHover={{ y: -3, scale: 1.08 }}
+                  whileTap={{ scale: 0.93 }}
                 >
-                  <Icon size={18} />
+                  <Icon size={16} />
                 </motion.a>
               ))}
             </div>
           </div>
+
+          {/* Navigation */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+              Navegación
+            </h4>
+            <nav className="flex flex-col gap-1.5">
+              {NAV_ITEMS.map((item) => (
+                <motion.button
+                  key={item.id}
+                  onClick={() => scrollTo(item.id)}
+                  className="w-fit text-sm text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-left"
+                  whileHover={{ x: 3 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
+                  {item.label}
+                </motion.button>
+              ))}
+            </nav>
+          </div>
+
+          {/* Status */}
+          <div className="space-y-4">
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+              Estado
+            </h4>
+            <div className="space-y-3">
+              {/* Availability pill */}
+              {personal.available && (
+                <div className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-700/40 text-emerald-700 dark:text-emerald-400 text-xs font-medium">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                  </span>
+                  {personal.availableText}
+                </div>
+              )}
+
+              {STATUS_ITEMS.map(({ icon: Icon, label, value }) => (
+                <div key={label} className="flex items-start gap-2.5 text-sm text-slate-500 dark:text-slate-400">
+                  <Icon size={14} className="mt-0.5 shrink-0 text-slate-400 dark:text-slate-500" />
+                  <div>
+                    <span className="block text-xs text-slate-400 dark:text-slate-500">{label}</span>
+                    <span>{value}</span>
+                  </div>
+                </div>
+              ))}
+
+              <a
+                href={`mailto:${personal.email}`}
+                className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                <Mail size={14} className="shrink-0" />
+                {personal.email}
+              </a>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
-            © {currentYear} Alessandro Poves. Hecho con
-            <Heart size={14} className="text-rose-500 fill-rose-500 mx-1" />
-            y mucho
-            <Code2 size={14} className="text-blue-500 mx-1" />
+      {/* ── Bottom bar ─────────────────────────────────────────── */}
+      <div className="container-apple pb-8">
+        <div className="pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-slate-400 dark:text-slate-500">
+            © {currentYear} {personal.fullName} · Construido con React, TypeScript & Framer Motion
           </p>
-
           <motion.button
             onClick={scrollToTop}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="flex items-center gap-1.5 text-xs font-medium text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
             Volver arriba
-            <ArrowUp size={16} />
+            <ArrowUp size={13} />
           </motion.button>
         </div>
       </div>
