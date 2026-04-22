@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { LayoutGroup, motion, AnimatePresence } from "framer-motion";
 import { Github, Instagram, Linkedin, Menu, Sparkles, X } from "lucide-react";
 import { useLenis } from "lenis/react";
@@ -9,13 +10,15 @@ import { personal } from "../data/personal";
 // Data
 // ═══════════════════════════════════════════════════════════════
 
+// href → navegación de ruta  |  id → scroll a sección en /
 const NAV_ITEMS = [
-  { id: "sobre-mi",       label: "Inicio" },
+  { id: "sobre-mi",        label: "Inicio" },
   { id: "skills-overview", label: "Skills" },
-  { id: "portafolio",     label: "Proyectos" },
-  { id: "certificados",   label: "Certificados" },
-  { id: "contacto",       label: "Contacto" },
-];
+  { id: "portafolio",      label: "Proyectos" },
+  { id: "certificados",    label: "Certificados" },
+  { id: "contacto",        label: "Contacto" },
+  { href: "/anotaciones",  label: "Anotaciones" },
+] as const;
 
 const SOCIAL_MOBILE = [
   { name: "GitHub",    href: personal.social.github,    icon: Github },
@@ -29,6 +32,7 @@ const SOCIAL_MOBILE = [
 
 export default function Header() {
   const lenis = useLenis();
+  const location = useLocation();
   const [scrolled, setScrolled]       = useState(false);
   const [menuOpen, setMenuOpen]       = useState(false);
   const [activeSection, setActiveSection] = useState("sobre-mi");
@@ -111,25 +115,40 @@ export default function Header() {
             <LayoutGroup>
               <nav className="hidden md:flex items-center gap-0.5 px-1.5 py-1.5 rounded-2xl bg-slate-100/60 dark:bg-slate-800/60 backdrop-blur-sm">
                 {NAV_ITEMS.map((item) => {
-                  const isActive = activeSection === item.id;
+                  const isRoute = "href" in item;
+                  const isActive = isRoute
+                    ? location.pathname === item.href
+                    : activeSection === item.id && location.pathname === "/";
+                  const key = isRoute ? item.href : item.id;
+                  const sharedClass = `relative px-4 py-2 text-sm font-medium rounded-xl transition-colors cursor-pointer ${
+                    isActive
+                      ? "text-white"
+                      : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  }`;
+                  const pill = isActive && (
+                    <motion.div
+                      layoutId="activeNavTab"
+                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md shadow-blue-500/25"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.55 }}
+                    />
+                  );
+
+                  if (isRoute) {
+                    return (
+                      <Link key={key} to={item.href} className={sharedClass} onClick={() => setMenuOpen(false)}>
+                        {pill}
+                        <span className="relative z-10">{item.label}</span>
+                      </Link>
+                    );
+                  }
                   return (
                     <motion.button
-                      key={item.id}
+                      key={key}
                       onClick={() => scrollTo(item.id)}
-                      className={`relative px-4 py-2 text-sm font-medium rounded-xl transition-colors cursor-pointer ${
-                        isActive
-                          ? "text-white"
-                          : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                      }`}
+                      className={sharedClass}
                       whileTap={{ scale: 0.95 }}
                     >
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeNavTab"
-                          className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md shadow-blue-500/25"
-                          transition={{ type: "spring", bounce: 0.2, duration: 0.55 }}
-                        />
-                      )}
+                      {pill}
                       <span className="relative z-10">{item.label}</span>
                     </motion.button>
                   );
@@ -239,23 +258,44 @@ export default function Header() {
 
                 {/* Nav items */}
                 <nav className="p-2">
-                  {NAV_ITEMS.map((item, index) => (
-                    <motion.button
-                      key={item.id}
-                      onClick={() => scrollTo(item.id)}
-                      className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors cursor-pointer ${
-                        activeSection === item.id
-                          ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white"
-                          : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-                      }`}
-                      initial={{ opacity: 0, x: -12 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      {item.label}
-                    </motion.button>
-                  ))}
+                  {NAV_ITEMS.map((item, index) => {
+                    const isRoute = "href" in item;
+                    const isActive = isRoute
+                      ? location.pathname === item.href
+                      : activeSection === item.id && location.pathname === "/";
+                    const key = isRoute ? item.href : item.id;
+                    const activeClass = "bg-gradient-to-r from-blue-600 to-cyan-500 text-white";
+                    const inactiveClass = "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800";
+                    const baseClass = `w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors cursor-pointer ${isActive ? activeClass : inactiveClass}`;
+
+                    if (isRoute) {
+                      return (
+                        <motion.div
+                          key={key}
+                          initial={{ opacity: 0, x: -12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                          <Link to={item.href} className={baseClass} onClick={() => setMenuOpen(false)}>
+                            {item.label}
+                          </Link>
+                        </motion.div>
+                      );
+                    }
+                    return (
+                      <motion.button
+                        key={key}
+                        onClick={() => scrollTo(item.id)}
+                        className={baseClass}
+                        initial={{ opacity: 0, x: -12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        {item.label}
+                      </motion.button>
+                    );
+                  })}
                 </nav>
 
                 {/* CTA */}
