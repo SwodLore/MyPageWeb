@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, CheckCircle2, Clock, Circle, ChevronDown, ChevronUp, Tag } from "lucide-react";
+import { BookOpen, CheckCircle2, Clock, Circle, ChevronDown, ChevronUp, Tag, Calendar } from "lucide-react";
 import { anotaciones, type Anotacion } from "../data/anotaciones";
 
 // ═══════════════════════════════════════════════════════════════
@@ -123,9 +123,21 @@ function WeekCard({ anotacion, index }: { anotacion: Anotacion; index: number })
                 <span className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 shrink-0">
                   S{anotacion.semana.toString().padStart(2, "0")}
                 </span>
-                <h3 className="font-semibold text-slate-900 dark:text-white truncate">
-                  {anotacion.titulo}
-                </h3>
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-slate-900 dark:text-white truncate">
+                    {anotacion.titulo}
+                  </h3>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-[10px] font-semibold uppercase tracking-wide text-violet-500 dark:text-violet-400">
+                      Unidad {anotacion.unidad}
+                    </span>
+                    <span className="text-slate-300 dark:text-slate-600">·</span>
+                    <span className="flex items-center gap-1 text-[10px] text-slate-400 dark:text-slate-500">
+                      <Calendar size={9} />
+                      {anotacion.fecha}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
