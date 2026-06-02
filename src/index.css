@@ -245,10 +245,10 @@ html.lenis body {
   }
 }
 
-/* Aurora Background Blobs */
+/* Aurora Background Blobs — framer-motion handles transform, CSS only sets appearance */
 .aurora-blob {
-  @apply absolute rounded-full blur-3xl opacity-50;
-  animation: aurora 15s ease-in-out infinite;
+  @apply absolute rounded-full blur-2xl opacity-40;
+  will-change: transform;
 }
 
 .aurora-blob-1 {
@@ -257,12 +257,10 @@ html.lenis body {
 
 .aurora-blob-2 {
   @apply bg-gradient-to-br from-violet-400/40 via-purple-300/30 to-transparent;
-  animation-delay: -5s;
 }
 
 .aurora-blob-3 {
   @apply bg-gradient-to-br from-pink-400/30 via-rose-300/20 to-transparent;
-  animation-delay: -10s;
 }
 
 
@@ -427,43 +425,12 @@ html.lenis body {
   /* Float Animation */
   .animate-float {
     animation: float 3s ease-in-out infinite;
+    will-change: transform;
   }
 
   .animate-float-slow {
     animation: float-slow 6s ease-in-out infinite;
-  }
-
-  /* Aurora Background Blobs - Optimizados para GPU */
-  .aurora-blob {
-    @apply absolute rounded-full blur-2xl opacity-50;
     will-change: transform;
-  }
-
-  .aurora-blob-1 {
-    @apply bg-gradient-to-br from-blue-400/40 via-cyan-300/30 to-transparent;
-  }
-
-  .aurora-blob-2 {
-    @apply bg-gradient-to-br from-violet-400/40 via-purple-300/30 to-transparent;
-  }
-
-  .aurora-blob-3 {
-    @apply bg-gradient-to-br from-pink-400/30 via-rose-300/20 to-transparent;
-  }
-
-  /* Animaciones específicas para cada blob */
-  .animate-aurora-blob-1 {
-    animation: aurora-blob-1 20s ease-in-out infinite;
-  }
-
-  .animate-aurora-blob-2 {
-    animation: aurora-blob-2 25s ease-in-out infinite;
-    animation-delay: -2s;
-  }
-
-  .animate-aurora-blob-3 {
-    animation: aurora-blob-3 18s ease-in-out infinite;
-    animation-delay: -4s;
   }
 
   @keyframes spin {
@@ -478,18 +445,17 @@ html.lenis body {
 
   .animate-spin-slow {
     animation: spin 20s linear infinite;
+    will-change: transform;
   }
 
   .animate-spin-slower {
     animation: spin 30s linear infinite;
+    will-change: transform;
   }
 
   .animate-spin-slower-reverse {
     animation: spin 30s linear infinite reverse;
-  }
-
-  .animate-spin-slower {
-    animation: spin 30s linear infinite;
+    will-change: transform;
   }
 
   @keyframes float {
@@ -520,18 +486,17 @@ html.lenis body {
 
     0%,
     100% {
-      transform: scale(1);
-      opacity: 0.5;
+      opacity: 0.4;
     }
 
     50% {
-      transform: scale(1.1);
       opacity: 0.7;
     }
   }
 
   .animate-pulse-glow {
     animation: pulse-glow 5s ease-in-out infinite;
+    will-change: opacity;
   }
 }
 

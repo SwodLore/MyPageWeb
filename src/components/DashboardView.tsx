@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLenis } from "lenis/react";
@@ -6,7 +6,6 @@ import { ArrowRight, ChevronDown, Sparkles, Github, Download, Award, Zap, MapPin
 import { AnimatedCounter, GlowButton, GlassCard, Typewriter, SkillsMarquee } from "./ui";
 import { TiltCard } from "./ui/TiltCard";
 import { triggerSimpleConfetti } from "../lib/confetti";
-import { useGuidedScroll } from "../hooks/useGuidedScroll";
 import { personal } from "../data/personal";
 
 // Lazy load de componentes below-the-fold para reducir bundle inicial
@@ -224,10 +223,10 @@ function ProfilePhoto() {
 function HeroSection() {
   const lenis = useLenis();
 
-  const scrollTo = (id: string) => {
+  const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) lenis?.scrollTo(el, { offset: -80, duration: 1.4 });
-  };
+  }, [lenis]);
 
   const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -246,9 +245,9 @@ function HeroSection() {
 
             {/* Available badge */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.05, ease }}
+              transition={{ duration: 0.45, delay: 0.05, ease }}
             >
               <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-100/70 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-700/40 text-emerald-700 dark:text-emerald-400 text-sm font-medium backdrop-blur-sm">
                 <span className="relative flex h-2 w-2">
@@ -267,7 +266,7 @@ function HeroSection() {
                   className="block text-lg md:text-xl font-medium text-slate-400 dark:text-slate-500 tracking-widest uppercase"
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.15, ease }}
+                  transition={{ duration: 0.55, delay: 0.12, ease }}
                 >
                   Hola, soy
                 </motion.span>
@@ -279,7 +278,7 @@ function HeroSection() {
                   className="block text-6xl sm:text-7xl md:text-8xl font-bold tracking-tight text-slate-900 dark:text-white"
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
-                  transition={{ duration: 0.75, delay: 0.28, ease }}
+                  transition={{ duration: 0.55, delay: 0.22, ease }}
                 >
                   {personal.name}
                 </motion.span>
@@ -295,10 +294,10 @@ function HeroSection() {
                     backgroundPosition: ["0% center", "100% center", "0% center"],
                   }}
                   transition={{
-                    y: { duration: 0.75, delay: 0.42, ease },
+                    y: { duration: 0.55, delay: 0.32, ease },
                     backgroundPosition: {
                       duration: 8,
-                      delay: 0.42,
+                      delay: 0.32,
                       repeat: Infinity,
                       ease: "linear",
                     },
@@ -314,7 +313,7 @@ function HeroSection() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+              transition={{ duration: 0.4, delay: 0.45 }}
               className="flex items-center justify-center lg:justify-start gap-1.5 text-sm text-slate-400 dark:text-slate-500"
             >
               <MapPin size={13} />
@@ -326,10 +325,10 @@ function HeroSection() {
               className="text-xl md:text-2xl font-semibold text-slate-600 dark:text-slate-300 min-h-[2rem]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
+              transition={{ duration: 0.4, delay: 0.52 }}
             >
               <Typewriter
-                words={[...personal.roles]}
+                words={personal.roles}
                 typingSpeed={75}
                 deletingSpeed={35}
                 delayBetweenWords={2500}
@@ -339,9 +338,9 @@ function HeroSection() {
             {/* Bio */}
             <motion.p
               className="max-w-lg mx-auto lg:mx-0 text-base md:text-lg text-slate-500 dark:text-slate-400 leading-relaxed"
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.82, ease }}
+              transition={{ duration: 0.5, delay: 0.62, ease }}
             >
               {personal.bioshort}
             </motion.p>
@@ -349,9 +348,9 @@ function HeroSection() {
             {/* CTA buttons */}
             <motion.div
               className="flex flex-wrap items-center justify-center lg:justify-start gap-3"
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.96, ease }}
+              transition={{ duration: 0.5, delay: 0.72, ease }}
             >
               <GlowButton onClick={() => scrollTo("portafolio")} variant="primary">
                 Ver proyectos
@@ -383,7 +382,7 @@ function HeroSection() {
               className="flex items-center justify-center lg:justify-start gap-6 pt-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.1 }}
+              transition={{ duration: 0.5, delay: 0.82 }}
             >
               {personal.stats.map((stat, i) => (
                 <div key={stat.label} className="flex items-center gap-6">
@@ -408,9 +407,9 @@ function HeroSection() {
           {/* ── Right: Profile photo ─────────────────────────── */}
           <motion.div
             className="relative order-1 lg:order-2 flex justify-center items-center"
-            initial={{ opacity: 0, scale: 0.88, y: 20 }}
+            initial={{ opacity: 0, scale: 0.92, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease }}
+            transition={{ duration: 0.7, delay: 0.15, ease }}
           >
             <ProfilePhoto />
           </motion.div>
@@ -423,7 +422,7 @@ function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-slate-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300 cursor-pointer"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 0.8 }}
+        transition={{ delay: 1.0, duration: 0.6 }}
         aria-label="Scroll hacia abajo"
       >
         <span className="text-[10px] font-semibold tracking-[0.25em] uppercase">Scroll</span>
@@ -618,10 +617,10 @@ function SkillsOverviewSection() {
 function CTASection() {
   const lenis = useLenis();
 
-  const scrollTo = (id: string) => {
+  const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) lenis?.scrollTo(el, { offset: -80, duration: 1.4 });
-  };
+  }, [lenis]);
 
   return (
     <section className="py-16">
@@ -659,9 +658,6 @@ function CTASection() {
 // ═══════════════════════════════════════════════════════════════
 
 export default function DashboardView() {
-  // Scroll guiado automático hacia la sección de stats en primera visita
-  useGuidedScroll("stats-section", { delay: 2500, offset: -60 });
-
   return (
     <>
       {/* Hero Section */}
