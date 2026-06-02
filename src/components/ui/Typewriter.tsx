@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface TypewriterProps {
-    words: string[];
+    words: readonly string[];
     className?: string;
     typingSpeed?: number;
     deletingSpeed?: number;
