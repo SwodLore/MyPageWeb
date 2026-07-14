@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
@@ -9,6 +9,8 @@ import {
   Calendar,
   ImageIcon,
   MessageSquareQuote,
+  FlaskConical,
+  NotebookPen,
 } from "lucide-react";
 import { anotaciones, type Anotacion } from "../data/anotaciones";
 
@@ -24,26 +26,214 @@ const ESTADO_CONFIG = {
     icon: CheckCircle2,
     pill: "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border-emerald-200/60 dark:border-emerald-700/40",
     dot: "bg-emerald-500",
-    ring: "ring-emerald-500/40",
-    sidebar: "text-emerald-600 dark:text-emerald-400",
   },
   "en-curso": {
     label: "En curso",
     icon: Clock,
     pill: "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-blue-200/60 dark:border-blue-700/40",
     dot: "bg-blue-500",
-    ring: "ring-blue-500/40",
-    sidebar: "text-blue-500 dark:text-blue-400",
   },
   pendiente: {
     label: "Pendiente",
     icon: Circle,
     pill: "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700",
     dot: "bg-slate-300 dark:bg-slate-600",
-    ring: "ring-slate-400/30",
-    sidebar: "text-slate-400 dark:text-slate-500",
   },
 } as const;
+
+// ─── Acento de color por semana (rota en la paleta) ─────────────
+// Solo clases estáticas de Tailwind — cero costo de runtime.
+
+interface Accent {
+  text: string;
+  bar: string;
+  tile: string;
+  active: string;
+  chip: string;
+  dot: string;
+  soft: string;
+  softText: string;
+  softIcon: string;
+}
+
+const ACCENTS: Accent[] = [
+  {
+    text: "text-blue-600 dark:text-blue-400",
+    bar: "bg-gradient-to-r from-blue-500 to-cyan-400",
+    tile: "bg-gradient-to-br from-blue-500 to-cyan-400",
+    active: "bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md shadow-blue-500/25",
+    chip: "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-700/40",
+    dot: "bg-blue-500",
+    soft: "bg-blue-50/70 dark:bg-blue-900/10 border-blue-200/60 dark:border-blue-700/30",
+    softText: "text-blue-800 dark:text-blue-300",
+    softIcon: "text-blue-500",
+  },
+  {
+    text: "text-violet-600 dark:text-violet-400",
+    bar: "bg-gradient-to-r from-violet-500 to-fuchsia-400",
+    tile: "bg-gradient-to-br from-violet-500 to-fuchsia-400",
+    active: "bg-gradient-to-r from-violet-600 to-fuchsia-500 shadow-md shadow-violet-500/25",
+    chip: "bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300 border border-violet-200/60 dark:border-violet-700/40",
+    dot: "bg-violet-500",
+    soft: "bg-violet-50/70 dark:bg-violet-900/10 border-violet-200/60 dark:border-violet-700/30",
+    softText: "text-violet-800 dark:text-violet-300",
+    softIcon: "text-violet-500",
+  },
+  {
+    text: "text-emerald-600 dark:text-emerald-400",
+    bar: "bg-gradient-to-r from-emerald-500 to-teal-400",
+    tile: "bg-gradient-to-br from-emerald-500 to-teal-400",
+    active: "bg-gradient-to-r from-emerald-600 to-teal-500 shadow-md shadow-emerald-500/25",
+    chip: "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-700/40",
+    dot: "bg-emerald-500",
+    soft: "bg-emerald-50/70 dark:bg-emerald-900/10 border-emerald-200/60 dark:border-emerald-700/30",
+    softText: "text-emerald-800 dark:text-emerald-300",
+    softIcon: "text-emerald-500",
+  },
+  {
+    text: "text-amber-600 dark:text-amber-400",
+    bar: "bg-gradient-to-r from-amber-500 to-orange-400",
+    tile: "bg-gradient-to-br from-amber-500 to-orange-400",
+    active: "bg-gradient-to-r from-amber-500 to-orange-500 shadow-md shadow-amber-500/25",
+    chip: "bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-700/40",
+    dot: "bg-amber-500",
+    soft: "bg-amber-50/70 dark:bg-amber-900/10 border-amber-200/60 dark:border-amber-700/30",
+    softText: "text-amber-800 dark:text-amber-300",
+    softIcon: "text-amber-500",
+  },
+  {
+    text: "text-rose-600 dark:text-rose-400",
+    bar: "bg-gradient-to-r from-rose-500 to-pink-400",
+    tile: "bg-gradient-to-br from-rose-500 to-pink-400",
+    active: "bg-gradient-to-r from-rose-600 to-pink-500 shadow-md shadow-rose-500/25",
+    chip: "bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300 border border-rose-200/60 dark:border-rose-700/40",
+    dot: "bg-rose-500",
+    soft: "bg-rose-50/70 dark:bg-rose-900/10 border-rose-200/60 dark:border-rose-700/30",
+    softText: "text-rose-800 dark:text-rose-300",
+    softIcon: "text-rose-500",
+  },
+  {
+    text: "text-indigo-600 dark:text-indigo-400",
+    bar: "bg-gradient-to-r from-indigo-500 to-purple-400",
+    tile: "bg-gradient-to-br from-indigo-500 to-purple-400",
+    active: "bg-gradient-to-r from-indigo-600 to-purple-500 shadow-md shadow-indigo-500/25",
+    chip: "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-700/40",
+    dot: "bg-indigo-500",
+    soft: "bg-indigo-50/70 dark:bg-indigo-900/10 border-indigo-200/60 dark:border-indigo-700/30",
+    softText: "text-indigo-800 dark:text-indigo-300",
+    softIcon: "text-indigo-500",
+  },
+];
+
+const accentFor = (semana: number) => ACCENTS[(semana - 1) % ACCENTS.length];
+
+// ═══════════════════════════════════════════════════════════════
+// Parser de apuntes — texto plano → bloques estilizados
+// ═══════════════════════════════════════════════════════════════
+
+type Block =
+  | { type: "heading" | "para" | "sublabel" | "callout"; text: string }
+  | { type: "bullets" | "mono"; items: string[] };
+
+function isHeading(line: string) {
+  // Nombres de hooks solos en una línea (useState, useEffect…) son títulos
+  if (/^use[A-Z]\w*$/.test(line)) return true;
+  // Título si la parte antes del paréntesis va toda en mayúsculas:
+  // "ÁRBOL DOM (Document Object Model)" o "JSP (JavaServer Pages)"
+  const base = line.split("(")[0].trim();
+  return base === base.toUpperCase() && /[A-ZÁÉÍÓÚÑ]{2,}/.test(base);
+}
+
+function parseContent(content: string): Block[] {
+  const blocks: Block[] = [];
+  const push = (b: Block) => blocks.push(b);
+
+  for (const raw of content.split("\n")) {
+    const trimmed = raw.trim();
+    if (!trimmed) continue;
+
+    const last = blocks[blocks.length - 1];
+
+    if (raw.startsWith("  ") && !trimmed.startsWith("•")) {
+      // línea indentada → bloque de código / comandos
+      if (last?.type === "mono") last.items.push(trimmed);
+      else push({ type: "mono", items: [trimmed] });
+    } else if (trimmed.startsWith("•")) {
+      const text = trimmed.replace(/^•\s*/, "");
+      if (last?.type === "bullets") last.items.push(text);
+      else push({ type: "bullets", items: [text] });
+    } else if (isHeading(trimmed)) {
+      push({ type: "heading", text: trimmed });
+    } else if (/^(Lab|Práctica|Laboratorio)\b/.test(trimmed)) {
+      push({ type: "callout", text: trimmed });
+    } else if (trimmed.endsWith(":") && trimmed.length <= 40) {
+      push({ type: "sublabel", text: trimmed });
+    } else {
+      push({ type: "para", text: trimmed });
+    }
+  }
+  return blocks;
+}
+
+function ContentBlocks({ content, accent }: { content: string; accent: Accent }) {
+  const blocks = useMemo(() => parseContent(content), [content]);
+
+  return (
+    <div>
+      {blocks.map((block, i) => {
+        switch (block.type) {
+          case "heading":
+            return (
+              <h3 key={i} className="flex items-center gap-2.5 mt-6 first:mt-0 mb-2.5">
+                <span className={`h-4 w-1 rounded-full shrink-0 ${accent.bar}`} />
+                <span className="text-[13px] font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                  {block.text}
+                </span>
+              </h3>
+            );
+          case "sublabel":
+            return (
+              <p key={i} className="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-3 mb-1.5">
+                {block.text}
+              </p>
+            );
+          case "para":
+            return (
+              <p key={i} className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-2">
+                {block.text}
+              </p>
+            );
+          case "bullets":
+            return (
+              <ul key={i} className="space-y-1.5 mb-2.5">
+                {block.items.map((item, j) => (
+                  <li key={j} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <span className={`mt-[7px] h-1.5 w-1.5 rounded-full shrink-0 ${accent.dot}`} />
+                    <span className="min-w-0">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            );
+          case "mono":
+            return (
+              <pre key={i} className="rounded-xl bg-slate-900 dark:bg-slate-950/80 border border-slate-800 dark:border-slate-700/50 px-4 py-3 mb-3 overflow-x-auto">
+                <code className="text-xs font-mono leading-relaxed text-slate-200">
+                  {block.items.join("\n")}
+                </code>
+              </pre>
+            );
+          case "callout":
+            return (
+              <div key={i} className={`flex items-start gap-2.5 rounded-xl px-3.5 py-2.5 mt-4 text-sm font-medium ${accent.chip}`}>
+                <FlaskConical size={15} className="mt-0.5 shrink-0" />
+                <span className="min-w-0">{block.text}</span>
+              </div>
+            );
+        }
+      })}
+    </div>
+  );
+}
 
 // ═══════════════════════════════════════════════════════════════
 // Stats bar
@@ -57,20 +247,27 @@ function StatsBar() {
   const current = anotaciones.find((a) => a.estado === "en-curso") ?? anotaciones[total - 1];
   const progreso = current.avance;
 
+  const stats = [
+    { label: "Semanas totales", value: total, color: "text-slate-900 dark:text-white", Icon: BookOpen, tile: "bg-gradient-to-br from-slate-600 to-slate-500" },
+    { label: "Completadas", value: completados, color: "text-emerald-600 dark:text-emerald-400", Icon: CheckCircle2, tile: "bg-gradient-to-br from-emerald-500 to-teal-400" },
+    { label: "En curso", value: enCurso, color: "text-blue-600 dark:text-blue-400", Icon: Clock, tile: "bg-gradient-to-br from-blue-500 to-cyan-400" },
+    { label: "Pendientes", value: pendientes, color: "text-slate-500 dark:text-slate-400", Icon: Circle, tile: "bg-gradient-to-br from-slate-400 to-slate-300 dark:from-slate-600 dark:to-slate-500" },
+  ];
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-      {[
-        { label: "Semanas totales", value: total, color: "text-slate-900 dark:text-white" },
-        { label: "Completadas", value: completados, color: "text-emerald-600 dark:text-emerald-400" },
-        { label: "En curso", value: enCurso, color: "text-blue-600 dark:text-blue-400" },
-        { label: "Pendientes", value: pendientes, color: "text-slate-500 dark:text-slate-400" },
-      ].map((stat) => (
+      {stats.map(({ label, value, color, Icon, tile }) => (
         <div
-          key={stat.label}
-          className="rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-4 text-center"
+          key={label}
+          className="flex items-center gap-3 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-4"
         >
-          <p className={`text-3xl font-bold ${stat.color}`}>{stat.value}</p>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{stat.label}</p>
+          <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white ${tile}`}>
+            <Icon size={16} />
+          </div>
+          <div className="min-w-0">
+            <p className={`text-2xl font-bold leading-none ${color}`}>{value}</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 truncate">{label}</p>
+          </div>
         </div>
       ))}
 
@@ -81,7 +278,7 @@ function StatsBar() {
         </div>
         <div className="h-2.5 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
           <motion.div
-            className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400"
+            className="h-full rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-400"
             initial={{ width: 0 }}
             animate={{ width: `${progreso}%` }}
             transition={{ duration: 1.2, ease, delay: 0.3 }}
@@ -106,22 +303,25 @@ function SidebarItem({
   onClick: () => void;
 }) {
   const cfg = ESTADO_CONFIG[anotacion.estado];
+  const accent = accentFor(anotacion.semana);
   const Icon = cfg.icon;
+  const tile =
+    anotacion.estado === "pendiente"
+      ? "bg-slate-300 dark:bg-slate-600"
+      : accent.tile;
 
   return (
     <button
       onClick={onClick}
       className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
-        isActive
-          ? "bg-blue-600 shadow-md shadow-blue-500/20"
-          : "hover:bg-slate-100 dark:hover:bg-slate-800/70"
+        isActive ? accent.active : "hover:bg-slate-100 dark:hover:bg-slate-800/70"
       }`}
     >
-      <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${isActive ? "bg-white/20" : cfg.dot} transition-colors`}>
-        <Icon size={13} className={isActive ? "text-white" : "text-white"} />
+      <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white ${isActive ? "bg-white/25" : tile} transition-colors`}>
+        <Icon size={13} />
       </div>
       <div className="min-w-0 flex-1">
-        <p className={`text-xs font-bold uppercase tracking-widest ${isActive ? "text-blue-200" : "text-slate-400 dark:text-slate-500"}`}>
+        <p className={`text-xs font-bold uppercase tracking-widest ${isActive ? "text-white/70" : "text-slate-400 dark:text-slate-500"}`}>
           S{String(anotacion.semana).padStart(2, "0")}
         </p>
         <p className={`text-sm font-medium truncate leading-tight mt-0.5 ${isActive ? "text-white" : "text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white"}`}>
@@ -138,6 +338,7 @@ function SidebarItem({
 
 function WeekContent({ anotacion }: { anotacion: Anotacion }) {
   const cfg = ESTADO_CONFIG[anotacion.estado];
+  const accent = accentFor(anotacion.semana);
   const Icon = cfg.icon;
 
   return (
@@ -148,15 +349,25 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
       transition={{ duration: 0.35, ease }}
     >
       {/* Header */}
-      <div className="rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-6 mb-4">
-        <div className="flex flex-wrap items-start justify-between gap-3">
+      <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-6 mb-4">
+        {/* Barra superior con el color de la semana */}
+        <div className={`absolute inset-x-0 top-0 h-1 ${accent.bar}`} />
+        {/* Número de semana como marca de agua */}
+        <span
+          aria-hidden="true"
+          className="absolute -right-1 -top-7 text-[6.5rem] font-black leading-none select-none text-slate-900/[0.04] dark:text-white/[0.04]"
+        >
+          {String(anotacion.semana).padStart(2, "0")}
+        </span>
+
+        <div className="relative flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+              <span className={`text-xs font-bold uppercase tracking-widest ${accent.text}`}>
                 Semana {anotacion.semana}
               </span>
               <span className="text-slate-300 dark:text-slate-600">·</span>
-              <span className="text-xs font-semibold uppercase tracking-wide text-violet-500 dark:text-violet-400">
+              <span className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
                 Unidad {anotacion.unidad}
               </span>
             </div>
@@ -176,11 +387,11 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
 
         {/* Temas */}
         {anotacion.temas.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-4">
+          <div className="relative flex flex-wrap gap-1.5 mt-4">
             {anotacion.temas.map((tema) => (
               <span
                 key={tema}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700 text-xs text-slate-600 dark:text-slate-300"
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs ${accent.chip}`}
               >
                 <Tag size={9} />
                 {tema}
@@ -194,7 +405,7 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
       {anotacion.imagenes && anotacion.imagenes.length > 0 && (
         <div className="rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-5 mb-4">
           <div className="flex items-center gap-2 mb-3">
-            <ImageIcon size={14} className="text-slate-400" />
+            <ImageIcon size={14} className={accent.softIcon} />
             <span className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
               Recursos visuales
             </span>
@@ -207,6 +418,7 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
                   alt={img.caption}
                   className="w-full object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
                 <figcaption className="px-3 py-2 text-xs text-center text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800">
                   {img.caption}
@@ -218,25 +430,28 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
       )}
 
       {/* Notes */}
-      <div className="rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-5 mb-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-3">
-          Apuntes
-        </p>
-        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">
-          {anotacion.content}
-        </p>
-      </div>
+      {anotacion.content && (
+        <div className="rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-5 sm:p-6 mb-4">
+          <div className="flex items-center gap-2 mb-4">
+            <NotebookPen size={14} className={accent.softIcon} />
+            <span className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+              Apuntes
+            </span>
+          </div>
+          <ContentBlocks content={anotacion.content} accent={accent} />
+        </div>
+      )}
 
       {/* Reflexion */}
       {anotacion.reflexion && (
-        <div className="rounded-2xl bg-violet-50 dark:bg-violet-900/10 border border-violet-200/60 dark:border-violet-700/30 p-5">
+        <div className={`rounded-2xl border p-5 ${accent.soft}`}>
           <div className="flex items-center gap-2 mb-3">
-            <MessageSquareQuote size={14} className="text-violet-500" />
-            <span className="text-xs font-semibold uppercase tracking-wide text-violet-500 dark:text-violet-400">
+            <MessageSquareQuote size={14} className={accent.softIcon} />
+            <span className={`text-xs font-semibold uppercase tracking-wide ${accent.text}`}>
               Reflexión
             </span>
           </div>
-          <p className="text-sm text-violet-700 dark:text-violet-300 leading-relaxed italic">
+          <p className={`text-sm leading-relaxed italic ${accent.softText}`}>
             {anotacion.reflexion}
           </p>
         </div>
@@ -260,6 +475,7 @@ function MobileTabStrip({
     <div className="flex gap-1.5 overflow-x-auto pb-2 mb-6 md:hidden [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
       {anotaciones.map((a, i) => {
         const cfg = ESTADO_CONFIG[a.estado];
+        const accent = accentFor(a.semana);
         const isActive = i === selected;
         return (
           <button
@@ -267,11 +483,11 @@ function MobileTabStrip({
             onClick={() => onSelect(i)}
             className={`shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs font-bold transition-all ${
               isActive
-                ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                ? `${accent.active} text-white`
                 : "bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700"
             }`}
           >
-            <span className={`w-1.5 h-1.5 rounded-full mb-1 ${isActive ? "bg-white/70" : cfg.dot}`} />
+            <span className={`w-1.5 h-1.5 rounded-full mb-1 ${isActive ? "bg-white/70" : a.estado === "pendiente" ? cfg.dot : accent.dot}`} />
             S{String(a.semana).padStart(2, "0")}
           </button>
         );
@@ -285,7 +501,7 @@ function MobileTabStrip({
 // ═══════════════════════════════════════════════════════════════
 
 export default function Anotaciones() {
-  // Default to week 8 (en-curso) or last week
+  // Default to the week currently in progress, or the last one
   const defaultIndex = anotaciones.findIndex((a) => a.estado === "en-curso");
   const [selected, setSelected] = useState(defaultIndex >= 0 ? defaultIndex : anotaciones.length - 1);
 
@@ -305,7 +521,10 @@ export default function Anotaciones() {
             Diario de aprendizaje
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3">
-            Anotaciones del Curso
+            Anotaciones del{" "}
+            <span className="bg-gradient-to-r from-blue-600 via-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
+              Curso
+            </span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
             Registro semanal de temas, conceptos y reflexiones — IS093A Desarrollo de Aplicaciones Web.

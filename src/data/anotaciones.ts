@@ -422,10 +422,18 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     fecha: "25 – 29 may 2026",
     unidad: "I",
     avance: 50,
-    estado: "en-curso",
+    estado: "completado",
     temas: ["Revisión Evaluación de Logro 1", "Reforzamiento Unidad I", "1er Consolidado"],
-    content: `Semana de parciales — 1er Consolidado de Evaluación Continua.`,
-    reflexion: `Semana de exámenes y entrega del primer consolidado. Nada de contenido nuevo por ahora.`,
+    content: `Semana de parciales — 1er Consolidado de Evaluación Continua.
+
+REVISIÓN DE LA EVALUACIÓN DE LOGRO 1
+• Retroalimentación individual de la SPA desarrollada para la empresa local.
+• Errores comunes del grupo: manejo de dependencias en useEffect, keys en listas y estados derivados innecesarios.
+• Repaso general de la Unidad I: HTML/CSS, JavaScript/TypeScript, React (componentes, props, hooks, routing y consumo de APIs).
+
+CIERRE DE UNIDAD I
+Con esta semana se cierra la unidad de frontend. La Unidad II se enfoca en el backend: PHP, Python y Django.`,
+    reflexion: `Semana de exámenes y entrega del primer consolidado. La retroalimentación me sirvió para identificar malos hábitos que arrastraba desde antes del curso, sobre todo el abuso de useEffect para cosas que se resuelven con estado derivado. Cierro la unidad con una base mucho más sólida en React.`,
   },
 
   // ── UNIDAD II ──────────────────────────────────────────────────────────────
@@ -436,9 +444,39 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     fecha: "01 – 07 jun 2026",
     unidad: "II",
     avance: 56,
-    estado: "pendiente",
-    temas: [],
-    content: ``,
+    estado: "completado",
+    temas: ["Server Side Rendering", "PHP", "Formularios PHP", "JSP y Servlets", "PHP vs JSP"],
+    content: `TECNOLOGÍA DE SERVIDOR (SSR CLÁSICO)
+• A diferencia del CSR de React, aquí el servidor genera el HTML completo en cada petición.
+• El código se ejecuta en el servidor; el navegador solo recibe el resultado.
+• Ventajas: SEO directo, menos carga en el cliente. Desventaja: cada acción implica recargar la página.
+
+PHP
+• Lenguaje interpretado del lado del servidor. Se incrusta en HTML con <?php ... ?>.
+• Variables con $: $nombre = "Ale"; — tipado dinámico y débil.
+• Arrays: indexados ($arr = [1, 2, 3]) y asociativos ($user = ["nombre" => "Ale"]).
+• Estructuras: if/else, switch, for, foreach ($arr as $item), while.
+• Funciones: function saludar($nombre) { return "Hola $nombre"; }
+• Superglobales: $_GET, $_POST, $_REQUEST, $_SESSION, $_COOKIE, $_SERVER.
+
+FORMULARIOS EN PHP
+• El form envía datos con method="post" a un script PHP (action="procesar.php").
+• Validación en servidor: isset(), empty(), filter_var($email, FILTER_VALIDATE_EMAIL).
+• Importante sanitizar entradas: htmlspecialchars() para prevenir XSS.
+
+JSP (JavaServer Pages)
+• Tecnología Java para páginas dinámicas. Se compila a un Servlet.
+• Scriptlets: <% código Java %>, expresiones: <%= valor %>, directivas: <%@ page ... %>.
+• Servlet: clase Java que procesa peticiones HTTP (doGet, doPost). JSP es una capa de presentación sobre servlets.
+• Requiere un contenedor: Apache Tomcat.
+
+PHP VS JSP
+• PHP: sintaxis simple, hosting barato, ecosistema enorme (WordPress, Laravel).
+• JSP: tipado fuerte de Java, mejor para sistemas empresariales grandes, más verboso.
+• Ambos comparten la misma idea: mezclar lógica de servidor con HTML.
+
+Lab 09: Formulario con procesamiento en PHP (validación y respuesta dinámica).`,
+    reflexion: `Después de un mes en React, volver a un modelo donde el servidor renderiza todo se sintió como viajar al pasado, pero entendí por qué PHP sigue moviendo gran parte de la web. Ya había tocado Laravel antes, así que ver PHP "crudo" me ayudó a valorar lo que el framework hace por debajo. JSP me pareció más pesado de configurar por Tomcat.`,
   },
 
   {
@@ -447,9 +485,40 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     fecha: "08 – 14 jun 2026",
     unidad: "II",
     avance: 62,
-    estado: "pendiente",
-    temas: [],
-    content: ``,
+    estado: "completado",
+    temas: ["Sintaxis Python", "Estructuras de datos", "Funciones", "POO", "Herencia", "Módulos y pip", "Entornos virtuales"],
+    content: `PYTHON — FUNDAMENTOS
+• Lenguaje interpretado, tipado dinámico y fuerte. La indentación define los bloques (no hay llaves).
+• Variables sin palabra clave: nombre = "Ale", edad = 21.
+• Tipos: int, float, str, bool, None.
+• f-strings: f"Hola {nombre}, tienes {edad} años".
+
+ESTRUCTURAS DE DATOS
+• Listas: mutables y ordenadas → frutas = ["manzana", "pera"]; frutas.append("uva").
+• Tuplas: inmutables → punto = (3, 5).
+• Diccionarios: clave-valor → user = {"nombre": "Ale", "rol": "dev"}.
+• Sets: elementos únicos sin orden → ids = {1, 2, 3}.
+• Comprehensions: [x**2 for x in range(10) if x % 2 == 0].
+
+CONTROL DE FLUJO Y FUNCIONES
+• if / elif / else, for item in lista, while, range(inicio, fin, paso).
+• def sumar(a, b=0): return a + b — parámetros con valor por defecto, *args y **kwargs.
+• Lambdas: cuadrado = lambda x: x**2. Junto a map(), filter(), sorted(key=...).
+
+PROGRAMACIÓN ORIENTADA A OBJETOS
+• class Persona: con constructor __init__(self, nombre) y atributos self.nombre.
+• Métodos de instancia (self), de clase (@classmethod) y estáticos (@staticmethod).
+• Herencia: class Estudiante(Persona) + super().__init__(...).
+• Encapsulamiento por convención: _protegido, __privado (name mangling).
+• Métodos dunder: __str__, __repr__, __len__, __eq__.
+
+MÓDULOS Y ENTORNOS
+• import math, from datetime import datetime, módulos propios con archivos .py.
+• pip: gestor de paquetes → pip install requests. requirements.txt para congelar dependencias.
+• Entornos virtuales: python -m venv venv → aísla las dependencias por proyecto (equivalente a node_modules).
+
+Lab 10: Ejercicios de POO — sistema de clases con herencia y métodos sobreescritos.`,
+    reflexion: `Python es el lenguaje más legible que he usado; la indentación obligatoria al inicio incomoda pero termina forzando código ordenado. Lo que más me costó fue soltar los hábitos de JavaScript: aquí no hay const ni llaves, y la POO con self explícito se siente distinta a las clases de TS. El paralelo venv ↔ node_modules me ayudó a ubicarme rápido.`,
   },
 
   {
@@ -458,9 +527,48 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     fecha: "15 – 21 jun 2026",
     unidad: "II",
     avance: 68,
-    estado: "pendiente",
-    temas: [],
-    content: ``,
+    estado: "completado",
+    temas: ["Arquitectura MTV", "Proyectos y apps", "URLs y vistas", "Django Templates", "Modelos y ORM", "Migraciones"],
+    content: `DJANGO — FRAMEWORK WEB DE PYTHON
+• Framework "baterías incluidas": ORM, admin, autenticación y plantillas ya integrados.
+• Instalación: pip install django → django-admin startproject miproyecto.
+• Servidor de desarrollo: python manage.py runserver.
+
+ARQUITECTURA MTV (Model — Template — View)
+• Model: define los datos y su acceso (ORM).
+• Template: presentación HTML con lenguaje de plantillas.
+• View: lógica que recibe la petición y devuelve la respuesta.
+• Equivale al MVC clásico, pero la "vista" de Django es el controlador y el template es la vista.
+
+PROYECTO VS APP
+• Proyecto: configuración global (settings.py, urls.py raíz).
+• App: módulo funcional reutilizable → python manage.py startapp blog.
+• Cada app se registra en INSTALLED_APPS.
+
+URLS Y VISTAS
+• urls.py: path("posts/<int:id>/", views.detalle, name="detalle").
+• Vista basada en función: def detalle(request, id): return render(request, "detalle.html", {"post": post}).
+• HttpResponse, render(), redirect(), get_object_or_404().
+
+DJANGO TEMPLATE LANGUAGE
+• Variables: {{ post.titulo }} — filtros: {{ fecha|date:"d M Y" }}, {{ texto|truncatewords:20 }}.
+• Tags: {% for post in posts %} ... {% endfor %}, {% if user.is_authenticated %}.
+• Herencia de plantillas: base.html con {% block contenido %} → hijas con {% extends "base.html" %}.
+• Archivos estáticos: {% load static %} → {% static "css/style.css" %}.
+
+MODELOS Y ORM
+• class Post(models.Model): titulo = models.CharField(max_length=100), fecha = models.DateTimeField(auto_now_add=True).
+• Tipos de campo: CharField, TextField, IntegerField, BooleanField, ForeignKey, ManyToManyField.
+• Consultas sin SQL: Post.objects.all(), .filter(autor=user), .get(id=1), .order_by("-fecha").
+• Relaciones: ForeignKey (1-N), OneToOneField, ManyToManyField.
+
+MIGRACIONES
+• python manage.py makemigrations → genera el cambio a partir de los modelos.
+• python manage.py migrate → aplica el cambio a la base de datos.
+• Historial versionado de la estructura de la BD, similar al espíritu de Git.
+
+Lab 11: App de blog con modelos, vistas y plantillas con herencia.`,
+    reflexion: `Django me sorprendió por la velocidad para tener algo funcionando: en una sesión ya tenía CRUD contra la base de datos sin escribir una línea de SQL. El ORM es lo mejor de la semana — venía de escribir queries a mano en otros proyectos. Al principio confundí el MTV con el MVC de Laravel, pero mapeando vista→controlador y template→vista todo encajó.`,
   },
 
   {
@@ -469,9 +577,40 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     fecha: "22 – 28 jun 2026",
     unidad: "II",
     avance: 75,
-    estado: "pendiente",
-    temas: [],
-    content: ``,
+    estado: "completado",
+    temas: ["Forms y ModelForms", "Validación", "Django Admin", "Autenticación", "Sesiones", "Middleware"],
+    content: `FORMULARIOS EN DJANGO
+• forms.Form: formulario declarado a mano → nombre = forms.CharField(max_length=50).
+• forms.ModelForm: se genera desde un modelo → class Meta: model = Post; fields = ["titulo", "contenido"].
+• En la vista: form = PostForm(request.POST) → if form.is_valid(): form.save().
+• form.cleaned_data para acceder a los datos validados.
+• Validación personalizada: métodos clean_<campo>() y clean().
+• Protección CSRF obligatoria: {% csrf_token %} dentro del <form>.
+
+DJANGO ADMIN
+• Panel de administración autogenerado: python manage.py createsuperuser → /admin.
+• Registrar modelos: admin.site.register(Post) o con decorador @admin.register(Post).
+• Personalización: list_display, search_fields, list_filter en la clase ModelAdmin.
+• Permite gestionar datos sin construir vistas propias — ideal para prototipos y back-office.
+
+AUTENTICACIÓN
+• Sistema incluido: django.contrib.auth con User, login(), logout(), authenticate().
+• Decorador @login_required para proteger vistas.
+• LoginView y LogoutView listos para usar con plantillas propias.
+
+SESIONES
+• HTTP es sin estado; las sesiones guardan datos entre peticiones.
+• Django guarda un session_id en una cookie y los datos en la BD por defecto.
+• Uso: request.session["carrito"] = [...] / request.session.get("carrito").
+• Diferencia cookie vs sesión: la cookie vive en el navegador, la sesión en el servidor.
+
+MIDDLEWARE
+• Capas que procesan cada petición/respuesta antes y después de la vista.
+• Ejemplos incluidos: SecurityMiddleware, SessionMiddleware, CsrfViewMiddleware, AuthenticationMiddleware.
+• Se pueden escribir middlewares propios (logging, control de acceso).
+
+Lab 12: CRUD completo con ModelForms, login de usuarios y panel admin personalizado.`,
+    reflexion: `El admin de Django es el argumento de venta definitivo del framework: en minutos tienes un panel que en React + API me habría tomado días. Entender la diferencia entre cookie y sesión me aclaró dudas que arrastraba desde la unidad de frontend. El CSRF token me dio un error confuso hasta que entendí qué ataque previene exactamente.`,
   },
 
   {
@@ -480,9 +619,41 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     fecha: "29 jun – 05 jul 2026",
     unidad: "II",
     avance: 81,
-    estado: "pendiente",
-    temas: [],
-    content: ``,
+    estado: "completado",
+    temas: ["Principios REST", "Django REST Framework", "Serializers", "ViewSets y Routers", "Autenticación por token", "Postman"],
+    content: `PRINCIPIOS REST
+• Recursos identificados por URLs: /api/posts/, /api/posts/1/.
+• Verbos HTTP con semántica: GET (leer), POST (crear), PUT/PATCH (actualizar), DELETE (eliminar).
+• Sin estado: cada petición lleva toda la información necesaria (token incluido).
+• Códigos de estado: 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 404 Not Found, 500 Server Error.
+
+DJANGO REST FRAMEWORK (DRF)
+• pip install djangorestframework → agregar "rest_framework" a INSTALLED_APPS.
+• Convierte Django en un backend de APIs para consumir desde React, móvil, etc.
+• Browsable API: interfaz web automática para probar los endpoints.
+
+SERIALIZERS
+• Traducen entre modelos de Django y JSON (y viceversa) validando los datos.
+• class PostSerializer(serializers.ModelSerializer): class Meta: model = Post; fields = "__all__".
+• Equivalente conceptual a los formularios, pero para APIs.
+
+VISTAS DE API
+• APIView: control total de get(), post(), etc.
+• Generics: ListCreateAPIView, RetrieveUpdateDestroyAPIView — CRUD con mínimo código.
+• ViewSets + Routers: router.register("posts", PostViewSet) genera todas las rutas del CRUD automáticamente.
+
+AUTENTICACIÓN EN APIS
+• TokenAuthentication: el cliente envía Authorization: Token <token> en cada petición.
+• JWT (JSON Web Token): token firmado con expiración; no requiere consulta a BD por petición.
+• permission_classes: IsAuthenticated, IsAdminUser, AllowAny, o permisos personalizados.
+
+PRUEBAS CON POSTMAN
+• Colecciones de peticiones organizadas por endpoint.
+• Variables de entorno para la URL base y el token.
+• Verificar cuerpo JSON, headers y códigos de estado de cada respuesta.
+
+Lab 13: API REST completa del blog con DRF, autenticación por token y pruebas en Postman.`,
+    reflexion: `Esta semana conectó las dos mitades del curso: por fin construí yo mismo el tipo de API que en la Unidad I solo consumía con Axios. Los ViewSets con Routers me parecieron casi magia — un CRUD entero en veinte líneas. Entender JWT a fondo también me sirvió para mi interés en ciberseguridad: ahora sé qué hay dentro de esos tokens que antes copiaba y pegaba.`,
   },
 
   {
@@ -491,9 +662,38 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     fecha: "06 – 12 jul 2026",
     unidad: "II",
     avance: 87,
-    estado: "pendiente",
-    temas: [],
-    content: ``,
+    estado: "completado",
+    temas: ["Monolito vs Microservicios", "Comunicación entre servicios", "API Gateway", "Docker", "Despliegue"],
+    content: `MONOLITO VS MICROSERVICIOS
+• Monolito: toda la aplicación en un solo despliegue (el Django típico). Simple de desarrollar, difícil de escalar por partes.
+• Microservicios: la aplicación se divide en servicios pequeños e independientes, cada uno con su propia BD y despliegue.
+• Ventajas: escalado independiente, equipos autónomos, tolerancia a fallos parcial.
+• Desventajas: complejidad operativa, consistencia de datos, latencia de red entre servicios.
+
+DISEÑO DE MICROSERVICIOS
+• Cada servicio expone una API REST (DRF) y es dueño de sus datos.
+• Ejemplo del curso: servicio de usuarios + servicio de productos + servicio de pedidos.
+• Comunicación síncrona: HTTP/REST entre servicios (requests en Python).
+• Comunicación asíncrona: colas de mensajes (RabbitMQ, Kafka) — visto a nivel conceptual.
+
+API GATEWAY
+• Punto de entrada único que enruta las peticiones al microservicio correspondiente.
+• Centraliza autenticación, rate limiting y logging.
+• El frontend (React) habla solo con el gateway, no con cada servicio.
+
+DOCKER
+• Contenedores: empaquetan la app con sus dependencias — "funciona en mi máquina" resuelto.
+• Dockerfile: FROM python:3.12 → COPY → RUN pip install -r requirements.txt → CMD.
+• docker compose: orquesta varios contenedores (cada microservicio + su BD) con un solo archivo YAML.
+• Comandos: docker build, docker run -p 8000:8000, docker compose up.
+
+DESPLIEGUE
+• Variables de entorno para secretos (SECRET_KEY, credenciales de BD) — nunca en el código.
+• DEBUG = False, ALLOWED_HOSTS y collectstatic para producción.
+• Opciones vistas: Railway / Render para los servicios y Vercel para el frontend.
+
+Lab 14: Dividir el proyecto en dos microservicios Django comunicados por REST y levantados con docker compose.`,
+    reflexion: `La semana más retadora de la unidad. Ya usaba Docker para bases de datos, pero orquestar dos servicios que se comunican entre sí me hizo entender el costo real de los microservicios: lo que en el monolito era una llamada a función ahora es una petición HTTP que puede fallar. Mi conclusión personal: para proyectos del tamaño que manejo, el monolito bien estructurado sigue ganando.`,
   },
 
   {
@@ -502,9 +702,22 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     fecha: "13 – 19 jul 2026",
     unidad: "II",
     avance: 93,
-    estado: "pendiente",
-    temas: [],
-    content: ``,
+    estado: "en-curso",
+    temas: ["Proyecto final", "Exposición", "Evaluación de Logro 2"],
+    content: `EVALUACIÓN DE LOGRO 02
+Desarrollo y exposición del proyecto final del curso: solución web completa con frontend en React y backend en Django (API REST), aplicando lo aprendido en ambas unidades.
+
+CRITERIOS DE LA EXPOSICIÓN
+• Arquitectura: separación frontend / backend y justificación de las decisiones técnicas.
+• Backend: modelos bien diseñados, API REST con autenticación y validaciones.
+• Frontend: componentes reutilizables, manejo de estado, consumo correcto de la API.
+• Despliegue: aplicación funcionando en producción (Vercel + Railway/Render).
+• Presentación: demo en vivo, claridad al explicar el código y manejo de preguntas.
+
+PREPARACIÓN
+• Ensayo de la demo con datos realistas y plan B ante fallas de conexión.
+• Documentación del repositorio: README con instrucciones de instalación y capturas.`,
+    reflexion: `Semana de exposición del proyecto final. La preparación de la demo me está tomando más tiempo que el propio código — tener un plan B por si falla el despliegue en vivo es obligatorio después de lo visto en otras exposiciones.`,
   },
 
   {
@@ -514,7 +727,11 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     unidad: "II",
     avance: 100,
     estado: "pendiente",
-    temas: [],
-    content: ``,
+    temas: ["Revisión Evaluación de Logro 2", "Reforzamiento Unidad II", "2do Consolidado", "Cierre del curso"],
+    content: `Semana de cierre — 2do Consolidado de Evaluación Continua.
+
+• Retroalimentación de la Evaluación de Logro 2 y de las exposiciones.
+• Repaso general de la Unidad II: PHP/JSP, Python, Django, APIs REST y microservicios.
+• Entrega final del portafolio académico del curso.`,
   },
 ];

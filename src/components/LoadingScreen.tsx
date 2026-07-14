@@ -3,18 +3,34 @@ import { AnimatePresence, motion } from "framer-motion";
 
 // ═══════════════════════════════════════════════════════════════
 // Initial loading screen — shown for DISPLAY_MS, then fades out.
+// Only on the first visit of the session; reloads/navigation skip it.
 // Always dark regardless of user theme (renders before theme loads).
 // ═══════════════════════════════════════════════════════════════
 
-const DISPLAY_MS = 1300;
+const DISPLAY_MS = 600;
+const SESSION_KEY = "loader-shown";
+
+function alreadyShown() {
+  try {
+    return sessionStorage.getItem(SESSION_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
 
 export default function LoadingScreen() {
-  const [done, setDone] = useState(false);
+  const [done, setDone] = useState(alreadyShown);
 
   useEffect(() => {
+    if (done) return;
+    try {
+      sessionStorage.setItem(SESSION_KEY, "1");
+    } catch {
+      /* sessionStorage unavailable */
+    }
     const t = setTimeout(() => setDone(true), DISPLAY_MS);
     return () => clearTimeout(t);
-  }, []);
+  }, [done]);
 
   return (
     <AnimatePresence>
