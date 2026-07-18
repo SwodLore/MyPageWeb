@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import {
   Award,
   Building,
@@ -9,8 +9,9 @@ import {
   ExternalLink,
   User,
 } from "lucide-react";
-import { certificados } from "../data/certificados";
-import { GlowButton } from "./ui";
+import { certificados } from "@/data/certificados";
+import { GlowButton } from "@/components/ui";
+import type { Certificate } from "@/types";
 
 // ═══════════════════════════════════════════════════════════════
 // Category color resolver
@@ -92,15 +93,6 @@ function getCertColor(name: string): CertColor {
 // Flip Card
 // ═══════════════════════════════════════════════════════════════
 
-interface Certificate {
-  name: string;
-  teacher: string;
-  institution: string;
-  imgInstitution: string;
-  urlCertificate: string;
-  dateCertificate: string;
-}
-
 interface CertificateCardProps {
   cert: Certificate;
   index: number;
@@ -113,7 +105,7 @@ function CertificateCard({ cert, index }: CertificateCardProps) {
   const colors = getCertColor(cert.name);
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -246,7 +238,7 @@ function CertificateCard({ cert, index }: CertificateCardProps) {
           </a>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -266,10 +258,10 @@ export default function Certificado() {
   const hasMore = certificados.length > INITIAL_COUNT;
 
   return (
-    <div className="container-apple flex flex-col gap-12 md:gap-16">
+    <div className="container-page flex flex-col gap-12 md:gap-16">
 
       {/* Hint */}
-      <motion.p
+      <m.p
         className="text-center text-sm text-slate-400 dark:text-slate-500 -mb-4"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -277,7 +269,7 @@ export default function Certificado() {
         transition={{ delay: 0.3 }}
       >
         Toca o pasa el cursor sobre una card para ver los detalles
-      </motion.p>
+      </m.p>
 
       {/* Grid */}
       <div className="grid gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -288,7 +280,7 @@ export default function Certificado() {
 
       {/* Expand / collapse */}
       {hasMore && (
-        <motion.div
+        <m.div
           className="text-center"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -308,11 +300,11 @@ export default function Certificado() {
               </>
             )}
           </GlowButton>
-        </motion.div>
+        </m.div>
       )}
 
       {/* Stats banner */}
-      <motion.div
+      <m.div
         className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-500 p-8 md:p-10 shadow-2xl"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -337,7 +329,7 @@ export default function Certificado() {
             ciberseguridad, redes y metodologías modernas.
           </p>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

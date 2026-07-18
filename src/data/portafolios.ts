@@ -1,4 +1,6 @@
-import { Portfolio } from "../types";
+import { Portfolio, portfolioSchema } from "@/types";
+import { z } from "zod";
+import { validateData } from "@/lib/validateData";
 
 export const portafolio: Portfolio[] = [
   // ── Proyectos destacados (featured: true) ─────────────────────────────────
@@ -274,3 +276,5 @@ export const portafolio: Portfolio[] = [
     featured: false,
   },
 ];
+
+validateData(z.array(portfolioSchema), portafolio, "data/portafolios.ts");

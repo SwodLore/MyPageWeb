@@ -1,6 +1,6 @@
 
 import React, { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { m, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 interface TiltCardProps {
     children: React.ReactNode;
@@ -47,7 +47,7 @@ export function TiltCard({ children, className = "", intensity = 15 }: TiltCardP
     };
 
     return (
-        <motion.div
+        <m.div
             ref={ref}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -59,13 +59,13 @@ export function TiltCard({ children, className = "", intensity = 15 }: TiltCardP
             className={`relative transition-all duration-200 ease-out ${className}`}
         >
             {/* Reflection effect */}
-            <motion.div
+            <m.div
                 style={{
                     transform: "translateZ(50px)",
                 }}
                 className="absolute inset-4 rounded-xl bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10"
             />
             {children}
-        </motion.div>
+        </m.div>
     );
 }

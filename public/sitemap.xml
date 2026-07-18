@@ -5,13 +5,25 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
         <loc>https://alessandro-poves.vercel.app/</loc>
-        <lastmod>2026-01-02</lastmod>
-        <changefreq>daily</changefreq>
+        <lastmod>2026-07-17</lastmod>
+        <changefreq>monthly</changefreq>
         <priority>1.0</priority>
         <image:image>
             <image:loc>https://alessandro-poves.vercel.app/profile.webp</image:loc>
             <image:title>Alessandro Poves - Desarrollador Full Stack</image:title>
             <image:caption>Foto de perfil de Alessandro Poves, desarrollador especializado en React, Angular y Laravel</image:caption>
         </image:image>
+    </url>
+    <url>
+        <loc>https://alessandro-poves.vercel.app/skills</loc>
+        <lastmod>2026-07-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://alessandro-poves.vercel.app/anotaciones</loc>
+        <lastmod>2026-07-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
     </url>
 </urlset>

@@ -8,12 +8,11 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Critical CSS for faster FCP/LCP -->
+  <!-- Critical CSS: solo lo imprescindible para el primer pintado sin FOUC.
+       El resto de estilos vive en src/index.css (bundle de Vite). -->
   <style>
-    /* Prevent FOUC and set base styles */
     html {
       -webkit-font-smoothing: antialiased;
-      scroll-behavior: smooth;
     }
 
     body {
@@ -28,17 +27,6 @@
       color: #f1f5f9;
     }
 
-    /* Critical layout for header */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 50;
-      height: 64px;
-    }
-
-    /* Hide content until React hydrates to prevent layout shift */
     #root {
       min-height: 100vh;
     }
@@ -63,53 +51,31 @@
   <title>Alessandro Poves - Desarrollador Full Stack | Portfolio Profesional</title>
   <meta name="description"
     content="Alessandro Poves, desarrollador full stack especializado en Laravel, Spring Boot, React y Angular. Estudiante de Ingeniería de Sistemas en UNCP con experiencia en ciberseguridad, desarrollo web moderno y soluciones tecnológicas innovadoras." />
-  <meta name="keywords"
-    content="Alessandro Poves, Alessandro Piero Poves Martinez, Ale Poves, desarrollador web Huancayo, programador web Huancayo, programador Huancayo, desarrollador Huancayo, programador Peru, desarrollador web Peru, freelancer web Huancayo, freelance developer Peru, desarrollo web Huancayo Peru, paginas web Huancayo, crear pagina web Huancayo, diseño web Huancayo, programador paginas web Peru, desarrollador full stack Huancayo, desarrollador full stack Peru, Laravel developer Peru, Spring Boot developer Peru, React developer Huancayo, Angular developer Peru, ciberseguridad Huancayo, ingeniero sistemas Huancayo, desarrollo aplicaciones web Junin, programador freelance Junin Peru" />
   <meta name="author" content="Alessandro Poves" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <meta name="googlebot" content="index, follow" />
-  <meta name="language" content="Spanish" />
-
-  <!-- Mejoras adicionales para SEO por nombre -->
-  <meta name="person" content="Alessandro Piero Poves Martinez" />
-  <meta name="coverage" content="Worldwide" />
-  <meta name="distribution" content="Global" />
-  <meta name="rating" content="General" />
-  <meta name="revisit-after" content="7 days" />
-  <meta name="subject" content="Programador Web Huancayo - Alessandro Poves Desarrollador Full Stack" />
-  <meta name="summary"
-    content="Alessandro Poves, programador web y desarrollador full stack en Huancayo, Perú. Experto en crear páginas web, aplicaciones y sistemas para empresas en Junín y todo el Perú." />
-  <meta name="topic"
-    content="Programador web Huancayo, desarrollo web Peru, creación de páginas web, desarrollador freelance" />
-  <meta name="identifier-URL" content="https://alessandropoves.dev" />
-  <meta name="geo.region" content="PE-JUN" />
-  <meta name="geo.placename" content="Huancayo" />
-  <meta name="geo.position" content="-12.0684;-75.2049" />
-  <meta name="ICBM" content="-12.0684, -75.2049" />
-  <link rel="canonical" href="https://alessandropoves.dev" />
+  <link rel="canonical" href="https://alessandro-poves.vercel.app" />
   <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://alessandropoves.dev/" />
+  <meta property="og:url" content="https://alessandro-poves.vercel.app/" />
   <meta property="og:title" content="Alessandro Poves - Desarrollador Full Stack | Portfolio Profesional" />
   <meta property="og:description"
     content="Desarrollador full stack especializado en Laravel, Spring Boot, React y Angular. Estudiante de Ingeniería de Sistemas con experiencia en ciberseguridad y desarrollo web moderno. Explora mis proyectos innovadores y habilidades técnicas." />
-  <meta property="og:image" content="https://alessandropoves.dev/profile.webp" />
+  <meta property="og:image" content="https://alessandro-poves.vercel.app/profile.webp" />
   <meta property="og:image:width" content="800" />
   <meta property="og:image:height" content="800" />
   <meta property="og:image:alt" content="Alessandro Poves - Desarrollador Full Stack" />
   <meta property="og:site_name" content="Alessandro Poves Portfolio" />
   <meta property="og:locale" content="es_ES" />
-  <meta property="og:updated_time" content="2024-01-15T00:00:00Z" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://alessandropoves.dev/" />
+  <meta name="twitter:url" content="https://alessandro-poves.vercel.app/" />
   <meta name="twitter:title" content="Alessandro Poves - Desarrollador Full Stack" />
   <meta name="twitter:description"
     content="Portfolio profesional de Alessandro Poves, desarrollador full stack especializado en Laravel, Spring Boot, React, Angular y ciberseguridad. Estudiante de Ingeniería de Sistemas en UNCP." />
-  <meta name="twitter:image" content="https://alessandropoves.dev/profile.webp" />
+  <meta name="twitter:image" content="https://alessandro-poves.vercel.app/profile.webp" />
   <meta name="twitter:image:alt" content="Alessandro Poves - Desarrollador Full Stack" />
   <meta name="twitter:creator" content="@alessandropoves" />
   <meta name="twitter:site" content="@alessandropoves" />
@@ -123,10 +89,10 @@
       "alternateName": ["Alessandro Poves", "Ale Poves", "Alessandro P.", "Poves Alessandro"],
       "jobTitle": "Desarrollador Full Stack",
       "description": "Desarrollador full stack especializado en Laravel, Spring Boot, React y Angular. Estudiante de Ingeniería de Sistemas con experiencia en ciberseguridad y desarrollo web moderno.",
-      "url": "https://alessandropoves.dev",
+      "url": "https://alessandro-poves.vercel.app",
       "image": {
         "@type": "ImageObject",
-        "url": "https://alessandropoves.dev/profile.webp",
+        "url": "https://alessandro-poves.vercel.app/profile.webp",
         "width": 800,
         "height": 800
       },
@@ -202,35 +168,6 @@
     }
     </script>
 
-  <!-- Schema adicional para Portfolio -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Alessandro Poves Portfolio",
-      "alternateName": "Portfolio Alessandro Poves",
-      "url": "https://alessandropoves.dev",
-      "description": "Portfolio profesional de Alessandro Poves, desarrollador full stack especializado en Laravel, Spring Boot, React y Angular",
-      "author": {
-        "@type": "Person",
-        "name": "Alessandro Piero Poves Martinez"
-      },
-      "creator": {
-        "@type": "Person",
-        "name": "Alessandro Poves"
-      },
-      "mainEntity": {
-        "@type": "Person",
-        "name": "Alessandro Piero Poves Martinez"
-      },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://alessandropoves.dev/?search={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-
   <!-- Schema para Servicios Locales de Desarrollo Web -->
   <script type="application/ld+json">
     {
@@ -239,10 +176,10 @@
       "name": "Alessandro Poves - Desarrollo Web Huancayo",
       "alternateName": ["Programador Web Huancayo", "Desarrollador Web Peru", "Freelance Web Huancayo"],
       "description": "Servicios profesionales de desarrollo web, creación de páginas web, aplicaciones y sistemas en Huancayo, Junín, Perú. Programador full stack especializado en Laravel, React, Angular y Spring Boot.",
-      "url": "https://alessandropoves.dev",
+      "url": "https://alessandro-poves.vercel.app",
       "telephone": "+51977776058",
       "email": "apovesmartinez@gmail.com",
-      "image": "https://alessandropoves.dev/profile.webp",
+      "image": "https://alessandro-poves.vercel.app/profile.webp",
       "priceRange": "$$",
       "address": {
         "@type": "PostalAddress",
@@ -313,22 +250,13 @@
   <link rel="preload" href="/profile.webp" as="image" type="image/webp" />
   <link rel="preload" href="/icon.webp" as="image" type="image/webp" />
 
-  <!-- Theme and Apple Touch Icons -->
+  <!-- Theme and Apple Touch Icon -->
   <meta name="theme-color" content="#007aff" />
-  <meta name="msapplication-TileColor" content="#007aff" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Alessandro Poves" />
-  <link rel="apple-touch-icon" sizes="57x57" href="/icon.webp" />
-  <link rel="apple-touch-icon" sizes="60x60" href="/icon.webp" />
-  <link rel="apple-touch-icon" sizes="72x72" href="/icon.webp" />
-  <link rel="apple-touch-icon" sizes="76x76" href="/icon.webp" />
-  <link rel="apple-touch-icon" sizes="114x114" href="/icon.webp" />
-  <link rel="apple-touch-icon" sizes="120x120" href="/icon.webp" />
-  <link rel="apple-touch-icon" sizes="144x144" href="/icon.webp" />
-  <link rel="apple-touch-icon" sizes="152x152" href="/icon.webp" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/icon.webp" />
+  <!-- iOS no soporta webp en apple-touch-icon: debe ser PNG -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon-192x192.png" />
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
 
   <!-- Manifest for PWA -->

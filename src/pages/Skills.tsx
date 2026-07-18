@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import {
   CheckCircle2,
   Layers,
   Rocket,
   Sparkles,
-  Target,
   Users,
 } from "lucide-react";
-import { skills } from "../data/skills";
-import { SKILL_CATEGORIES, type SkillCategory } from "../types";
+import { skills } from "@/data/skills";
+import { SKILL_CATEGORIES, type SkillCategory } from "@/types";
+import { DELIVERY, SOFT_SKILLS, EDUCATION } from "@/data/aboutMe";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 // ═══════════════════════════════════════════════════════════════
 // Constants
@@ -24,71 +25,6 @@ const LEVEL_STYLE = {
 const TABS = ["Todos", ...SKILL_CATEGORIES] as const;
 type Tab = (typeof TABS)[number];
 
-const DELIVERY = [
-  {
-    label: "Descubrimiento & arquitectura",
-    details: [
-      "Kick-off estratégico para alinear objetivos de negocio.",
-      "Diagramas de arquitectura y modelado de datos colaborativo.",
-    ],
-  },
-  {
-    label: "Implementación iterativa",
-    details: [
-      "Sprints con demos quincenales y documentación viva.",
-      "QA automatizado, code reviews y estándares de seguridad.",
-    ],
-  },
-  {
-    label: "Lanzamiento & evolución",
-    details: [
-      "Pipelines CI/CD, monitorización y handoff guiado.",
-      "Roadmap de mejoras basado en métricas reales.",
-    ],
-  },
-];
-
-const SOFT_SKILLS = [
-  {
-    icon: Users,
-    title: "Colaboración transparente",
-    desc: "Trabajo mano a mano con founders, PM y designers para mantener visibilidad total del progreso.",
-  },
-  {
-    icon: Target,
-    title: "Focus en impacto",
-    desc: "Priorizo funcionalidades que aceleran resultados y reduzco fricción para el usuario final.",
-  },
-  {
-    icon: Sparkles,
-    title: "Iteración guiada por datos",
-    desc: "Analizo métricas y feedback para definir nuevas releases y optimizaciones continuas.",
-  },
-];
-
-const EDUCATION = [
-  {
-    institution: "Universidad Nacional del Centro del Perú (UNCP)",
-    program: "Ingeniería de Sistemas",
-    period: "2022 - Presente · VIII semestre",
-    highlight:
-      "En 8.º semestre, profundizando en arquitectura de software, ciberseguridad y gestión de proyectos de alto impacto.",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Escudo_UNCP.png/330px-Escudo_UNCP.png",
-    accent: "from-indigo-500/15 via-indigo-500/8 to-transparent",
-    accentBorder: "border-indigo-200/60 dark:border-indigo-800/40",
-  },
-  {
-    institution: "ICPNA",
-    program: "Programa de Inglés Profesional",
-    period: "2024 - Actualidad · Nivel intermedio",
-    highlight:
-      "Formación activa en nivel intermedio para documentar proyectos y comunicarme con equipos globales en inglés técnico.",
-    logo: "https://www.icpna.edu.pe/static/img/logo.svg",
-    accent: "from-emerald-500/15 via-emerald-500/8 to-transparent",
-    accentBorder: "border-emerald-200/60 dark:border-emerald-800/40",
-  },
-];
-
 // ═══════════════════════════════════════════════════════════════
 // Skill Card
 // ═══════════════════════════════════════════════════════════════
@@ -101,7 +37,7 @@ function SkillCard({
   index: number;
 }) {
   return (
-    <motion.div
+    <m.div
       layout
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -133,7 +69,7 @@ function SkillCard({
       >
         {skill.level}
       </span>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -141,7 +77,12 @@ function SkillCard({
 // Main
 // ═══════════════════════════════════════════════════════════════
 
-export default function SkillsAboutMe() {
+export default function Skills() {
+  usePageMeta(
+    "Skills & Trayectoria",
+    "Stack técnico de Alessandro Poves: React, Laravel, NestJS, bases de datos y DevOps, con metodología de trabajo y formación académica."
+  );
+
   const [activeTab, setActiveTab] = useState<Tab>("Todos");
 
   const filteredSkills =
@@ -151,11 +92,11 @@ export default function SkillsAboutMe() {
 
   return (
     <section className="section-padding bg-slate-50 dark:bg-slate-950">
-      <div className="container-apple space-y-20">
+      <div className="container-page space-y-20">
 
         {/* ── Page hero ──────────────────────────────────────── */}
         <div className="mx-auto max-w-4xl space-y-6 text-center">
-          <motion.div
+          <m.div
             className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-700 dark:border-blue-700/50 dark:bg-blue-500/10 dark:text-blue-300"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -163,9 +104,9 @@ export default function SkillsAboutMe() {
           >
             <Sparkles size={14} />
             Skillset 360°
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             className="text-4xl font-bold text-slate-900 dark:text-white md:text-5xl"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -176,9 +117,9 @@ export default function SkillsAboutMe() {
             <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
               ideas en productos
             </span>
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             className="text-lg leading-relaxed text-slate-600 dark:text-slate-300"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -188,10 +129,10 @@ export default function SkillsAboutMe() {
             Orquesto cada etapa del desarrollo —desde estrategia y arquitectura
             hasta despliegue— integrando tecnologías modernas con procesos
             colaborativos.
-          </motion.p>
+          </m.p>
 
           {/* Quick stats */}
-          <motion.div
+          <m.div
             className="grid gap-4 sm:grid-cols-3"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -215,23 +156,23 @@ export default function SkillsAboutMe() {
                 </p>
               </div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
 
         {/* ── Skills grid with category tabs ─────────────────── */}
         <div className="space-y-8">
           <div className="text-center space-y-5">
-            <motion.h2
+            <m.h2
               className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
               Stack tecnológico
-            </motion.h2>
+            </m.h2>
 
             {/* Category tabs */}
-            <motion.div
+            <m.div
               className="flex flex-wrap justify-center gap-1.5 p-1.5 rounded-2xl bg-slate-100/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/40 w-fit mx-auto"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -249,7 +190,7 @@ export default function SkillsAboutMe() {
                   }`}
                 >
                   {activeTab === tab && (
-                    <motion.span
+                    <m.span
                       layoutId="skills-tab-pill"
                       className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 shadow-md shadow-blue-500/30"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
@@ -271,11 +212,11 @@ export default function SkillsAboutMe() {
                   </span>
                 </button>
               ))}
-            </motion.div>
+            </m.div>
           </div>
 
           {/* Grid */}
-          <motion.div
+          <m.div
             layout
             className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4"
           >
@@ -284,14 +225,14 @@ export default function SkillsAboutMe() {
                 <SkillCard key={skill.name} skill={skill} index={i} />
               ))}
             </AnimatePresence>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* ── Delivery + soft skills ─────────────────────────── */}
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
 
           {/* Delivery process */}
-          <motion.div
+          <m.div
             className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80 space-y-5"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -331,10 +272,10 @@ export default function SkillsAboutMe() {
                 </ul>
               </div>
             ))}
-          </motion.div>
+          </m.div>
 
           {/* Soft skills */}
-          <motion.div
+          <m.div
             className="flex flex-col gap-5 rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -373,13 +314,13 @@ export default function SkillsAboutMe() {
               Listo para integrarme en tu equipo o liderar la construcción
               end-to-end de tu siguiente producto.
             </div>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* ── Education ──────────────────────────────────────── */}
         <div className="space-y-8">
           <div className="text-center space-y-3">
-            <motion.div
+            <m.div
               className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-sm font-medium text-emerald-700 dark:border-emerald-700/40 dark:bg-emerald-500/10 dark:text-emerald-300"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -387,9 +328,9 @@ export default function SkillsAboutMe() {
             >
               <Layers size={14} />
               Formación Académica
-            </motion.div>
+            </m.div>
 
-            <motion.h2
+            <m.h2
               className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -397,12 +338,12 @@ export default function SkillsAboutMe() {
               transition={{ delay: 0.08 }}
             >
               Trayectoria académica
-            </motion.h2>
+            </m.h2>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
             {EDUCATION.map((edu, i) => (
-              <motion.div
+              <m.div
                 key={edu.institution}
                 className={`relative overflow-hidden rounded-3xl border bg-white p-6 shadow-xl dark:bg-slate-900/80 ${edu.accentBorder}`}
                 initial={{ opacity: 0, y: 20 }}
@@ -439,7 +380,7 @@ export default function SkillsAboutMe() {
                     <p className="text-sm leading-relaxed">{edu.highlight}</p>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>

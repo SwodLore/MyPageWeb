@@ -1,4 +1,6 @@
-import { Skill } from "../types";
+import { Skill, skillsSchema } from "@/types";
+import { z } from "zod";
+import { validateData } from "@/lib/validateData";
 
 export const skills: Skill[] = [
   // ── Frontend ──────────────────────────────────────────────────────────────
@@ -149,3 +151,5 @@ export const skills: Skill[] = [
     category: "DevOps",
   },
 ];
+
+validateData(z.array(skillsSchema), skills, "data/skills.ts");

@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { motion } from "framer-motion";
+import * as Dialog from "@radix-ui/react-dialog";
+import { m } from "framer-motion";
 import { useLenis } from "lenis/react";
-import { Portfolio } from "../types";
+import { Portfolio } from "@/types";
 import { X, ExternalLink, Github, Layers, Star } from "lucide-react";
 
 // ═══════════════════════════════════════════════════════════════
@@ -37,41 +38,55 @@ export default function Modal({ onClose, project }: ModalProps) {
     return () => { lenis?.start(); };
   }, [lenis]);
 
-  // Escape key handler
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, [onClose]);
-
+  // Radix aporta: focus trap, aria-modal, cierre con Escape y
+  // restauración del foco al cerrar. Framer Motion sigue animando.
   return (
-    <motion.div
-      className="fixed inset-0 bg-slate-950/80 backdrop-blur-xl z-[80] overflow-y-auto"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.25 }}
-    >
-      <div className="min-h-screen flex items-center justify-center p-4 md:p-8 py-12">
-        <motion.div
+    <Dialog.Root open onOpenChange={(open) => { if (!open) onClose(); }}>
+      <Dialog.Portal>
+        <Dialog.Overlay asChild>
+          <m.div
+            className="fixed inset-0 bg-slate-950/80 backdrop-blur-xl z-[80]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          />
+        </Dialog.Overlay>
+
+        <Dialog.Content
+          asChild
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
+          <m.div
+            className="fixed inset-0 z-[80] overflow-y-auto"
+            onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <div
+              className="min-h-screen flex items-center justify-center p-4 md:p-8 py-12"
+              onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+            >
+        <m.div
           className="relative w-full max-w-3xl bg-slate-900 rounded-2xl md:rounded-3xl shadow-2xl shadow-black/60 border border-slate-800/60 overflow-hidden"
           initial={{ opacity: 0, scale: 0.93, y: 28 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.93, y: 28 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          onClick={(e) => e.stopPropagation()}
         >
           {/* ── Close button ──────────────────────────────────── */}
-          <motion.button
-            onClick={onClose}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.92 }}
-            className="absolute top-4 right-4 z-20 w-10 h-10 bg-slate-800/90 hover:bg-red-500/80 backdrop-blur-sm rounded-xl flex items-center justify-center transition-colors border border-slate-700/50 hover:border-red-500/50"
-            aria-label="Cerrar"
-          >
-            <X size={18} className="text-slate-300" />
-          </motion.button>
+          <Dialog.Close asChild>
+            <m.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.92 }}
+              className="absolute top-4 right-4 z-20 w-10 h-10 bg-slate-800/90 hover:bg-red-500/80 backdrop-blur-sm rounded-xl flex items-center justify-center transition-colors border border-slate-700/50 hover:border-red-500/50"
+              aria-label="Cerrar"
+            >
+              <X size={18} className="text-slate-300" />
+            </m.button>
+          </Dialog.Close>
 
           {/* ── Image area ────────────────────────────────────── */}
           <div className="relative bg-gradient-to-b from-slate-800/90 to-slate-800/60 p-4 md:p-6">
@@ -117,9 +132,11 @@ export default function Modal({ onClose, project }: ModalProps) {
             {/* Title, categories & description */}
             <div className="space-y-3">
               <div className="flex flex-wrap items-start gap-x-3 gap-y-2">
-                <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-                  {project.name}
-                </h2>
+                <Dialog.Title asChild>
+                  <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                    {project.name}
+                  </h2>
+                </Dialog.Title>
                 <div className="flex flex-wrap gap-1.5 mt-0.5">
                   {project.category.map((cat) => {
                     const c = CATEGORY_COLORS[cat] ?? DEFAULT_COLOR;
@@ -134,9 +151,11 @@ export default function Modal({ onClose, project }: ModalProps) {
                   })}
                 </div>
               </div>
-              <p className="text-slate-400 text-base leading-relaxed">
-                {project.description}
-              </p>
+              <Dialog.Description asChild>
+                <p className="text-slate-400 text-base leading-relaxed">
+                  {project.description}
+                </p>
+              </Dialog.Description>
             </div>
 
             {/* Technologies */}
@@ -152,7 +171,7 @@ export default function Modal({ onClose, project }: ModalProps) {
 
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5">
                 {project.tecnologias.map((tech, idx) => (
-                  <motion.div
+                  <m.div
                     key={idx}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -169,7 +188,7 @@ export default function Modal({ onClose, project }: ModalProps) {
                     <span className="text-xs font-medium text-slate-300 text-center leading-tight">
                       {tech.name}
                     </span>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </div>
@@ -177,7 +196,7 @@ export default function Modal({ onClose, project }: ModalProps) {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-2 border-t border-slate-800/80">
               {project.urlPageWeb && (
-                <motion.a
+                <m.a
                   href={project.urlPageWeb}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -187,10 +206,10 @@ export default function Modal({ onClose, project }: ModalProps) {
                 >
                   <ExternalLink size={18} />
                   Ver Proyecto
-                </motion.a>
+                </m.a>
               )}
               {project.urlPageGithub && (
-                <motion.a
+                <m.a
                   href={project.urlPageGithub}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -200,12 +219,15 @@ export default function Modal({ onClose, project }: ModalProps) {
                 >
                   <Github size={18} />
                   Ver Código
-                </motion.a>
+                </m.a>
               )}
             </div>
           </div>
-        </motion.div>
-      </div>
-    </motion.div>
+        </m.div>
+            </div>
+          </m.div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   ArrowRight,
   CheckCircle2,
   Download,
-  Github,
-  Linkedin,
   Mail,
   MapPin,
   Phone,
@@ -13,8 +11,10 @@ import {
   Sparkles,
   MessageCircle,
 } from "lucide-react";
-import { GlowButton, GlassCard } from "./ui";
-import { triggerSimpleConfetti } from "../lib/confetti";
+import { GlowButton, GlassCard, Input, Textarea, Label } from "@/components/ui";
+import { triggerSimpleConfetti } from "@/lib/confetti";
+import { personal } from "@/data/personal";
+import { SOCIAL_LINKS } from "@/data/navigation";
 
 // ═══════════════════════════════════════════════════════════════
 // Animation Config
@@ -40,10 +40,11 @@ const staggerContainer = {
 };
 
 // ═══════════════════════════════════════════════════════════════
-// Animated Input Component
+// Form Field — compone Label + Input/Textarea de ui/
+// El estado de foco lo maneja CSS (:focus y group-focus-within)
 // ═══════════════════════════════════════════════════════════════
 
-interface AnimatedInputProps {
+interface FormFieldProps {
   id: string;
   name: string;
   type?: string;
@@ -56,7 +57,7 @@ interface AnimatedInputProps {
   rows?: number;
 }
 
-function AnimatedInput({
+function FormField({
   id,
   name,
   type = "text",
@@ -67,54 +68,23 @@ function AnimatedInput({
   required = false,
   isTextarea = false,
   rows = 5,
-}: AnimatedInputProps) {
-  const [isFocused, setIsFocused] = useState(false);
-
-  const inputClasses = `
-    w-full px-5 py-4 rounded-2xl
-    bg-white dark:bg-slate-800
-    border-2 transition-all duration-300
-    text-slate-900 dark:text-white
-    placeholder:text-slate-400 dark:placeholder:text-slate-500
-    focus:outline-none
-    ${isFocused
-      ? "border-blue-500 dark:border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.3)]"
-      : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
-    }
-  `;
-
-  const commonProps = {
-    id,
-    name,
-    value,
-    onChange,
-    required,
-    placeholder,
-    className: inputClasses,
-    onFocus: () => setIsFocused(true),
-    onBlur: () => setIsFocused(false),
-  };
+}: FormFieldProps) {
+  const commonProps = { id, name, value, onChange, required, placeholder };
 
   return (
-    <motion.div
-      className="space-y-2"
-      variants={fadeInUp}
-    >
-      <label
+    <m.div className="group space-y-2" variants={fadeInUp}>
+      <Label
         htmlFor={id}
-        className={`block text-sm font-medium transition-colors duration-300 ${isFocused
-          ? "text-blue-600 dark:text-blue-400"
-          : "text-slate-600 dark:text-slate-400"
-          }`}
+        className="group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400"
       >
         {label}
-      </label>
+      </Label>
       {isTextarea ? (
-        <textarea {...commonProps} rows={rows} style={{ resize: "none" }} />
+        <Textarea {...commonProps} rows={rows} />
       ) : (
-        <input {...commonProps} type={type} />
+        <Input {...commonProps} type={type} />
       )}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -126,39 +96,34 @@ const contactItems = [
   {
     icon: Mail,
     title: "Email",
-    value: "apovesmartinez@gmail.com",
-    href: "mailto:apovesmartinez@gmail.com",
+    value: personal.email,
+    href: `mailto:${personal.email}`,
     color: "text-blue-500 bg-blue-100 dark:bg-blue-900/30"
   },
   {
     icon: Phone,
     title: "WhatsApp",
-    value: "+51 977 776 058",
-    href: "https://wa.me/51977776058",
+    value: personal.phone,
+    href: `https://wa.me/${personal.whatsapp}`,
     color: "text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30"
   },
   {
     icon: MapPin,
     title: "Ubicación",
-    value: "Huancayo, Perú",
+    value: personal.location,
     color: "text-rose-500 bg-rose-100 dark:bg-rose-900/30"
   },
 ];
 
-const socialLinks = [
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/alessandro-piero-poves-martinez-524467318/",
-    icon: Linkedin,
-    color: "hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-700"
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/SwodLore",
-    icon: Github,
-    color: "hover:bg-slate-100 hover:border-slate-300 dark:hover:bg-slate-800 dark:hover:border-slate-600"
-  },
-];
+/* Presentación local sobre los links canónicos de data/navigation */
+const SOCIAL_HOVER: Record<string, string> = {
+  LinkedIn: "hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-700",
+  GitHub: "hover:bg-slate-100 hover:border-slate-300 dark:hover:bg-slate-800 dark:hover:border-slate-600",
+};
+
+const socialLinks = SOCIAL_LINKS
+  .filter((link) => link.name in SOCIAL_HOVER)
+  .map((link) => ({ ...link, color: SOCIAL_HOVER[link.name] }));
 
 const collaborationBenefits = [
   "Reuniones estratégicas sin costo",
@@ -187,7 +152,6 @@ export default function Contacto() {
     setIsSubmitting(true);
 
     const { name, email, message } = formData;
-    const whatsappNumber = "51977776058";
     const text = [
       "Hola Alessandro 👋",
       "",
@@ -198,7 +162,7 @@ export default function Contacto() {
       message,
     ].join("\n");
 
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+    const url = `https://wa.me/${personal.whatsapp}?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank", "noopener,noreferrer");
 
     if (submitTimerRef.current) clearTimeout(submitTimerRef.current);
@@ -207,24 +171,24 @@ export default function Contacto() {
 
   return (
     <section className="section-padding bg-gradient-to-b from-white via-slate-50 to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950/20">
-      <div className="container-apple">
+      <div className="container-page">
         {/* Section Header */}
-        <motion.div
+        <m.div
           className="text-center mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={staggerContainer}
         >
-          <motion.span
+          <m.span
             variants={fadeInUp}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6"
           >
             <Sparkles size={14} />
             Contacto
-          </motion.span>
+          </m.span>
 
-          <motion.h2
+          <m.h2
             variants={fadeInUp}
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4"
           >
@@ -232,17 +196,17 @@ export default function Contacto() {
             <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
               Juntos
             </span>
-          </motion.h2>
+          </m.h2>
 
-          <motion.p
+          <m.p
             variants={fadeInUp}
             className="max-w-2xl mx-auto text-lg text-slate-500 dark:text-slate-400"
           >
             Cuéntame tu idea y diseñemos soluciones precisas, medibles y con un look & feel impecable.
-          </motion.p>
+          </m.p>
 
           {/* Benefits */}
-          <motion.div
+          <m.div
             className="flex flex-wrap justify-center gap-3 mt-8"
             variants={fadeInUp}
           >
@@ -255,13 +219,13 @@ export default function Contacto() {
                 {benefit}
               </span>
             ))}
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
         {/* Two Column Layout */}
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Contact Form */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -283,7 +247,7 @@ export default function Contacto() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                <AnimatedInput
+                <FormField
                   id="name"
                   name="name"
                   label="Nombre completo"
@@ -293,7 +257,7 @@ export default function Contacto() {
                   required
                 />
 
-                <AnimatedInput
+                <FormField
                   id="email"
                   name="email"
                   type="email"
@@ -304,7 +268,7 @@ export default function Contacto() {
                   required
                 />
 
-                <AnimatedInput
+                <FormField
                   id="message"
                   name="message"
                   label="Mensaje"
@@ -317,7 +281,7 @@ export default function Contacto() {
                 />
 
                 <GlowButton
-                  onClick={() => { }}
+                  type="submit"
                   variant="primary"
                   className="w-full"
                   disabled={isSubmitting}
@@ -327,10 +291,10 @@ export default function Contacto() {
                 </GlowButton>
               </form>
             </GlassCard>
-          </motion.div>
+          </m.div>
 
           {/* Contact Info & Social */}
-          <motion.div
+          <m.div
             className="space-y-6"
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -345,7 +309,7 @@ export default function Contacto() {
 
               <div className="space-y-5">
                 {contactItems.map((item, index) => (
-                  <motion.div
+                  <m.div
                     key={item.title}
                     className="flex items-center gap-4"
                     initial={{ opacity: 0, x: 20 }}
@@ -376,7 +340,7 @@ export default function Contacto() {
                         </p>
                       )}
                     </div>
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
             </GlassCard>
@@ -389,8 +353,8 @@ export default function Contacto() {
 
               <div className="space-y-3">
                 {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.label}
+                  <m.a
+                    key={social.name}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -400,14 +364,14 @@ export default function Contacto() {
                   >
                     <div className="flex items-center gap-3 text-slate-700 dark:text-slate-300">
                       <social.icon size={18} />
-                      <span className="font-medium">{social.label}</span>
+                      <span className="font-medium">{social.name}</span>
                     </div>
                     <ArrowRight size={16} className="text-slate-400" />
-                  </motion.a>
+                  </m.a>
                 ))}
               </div>
 
-              <motion.a
+              <m.a
                 href="/cv.pdf"
                 download="Alessandro-Poves-CV.pdf"
                 onClick={triggerSimpleConfetti}
@@ -417,9 +381,9 @@ export default function Contacto() {
               >
                 <Download size={16} />
                 Descargar CV
-              </motion.a>
+              </m.a>
             </GlassCard>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

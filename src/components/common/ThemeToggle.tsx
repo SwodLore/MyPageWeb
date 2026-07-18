@@ -1,13 +1,9 @@
-import { useContext } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
-import { ThemeContext } from "../ThemeContext";
+import { useTheme } from "@/hooks/useTheme";
 
 export default function ThemeToggle() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error("ThemeToggle must be inside ThemeProvider");
-
-  const { theme, toggleTheme } = ctx;
+  const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
 
   return (
@@ -21,7 +17,7 @@ export default function ThemeToggle() {
       }`}
     >
       {/* Sliding thumb */}
-      <motion.span
+      <m.span
         className={`absolute flex h-6 w-6 items-center justify-center rounded-full shadow-md ${
           isDark ? "bg-slate-900" : "bg-white"
         }`}
@@ -33,7 +29,7 @@ export default function ThemeToggle() {
         ) : (
           <Sun size={13} className="text-amber-500" />
         )}
-      </motion.span>
+      </m.span>
 
       {/* Track icons (behind thumb) */}
       <Sun

@@ -1,17 +1,15 @@
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import {
   Briefcase,
-  Code2,
   GraduationCap,
   Lightbulb,
   MapPin,
-  Shield,
   Sparkles,
-  Zap,
 } from "lucide-react";
-import { personal } from "../data/personal";
-import type { TimelineType } from "../data/personal";
+import { personal } from "@/data/personal";
+import type { TimelineEntry, TimelineType } from "@/types";
+import { VALUE_PROPS } from "@/data/aboutMe";
 
 // ═══════════════════════════════════════════════════════════════
 // Config
@@ -49,24 +47,6 @@ const TYPE_CONFIG: Record<TimelineType, TypeConfig> = {
   },
 };
 
-const VALUE_PROPS = [
-  {
-    icon: Code2,
-    label: "Full Stack",
-    desc: "React, Laravel y NestJS. Front to back, de idea a producción.",
-  },
-  {
-    icon: Shield,
-    label: "Seguridad",
-    desc: "Perspectiva ofensiva aplicada a defensa: apps robustas desde el diseño.",
-  },
-  {
-    icon: Zap,
-    label: "Rendimiento",
-    desc: "Lighthouse 95+, Core Web Vitals y bundle optimizado.",
-  },
-] as const;
-
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 // ═══════════════════════════════════════════════════════════════
@@ -74,7 +54,7 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 // ═══════════════════════════════════════════════════════════════
 
 interface TLItemProps {
-  item: (typeof personal.timeline)[number];
+  item: TimelineEntry;
   index: number;
   isLast: boolean;
 }
@@ -86,7 +66,7 @@ function TimelineItem({ item, index, isLast }: TLItemProps) {
   const Icon = cfg.icon;
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       className="relative flex gap-5"
       initial={{ opacity: 0, x: 24 }}
@@ -121,7 +101,7 @@ function TimelineItem({ item, index, isLast }: TLItemProps) {
           {item.description}
         </p>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -132,11 +112,11 @@ function TimelineItem({ item, index, isLast }: TLItemProps) {
 export default function AboutSection() {
   return (
     <section className="section-padding bg-white dark:bg-slate-950">
-      <div className="container-apple space-y-16">
+      <div className="container-page space-y-16">
 
         {/* ── Header ─────────────────────────────────────────── */}
         <div className="text-center space-y-4">
-          <motion.span
+          <m.span
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -144,9 +124,9 @@ export default function AboutSection() {
           >
             <Sparkles size={14} />
             Sobre Mí
-          </motion.span>
+          </m.span>
 
-          <motion.h2
+          <m.h2
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -157,9 +137,9 @@ export default function AboutSection() {
             <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
               del código
             </span>
-          </motion.h2>
+          </m.h2>
 
-          <motion.p
+          <m.p
             className="max-w-2xl mx-auto text-lg text-slate-500 dark:text-slate-400"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -167,14 +147,14 @@ export default function AboutSection() {
             transition={{ delay: 0.14 }}
           >
             {personal.bioshort}
-          </motion.p>
+          </m.p>
         </div>
 
         {/* ── Two-column: bio / timeline ──────────────────────── */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
           {/* Left — bio + value props */}
-          <motion.div
+          <m.div
             className="space-y-8"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -206,10 +186,10 @@ export default function AboutSection() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Right — timeline */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -228,7 +208,7 @@ export default function AboutSection() {
                 />
               ))}
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

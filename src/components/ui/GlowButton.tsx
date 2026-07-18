@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface GlowButtonProps {
     children: ReactNode;
@@ -7,6 +7,7 @@ interface GlowButtonProps {
     href?: string;
     target?: string;
     rel?: string;
+    type?: "button" | "submit";
     variant?: "primary" | "secondary" | "ghost";
     size?: "sm" | "md" | "lg";
     className?: string;
@@ -23,6 +24,7 @@ export function GlowButton({
     href,
     target,
     rel,
+    type = "button",
     variant = "primary",
     size = "md",
     className = "",
@@ -88,7 +90,7 @@ export function GlowButton({
 
     if (href) {
         return (
-            <motion.a
+            <m.a
                 href={href}
                 target={target}
                 rel={rel}
@@ -98,12 +100,13 @@ export function GlowButton({
             >
                 {shimmerOverlay}
                 <span className="relative z-10 flex items-center gap-2">{children}</span>
-            </motion.a>
+            </m.a>
         );
     }
 
     return (
-        <motion.button
+        <m.button
+            type={type}
             onClick={onClick}
             disabled={disabled}
             className={combinedClassName}
@@ -111,7 +114,7 @@ export function GlowButton({
         >
             {shimmerOverlay}
             <span className="relative z-10 flex items-center gap-2">{children}</span>
-        </motion.button>
+        </m.button>
     );
 }
 

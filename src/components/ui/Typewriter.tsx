@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 interface TypewriterProps {
     words: readonly string[];
@@ -63,16 +63,16 @@ export function Typewriter({
     return (
         <span className={`inline-flex items-baseline ${className}`}>
             <AnimatePresence mode="wait">
-                <motion.span
+                <m.span
                     key={currentText}
                     initial={{ opacity: 0.8 }}
                     animate={{ opacity: 1 }}
                     className="inline-block"
                 >
                     {currentText}
-                </motion.span>
+                </m.span>
             </AnimatePresence>
-            <motion.span
+            <m.span
                 className={`inline-block w-[3px] h-[1em] bg-current ml-1 ${cursorClassName}`}
                 animate={{ opacity: [1, 0, 1] }}
                 transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}

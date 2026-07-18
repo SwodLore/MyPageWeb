@@ -1,30 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutGroup, motion, AnimatePresence } from "framer-motion";
-import { Github, Instagram, Linkedin, Menu, Sparkles, X } from "lucide-react";
+import { LayoutGroup, m, AnimatePresence } from "framer-motion";
+import { Menu, Sparkles, X } from "lucide-react";
 import { useLenis } from "lenis/react";
 import ThemeToggle from "./ThemeToggle";
-import { personal } from "../data/personal";
-
-// ═══════════════════════════════════════════════════════════════
-// Data
-// ═══════════════════════════════════════════════════════════════
-
-// href → navegación de ruta  |  id → scroll a sección en /
-const NAV_ITEMS = [
-  { id: "sobre-mi",        label: "Inicio" },
-  { id: "skills-overview", label: "Skills" },
-  { id: "portafolio",      label: "Proyectos" },
-  { id: "certificados",    label: "Certificados" },
-  { id: "contacto",        label: "Contacto" },
-  { href: "/anotaciones",  label: "Anotaciones" },
-] as const;
-
-const SOCIAL_MOBILE = [
-  { name: "GitHub",    href: personal.social.github,    icon: Github },
-  { name: "LinkedIn",  href: personal.social.linkedin,  icon: Linkedin },
-  { name: "Instagram", href: personal.social.instagram, icon: Instagram },
-];
+import { personal } from "@/data/personal";
+import { HEADER_NAV, SOCIAL_LINKS } from "@/data/navigation";
 
 // ═══════════════════════════════════════════════════════════════
 // Header
@@ -67,7 +48,7 @@ export default function Header() {
   return (
     <>
       {/* ── Main header bar ─────────────────────────────────── */}
-      <motion.header
+      <m.header
         className={`fixed top-0 left-0 right-0 z-50 w-full transition-[background-color,border-color,box-shadow] duration-300 ${
           scrolled
             ? "bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-lg shadow-slate-200/20 dark:shadow-slate-900/30"
@@ -77,11 +58,11 @@ export default function Header() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="container-apple">
+        <div className="container-page">
           <div className="flex h-14 items-center justify-between">
 
             {/* ── Logo ──────────────────────────────────────── */}
-            <motion.a
+            <m.a
               href="/"
               className="flex items-center gap-3 shrink-0"
               whileHover={{ scale: 1.02 }}
@@ -109,12 +90,12 @@ export default function Header() {
                   Full Stack Developer
                 </span>
               </div>
-            </motion.a>
+            </m.a>
 
             {/* ── Desktop nav ───────────────────────────────── */}
             <LayoutGroup>
               <nav className="hidden md:flex items-center gap-0.5 px-1.5 py-1.5 rounded-2xl bg-slate-100/60 dark:bg-slate-800/60 backdrop-blur-sm">
-                {NAV_ITEMS.map((item) => {
+                {HEADER_NAV.map((item) => {
                   const isRoute = "href" in item;
                   const isActive = isRoute
                     ? location.pathname === item.href
@@ -126,7 +107,7 @@ export default function Header() {
                       : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                   }`;
                   const pill = isActive && (
-                    <motion.div
+                    <m.div
                       layoutId="activeNavTab"
                       className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md shadow-blue-500/25"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.55 }}
@@ -142,7 +123,7 @@ export default function Header() {
                     );
                   }
                   return (
-                    <motion.button
+                    <m.button
                       key={key}
                       onClick={() => scrollTo(item.id)}
                       className={sharedClass}
@@ -150,7 +131,7 @@ export default function Header() {
                     >
                       {pill}
                       <span className="relative z-10">{item.label}</span>
-                    </motion.button>
+                    </m.button>
                   );
                 })}
               </nav>
@@ -160,7 +141,7 @@ export default function Header() {
             <div className="flex items-center gap-2.5">
               {/* Availability badge — desktop lg only */}
               {personal.available && (
-                <motion.div
+                <m.div
                   className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200/60 dark:border-emerald-700/40 text-emerald-700 dark:text-emerald-400 text-xs font-medium"
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -168,11 +149,11 @@ export default function Header() {
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   Disponible
-                </motion.div>
+                </m.div>
               )}
 
               {/* CTA — visible from lg */}
-              <motion.button
+              <m.button
                 onClick={() => scrollTo("contacto")}
                 className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-shadow cursor-pointer"
                 whileHover={{ scale: 1.04, y: -1 }}
@@ -180,12 +161,12 @@ export default function Header() {
               >
                 <Sparkles size={13} />
                 Hablemos
-              </motion.button>
+              </m.button>
 
               <ThemeToggle />
 
               {/* Hamburger — mobile */}
-              <motion.button
+              <m.button
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="md:hidden flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                 aria-label="Toggle menu"
@@ -193,7 +174,7 @@ export default function Header() {
               >
                 <AnimatePresence mode="wait" initial={false}>
                   {menuOpen ? (
-                    <motion.div
+                    <m.div
                       key="close"
                       initial={{ rotate: -90, opacity: 0 }}
                       animate={{ rotate: 0, opacity: 1 }}
@@ -201,9 +182,9 @@ export default function Header() {
                       transition={{ duration: 0.15 }}
                     >
                       <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
-                    </motion.div>
+                    </m.div>
                   ) : (
-                    <motion.div
+                    <m.div
                       key="menu"
                       initial={{ rotate: 90, opacity: 0 }}
                       animate={{ rotate: 0, opacity: 1 }}
@@ -211,21 +192,21 @@ export default function Header() {
                       transition={{ duration: 0.15 }}
                     >
                       <Menu className="h-5 w-5 text-slate-700 dark:text-slate-300" />
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
-              </motion.button>
+              </m.button>
             </div>
           </div>
         </div>
-      </motion.header>
+      </m.header>
 
       {/* ── Mobile menu ──────────────────────────────────────── */}
       <AnimatePresence>
         {menuOpen && (
           <>
             {/* Backdrop */}
-            <motion.div
+            <m.div
               className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -234,7 +215,7 @@ export default function Header() {
             />
 
             {/* Panel */}
-            <motion.div
+            <m.div
               className="fixed top-[72px] left-4 right-4 z-40 md:hidden"
               initial={{ opacity: 0, y: -12, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -258,7 +239,7 @@ export default function Header() {
 
                 {/* Nav items */}
                 <nav className="p-2">
-                  {NAV_ITEMS.map((item, index) => {
+                  {HEADER_NAV.map((item, index) => {
                     const isRoute = "href" in item;
                     const isActive = isRoute
                       ? location.pathname === item.href
@@ -270,7 +251,7 @@ export default function Header() {
 
                     if (isRoute) {
                       return (
-                        <motion.div
+                        <m.div
                           key={key}
                           initial={{ opacity: 0, x: -12 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -279,11 +260,11 @@ export default function Header() {
                           <Link to={item.href} className={baseClass} onClick={() => setMenuOpen(false)}>
                             {item.label}
                           </Link>
-                        </motion.div>
+                        </m.div>
                       );
                     }
                     return (
-                      <motion.button
+                      <m.button
                         key={key}
                         onClick={() => scrollTo(item.id)}
                         className={baseClass}
@@ -293,14 +274,14 @@ export default function Header() {
                         whileTap={{ scale: 0.98 }}
                       >
                         {item.label}
-                      </motion.button>
+                      </m.button>
                     );
                   })}
                 </nav>
 
                 {/* CTA */}
                 <div className="p-2 pt-0">
-                  <motion.button
+                  <m.button
                     onClick={() => scrollTo("contacto")}
                     className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold shadow-md cursor-pointer"
                     initial={{ opacity: 0, y: 8 }}
@@ -310,13 +291,13 @@ export default function Header() {
                   >
                     <Sparkles size={14} />
                     Trabajemos Juntos
-                  </motion.button>
+                  </m.button>
                 </div>
 
                 {/* Social links */}
                 <div className="flex items-center justify-center gap-3 px-4 py-3 border-t border-slate-100 dark:border-slate-800">
-                  {SOCIAL_MOBILE.map(({ name, href, icon: Icon }, i) => (
-                    <motion.a
+                  {SOCIAL_LINKS.map(({ name, href, icon: Icon }, i) => (
+                    <m.a
                       key={name}
                       href={href}
                       target="_blank"
@@ -329,11 +310,11 @@ export default function Header() {
                       whileTap={{ scale: 0.93 }}
                     >
                       <Icon size={16} />
-                    </motion.a>
+                    </m.a>
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>

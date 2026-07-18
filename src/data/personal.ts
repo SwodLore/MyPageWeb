@@ -1,6 +1,10 @@
 // ─── Datos personales centralizados ───────────────────────────────────────────
 // Edita este archivo para actualizar toda la info del portfolio de una sola vez.
 
+import { z } from "zod";
+import { timelineEntrySchema } from "@/types";
+import { validateData } from "@/lib/validateData";
+
 export const personal = {
   // Identidad
   name: "Alessandro",
@@ -17,6 +21,8 @@ export const personal = {
   // Contacto & ubicación
   location: "Huancayo, Perú",
   email: "apovesmartinez@gmail.com",
+  phone: "+51 977 776 058",
+  whatsapp: "51977776058",
   cv: "/cv.pdf",
 
   // Disponibilidad
@@ -134,5 +140,4 @@ export const personal = {
   ],
 } as const;
 
-export type PersonalTimeline = (typeof personal.timeline)[number];
-export type TimelineType = PersonalTimeline["type"];
+validateData(z.array(timelineEntrySchema), personal.timeline, "data/personal.ts (timeline)");

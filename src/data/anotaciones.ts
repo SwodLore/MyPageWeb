@@ -1,20 +1,11 @@
 // ─── Anotaciones por semana — IS093A Desarrollo de Aplicaciones Web ──────────
 // Curso: 2026-I  |  Docente: Dr. Jaime Suasnabar Terrel  |  UNCP
 
-const BASE = "https://portafolio-academico-two.vercel.app/assets/img";
+import { z } from "zod";
+import { type Anotacion, anotacionSchema } from "@/types";
+import { validateData } from "@/lib/validateData";
 
-export interface Anotacion {
-  semana: number;
-  titulo: string;
-  fecha: string;
-  content: string;
-  temas: string[];
-  estado: "completado" | "en-curso" | "pendiente";
-  unidad: "I" | "II";
-  avance: number;
-  reflexion?: string;
-  imagenes?: { src: string; caption: string }[];
-}
+const BASE = "https://portafolio-academico-two.vercel.app/assets/img";
 
 export const anotaciones: Anotacion[] = [
 
@@ -735,3 +726,5 @@ PREPARACIÓN
 • Entrega final del portafolio académico del curso.`,
   },
 ];
+
+validateData(z.array(anotacionSchema), anotaciones, "data/anotaciones.ts");

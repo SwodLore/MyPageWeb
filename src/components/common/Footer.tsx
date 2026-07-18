@@ -1,43 +1,26 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useLenis } from "lenis/react";
 import {
-  Github, Instagram, Linkedin, Mail, MapPin,
+  Github, Mail, MapPin,
   ArrowUp, Clock, Briefcase, Sparkles, ExternalLink,
 } from "lucide-react";
-import { personal } from "../data/personal";
+import { personal } from "@/data/personal";
+import { SECTION_NAV, SOCIAL_LINKS } from "@/data/navigation";
 
 // ═══════════════════════════════════════════════════════════════
-// Data
+// Presentación local — clases hover por red social
 // ═══════════════════════════════════════════════════════════════
 
-const SOCIAL = [
-  {
-    name: "LinkedIn",
-    href: personal.social.linkedin,
-    icon: Linkedin,
-    color: "hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 dark:hover:bg-blue-900/20 dark:hover:text-blue-400 dark:hover:border-blue-700/50",
-  },
-  {
-    name: "GitHub",
-    href: personal.social.github,
-    icon: Github,
-    color: "hover:bg-slate-100 hover:text-slate-900 hover:border-slate-300 dark:hover:bg-slate-700 dark:hover:text-white dark:hover:border-slate-600",
-  },
-  {
-    name: "Instagram",
-    href: personal.social.instagram,
-    icon: Instagram,
-    color: "hover:bg-pink-50 hover:text-pink-600 hover:border-pink-200 dark:hover:bg-pink-900/20 dark:hover:text-pink-400 dark:hover:border-pink-700/50",
-  },
-];
+const SOCIAL_HOVER: Record<string, string> = {
+  LinkedIn: "hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 dark:hover:bg-blue-900/20 dark:hover:text-blue-400 dark:hover:border-blue-700/50",
+  GitHub: "hover:bg-slate-100 hover:text-slate-900 hover:border-slate-300 dark:hover:bg-slate-700 dark:hover:text-white dark:hover:border-slate-600",
+  Instagram: "hover:bg-pink-50 hover:text-pink-600 hover:border-pink-200 dark:hover:bg-pink-900/20 dark:hover:text-pink-400 dark:hover:border-pink-700/50",
+};
 
-const NAV_ITEMS = [
-  { id: "sobre-mi",        label: "Inicio" },
-  { id: "skills-overview", label: "Skills" },
-  { id: "portafolio",      label: "Proyectos" },
-  { id: "certificados",    label: "Certificados" },
-  { id: "contacto",        label: "Contacto" },
-];
+const SOCIAL = SOCIAL_LINKS.map((link) => ({
+  ...link,
+  color: SOCIAL_HOVER[link.name] ?? "",
+}));
 
 const STATUS_ITEMS = [
   { icon: MapPin,    label: "Ubicación",    value: personal.location },
@@ -66,8 +49,8 @@ export default function Footer() {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500/60 to-transparent" />
 
       {/* ── CTA block ──────────────────────────────────────────── */}
-      <div className="container-apple pt-16 pb-12">
-        <motion.div
+      <div className="container-page pt-16 pb-12">
+        <m.div
           className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 p-8 md:p-10 text-white"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -90,7 +73,7 @@ export default function Footer() {
               </p>
             </div>
             <div className="flex flex-wrap gap-3 shrink-0">
-              <motion.button
+              <m.button
                 onClick={() => scrollTo("contacto")}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-blue-700 font-semibold text-sm hover:bg-blue-50 transition-colors shadow-md cursor-pointer"
                 whileHover={{ scale: 1.04, y: -1 }}
@@ -98,8 +81,8 @@ export default function Footer() {
               >
                 <Sparkles size={15} />
                 Hablemos
-              </motion.button>
-              <motion.a
+              </m.button>
+              <m.a
                 href={personal.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -110,19 +93,19 @@ export default function Footer() {
                 <Github size={15} />
                 GitHub
                 <ExternalLink size={12} className="opacity-60" />
-              </motion.a>
+              </m.a>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* ── Main grid ──────────────────────────────────────────── */}
-      <div className="container-apple pb-12">
+      <div className="container-page pb-12">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
 
           {/* Brand */}
           <div className="lg:col-span-2 space-y-5">
-            <motion.div
+            <m.div
               className="flex items-center gap-3"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -135,7 +118,7 @@ export default function Footer() {
                 </h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400">{personal.title}</p>
               </div>
-            </motion.div>
+            </m.div>
 
             <p className="max-w-sm text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
               {personal.bioshort}
@@ -144,7 +127,7 @@ export default function Footer() {
             {/* Social */}
             <div className="flex gap-2">
               {SOCIAL.map(({ name, href, icon: Icon, color }) => (
-                <motion.a
+                <m.a
                   key={name}
                   href={href}
                   target="_blank"
@@ -155,7 +138,7 @@ export default function Footer() {
                   whileTap={{ scale: 0.93 }}
                 >
                   <Icon size={16} />
-                </motion.a>
+                </m.a>
               ))}
             </div>
           </div>
@@ -166,8 +149,8 @@ export default function Footer() {
               Navegación
             </h4>
             <nav className="flex flex-col gap-1.5">
-              {NAV_ITEMS.map((item) => (
-                <motion.button
+              {SECTION_NAV.map((item) => (
+                <m.button
                   key={item.id}
                   onClick={() => scrollTo(item.id)}
                   className="w-fit text-sm text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-left"
@@ -175,7 +158,7 @@ export default function Footer() {
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 >
                   {item.label}
-                </motion.button>
+                </m.button>
               ))}
             </nav>
           </div>
@@ -220,12 +203,12 @@ export default function Footer() {
       </div>
 
       {/* ── Bottom bar ─────────────────────────────────────────── */}
-      <div className="container-apple pb-8">
+      <div className="container-page pb-8">
         <div className="pt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-xs text-slate-400 dark:text-slate-500">
             © {currentYear} {personal.fullName} · Construido con React, TypeScript & Framer Motion
           </p>
-          <motion.button
+          <m.button
             onClick={scrollToTop}
             className="flex items-center gap-1.5 text-xs font-medium text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
             whileHover={{ y: -2 }}
@@ -233,7 +216,7 @@ export default function Footer() {
           >
             Volver arriba
             <ArrowUp size={13} />
-          </motion.button>
+          </m.button>
         </div>
       </div>
     </footer>

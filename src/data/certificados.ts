@@ -1,4 +1,6 @@
-import { Certificate } from "../types";
+import { Certificate, certificateSchema } from "@/types";
+import { z } from "zod";
+import { validateData } from "@/lib/validateData";
 
 export const certificados : Certificate[] = [
     {
@@ -66,3 +68,5 @@ export const certificados : Certificate[] = [
         dateCertificate: "27 de Agosto de 2024"
     }
 ]
+
+validateData(z.array(certificateSchema), certificados, "data/certificados.ts");

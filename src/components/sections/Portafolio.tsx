@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import {
   AnimatePresence,
-  motion,
+  m,
   useScroll,
   useTransform,
   useInView,
@@ -18,10 +18,10 @@ import {
   Sparkles,
   Star,
 } from "lucide-react";
-import Modal from "./Modal";
-import { portafolio } from "../data/portafolios";
-import { Portfolio, PORTFOLIO_CATEGORIES, PortfolioCategory } from "../types";
-import { GlowButton, GlassCard } from "./ui";
+import Modal from "@/components/common/Modal";
+import { portafolio } from "@/data/portafolios";
+import { Portfolio, PORTFOLIO_CATEGORIES, PortfolioCategory } from "@/types";
+import { GlowButton, GlassCard } from "@/components/ui";
 
 // ═══════════════════════════════════════════════════════════════
 // Category colours
@@ -72,7 +72,7 @@ interface CategoryFiltersProps {
 
 function CategoryFilters({ active, onSelect, counts }: CategoryFiltersProps) {
   return (
-    <motion.div
+    <m.div
       className="flex flex-wrap justify-center gap-1.5 md:gap-2 p-1.5 rounded-2xl bg-slate-100/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/40 backdrop-blur-sm w-fit mx-auto"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -90,7 +90,7 @@ function CategoryFilters({ active, onSelect, counts }: CategoryFiltersProps) {
           }`}
         >
           {active === cat && (
-            <motion.span
+            <m.span
               layoutId="filter-pill"
               className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md shadow-blue-500/30"
               transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
@@ -110,7 +110,7 @@ function CategoryFilters({ active, onSelect, counts }: CategoryFiltersProps) {
           </span>
         </button>
       ))}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -138,7 +138,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
   const primaryColors = CATEGORY_COLORS[primaryCat] ?? CATEGORY_COLORS.Frontend;
 
   return (
-    <motion.div
+    <m.div
       ref={cardRef}
       layout
       initial={{ opacity: 0, y: 40 }}
@@ -160,7 +160,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
         <div className="relative aspect-video overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
           {project.img ? (
             <>
-              <motion.div style={{ y: imageY }} className="absolute inset-0">
+              <m.div style={{ y: imageY }} className="absolute inset-0">
                 <img
                   src={project.img}
                   alt={project.name}
@@ -168,7 +168,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
                   loading="lazy"
                   decoding="async"
                 />
-              </motion.div>
+              </m.div>
               <div className="absolute inset-0 bg-gradient-to-t from-white/70 dark:from-slate-900/70 via-transparent to-transparent" />
             </>
           ) : (
@@ -308,7 +308,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
           </div>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -352,11 +352,11 @@ export default function Portafolio() {
 
   return (
     <>
-      <div className="container-apple flex flex-col gap-12 md:gap-16">
+      <div className="container-page flex flex-col gap-12 md:gap-16">
 
         {/* ── Section Header ─────────────────────────────────── */}
         <div className="text-center space-y-6">
-          <motion.span
+          <m.span
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -364,9 +364,9 @@ export default function Portafolio() {
           >
             <Sparkles size={14} />
             Portafolio
-          </motion.span>
+          </m.span>
 
-          <motion.h2
+          <m.h2
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -377,9 +377,9 @@ export default function Portafolio() {
             <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
               Proyectos
             </span>
-          </motion.h2>
+          </m.h2>
 
-          <motion.p
+          <m.p
             className="max-w-2xl mx-auto text-lg text-slate-500 dark:text-slate-400"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -388,7 +388,7 @@ export default function Portafolio() {
           >
             Productos digitales creados end-to-end: desde investigación y
             prototipado hasta despliegue cloud.
-          </motion.p>
+          </m.p>
 
           <CategoryFilters
             active={activeFilter}
@@ -398,7 +398,7 @@ export default function Portafolio() {
         </div>
 
         {/* ── Projects Grid ──────────────────────────────────── */}
-        <motion.div
+        <m.div
           layout
           className="grid gap-5 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
         >
@@ -412,11 +412,11 @@ export default function Portafolio() {
               />
             ))}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
 
         {/* ── Expand / Collapse ──────────────────────────────── */}
         {canExpand && (
-          <motion.div
+          <m.div
             className="text-center"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -435,7 +435,7 @@ export default function Portafolio() {
                 </>
               )}
             </GlowButton>
-          </motion.div>
+          </m.div>
         )}
 
         {/* ── CTA Section ────────────────────────────────────── */}

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import { motion, useSpring, useTransform } from "framer-motion";
-import { skills } from "../../data/skills";
+import { m, useSpring, useTransform } from "framer-motion";
+import { skills } from "@/data/skills";
 
 // ═══════════════════════════════════════════════════════════════
 // Infinite Scrolling Skills Marquee with 3D Tilt on Hover
@@ -52,7 +52,7 @@ function SkillCard({ skill }: SkillCardProps) {
     };
 
     return (
-        <motion.div
+        <m.div
             ref={cardRef}
             style={{
                 rotateX: isHovered ? rotateX : 0,
@@ -72,19 +72,19 @@ function SkillCard({ skill }: SkillCardProps) {
             {/* Card */}
             <div className="relative flex flex-col items-center gap-3 p-5 md:p-6 w-28 md:w-32 rounded-xl md:rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 shadow-xl transition-all duration-300 group-hover:border-blue-500/50 group-hover:shadow-blue-500/20">
                 {/* Glare effect */}
-                <motion.div
+                <m.div
                     className="absolute inset-0 rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden"
                     style={{ transformStyle: "preserve-3d" }}
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-transparent" />
-                </motion.div>
+                </m.div>
 
                 {/* Icon Container */}
-                <motion.div
+                <m.div
                     className="relative w-12 h-12 md:w-14 md:h-14 flex items-center justify-center"
                     style={{ transform: "translateZ(30px)" }}
                 >
-                    <motion.img
+                    <m.img
                         src={skill.img}
                         alt={skill.name}
                         className="w-full h-full object-contain drop-shadow-lg"
@@ -95,7 +95,7 @@ function SkillCard({ skill }: SkillCardProps) {
                         } : { rotate: 0, scale: 1 }}
                         transition={{ duration: 0.4 }}
                     />
-                </motion.div>
+                </m.div>
 
                 {/* Name */}
                 <span
@@ -113,7 +113,7 @@ function SkillCard({ skill }: SkillCardProps) {
                     {skill.level}
                 </span>
             </div>
-        </motion.div>
+        </m.div>
     );
 }
 
@@ -146,7 +146,7 @@ export function SkillsMarquee({
             <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-slate-100 dark:from-slate-950 to-transparent z-10 pointer-events-none" />
 
             {/* Scrolling container */}
-            <motion.div
+            <m.div
                 className="flex gap-4 md:gap-5 py-3"
                 animate={{
                     x: isPaused ? undefined : reverse ? [-50 * skills.length, 0] : [0, -50 * skills.length],
@@ -164,7 +164,7 @@ export function SkillsMarquee({
                 {duplicatedSkills.map((skill, index) => (
                     <SkillCard key={`${skill.name}-${index}`} skill={skill} />
                 ))}
-            </motion.div>
+            </m.div>
         </div>
     );
 }
@@ -241,7 +241,7 @@ function SkillCardGrid({ skill }: SkillCardGridProps) {
     };
 
     return (
-        <motion.div
+        <m.div
             ref={cardRef}
             variants={itemVariants}
             style={{
@@ -259,17 +259,17 @@ function SkillCardGrid({ skill }: SkillCardGridProps) {
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-opacity duration-500" />
 
             <div className="relative flex flex-col items-center gap-3 p-4 md:p-5 rounded-xl md:rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 shadow-xl transition-all duration-300 group-hover:border-blue-500/50 group-hover:shadow-blue-500/10">
-                <motion.div
+                <m.div
                     className="absolute inset-0 rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden"
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" />
-                </motion.div>
+                </m.div>
 
-                <motion.div
+                <m.div
                     className="relative w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900/50 p-2 border border-slate-200 dark:border-slate-700/50"
                     style={{ transform: "translateZ(30px)" }}
                 >
-                    <motion.img
+                    <m.img
                         src={skill.img}
                         alt={skill.name}
                         className="w-full h-full object-contain drop-shadow-lg"
@@ -277,7 +277,7 @@ function SkillCardGrid({ skill }: SkillCardGridProps) {
                         animate={isHovered ? { rotate: [0, -5, 5, 0], scale: 1.1 } : { rotate: 0, scale: 1 }}
                         transition={{ duration: 0.4 }}
                     />
-                </motion.div>
+                </m.div>
 
                 <span className="text-sm md:text-base font-semibold text-slate-900 dark:text-white text-center leading-tight">
                     {skill.name}
@@ -287,7 +287,7 @@ function SkillCardGrid({ skill }: SkillCardGridProps) {
                     {skill.level}
                 </span>
             </div>
-        </motion.div>
+        </m.div>
     );
 }
 
@@ -301,7 +301,7 @@ export function SkillsGrid({ className = "", maxItems }: SkillsGridProps) {
     const displayedSkills = maxItems ? skills.slice(0, maxItems) : skills;
 
     return (
-        <motion.div
+        <m.div
             ref={containerRef}
             className={`grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4 ${className}`}
             variants={containerVariants}
@@ -313,7 +313,7 @@ export function SkillsGrid({ className = "", maxItems }: SkillsGridProps) {
             {displayedSkills.map((skill) => (
                 <SkillCardGrid key={skill.name} skill={skill} />
             ))}
-        </motion.div>
+        </m.div>
     );
 }
 

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
   CheckCircle2,
@@ -12,7 +12,9 @@ import {
   FlaskConical,
   NotebookPen,
 } from "lucide-react";
-import { anotaciones, type Anotacion } from "../data/anotaciones";
+import { anotaciones } from "@/data/anotaciones";
+import type { Anotacion } from "@/types";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 // ═══════════════════════════════════════════════════════════════
 // Config
@@ -277,7 +279,7 @@ function StatsBar() {
           <span className="font-bold text-blue-600 dark:text-blue-400">{progreso}%</span>
         </div>
         <div className="h-2.5 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
-          <motion.div
+          <m.div
             className="h-full rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-400"
             initial={{ width: 0 }}
             animate={{ width: `${progreso}%` }}
@@ -342,7 +344,7 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
   const Icon = cfg.icon;
 
   return (
-    <motion.div
+    <m.div
       key={anotacion.semana}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
@@ -456,7 +458,7 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
           </p>
         </div>
       )}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -501,16 +503,21 @@ function MobileTabStrip({
 // ═══════════════════════════════════════════════════════════════
 
 export default function Anotaciones() {
+  usePageMeta(
+    "Anotaciones — Desarrollo de Aplicaciones Web",
+    "Apuntes semanales del curso IS093A Desarrollo de Aplicaciones Web (UNCP): fundamentos web, HTML, CSS, JavaScript, React y más."
+  );
+
   // Default to the week currently in progress, or the last one
   const defaultIndex = anotaciones.findIndex((a) => a.estado === "en-curso");
   const [selected, setSelected] = useState(defaultIndex >= 0 ? defaultIndex : anotaciones.length - 1);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-20">
-      <div className="container-apple max-w-5xl">
+      <div className="container-page max-w-5xl">
 
         {/* Header */}
-        <motion.div
+        <m.div
           className="mb-10"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -529,28 +536,28 @@ export default function Anotaciones() {
           <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
             Registro semanal de temas, conceptos y reflexiones — IS093A Desarrollo de Aplicaciones Web.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Stats */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15, ease }}
         >
           <StatsBar />
-        </motion.div>
+        </m.div>
 
         {/* Mobile tab strip */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.25 }}
         >
           <MobileTabStrip selected={selected} onSelect={setSelected} />
-        </motion.div>
+        </m.div>
 
         {/* Two-panel layout */}
-        <motion.div
+        <m.div
           className="flex gap-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -577,7 +584,7 @@ export default function Anotaciones() {
               <WeekContent key={selected} anotacion={anotaciones[selected]} />
             </AnimatePresence>
           </div>
-        </motion.div>
+        </m.div>
 
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 
 // ═══════════════════════════════════════════════════════════════
 // Custom cursor — desktop (pointer: fine) only.
@@ -61,7 +61,7 @@ export default function CustomCursor() {
   return (
     <>
       {/* ── Dot — instant ──────────────────────────────────────── */}
-      <motion.div
+      <m.div
         className="fixed top-0 left-0 z-[999] pointer-events-none will-change-transform"
         style={{
           x: dotX,
@@ -80,10 +80,10 @@ export default function CustomCursor() {
             hovered ? "bg-cyan-400" : "bg-blue-500"
           }`}
         />
-      </motion.div>
+      </m.div>
 
       {/* ── Ring — spring lag ──────────────────────────────────── */}
-      <motion.div
+      <m.div
         className="fixed top-0 left-0 z-[998] pointer-events-none will-change-transform"
         style={{
           x: ringX,
@@ -107,7 +107,7 @@ export default function CustomCursor() {
               : "border-blue-400/50 bg-transparent"
           }`}
         />
-      </motion.div>
+      </m.div>
     </>
   );
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowLeft, Home, Search } from "lucide-react";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -11,7 +12,7 @@ function Particles() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {particles.map((i) => (
-        <motion.div
+        <m.div
           key={i}
           className="absolute rounded-full bg-blue-500/10 dark:bg-blue-400/10"
           style={{
@@ -38,8 +39,20 @@ function Particles() {
 }
 
 export default function NotFound() {
+  usePageMeta("Página no encontrada");
+
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+
+  // En un SPA la 404 responde con status 200, así que Google podría
+  // indexar URLs inexistentes; este meta le dice que no lo haga.
+  useEffect(() => {
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex";
+    document.head.appendChild(meta);
+    return () => { document.head.removeChild(meta); };
+  }, []);
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-slate-50 dark:bg-slate-950 px-4">
@@ -58,7 +71,7 @@ export default function NotFound() {
 
       <div className="relative z-10 text-center max-w-lg">
         {/* 404 number */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 40, scale: 0.8 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.7, ease }}
@@ -69,10 +82,10 @@ export default function NotFound() {
           >
             404
           </span>
-        </motion.div>
+        </m.div>
 
         {/* Search icon */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2, ease }}
@@ -81,20 +94,20 @@ export default function NotFound() {
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg">
             <Search size={28} className="text-slate-400 dark:text-slate-500" />
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Heading */}
-        <motion.h1
+        <m.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease }}
           className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-3"
         >
           Página no encontrada
-        </motion.h1>
+        </m.h1>
 
         {/* Description */}
-        <motion.p
+        <m.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.42, ease }}
@@ -103,27 +116,27 @@ export default function NotFound() {
           La ruta que buscas no existe o fue movida.
           <br />
           Regresa al inicio para seguir explorando.
-        </motion.p>
+        </m.p>
 
         {/* Actions */}
-        <motion.div
+        <m.div
           className="flex flex-col sm:flex-row items-center justify-center gap-3"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.55, ease }}
         >
           <Link to="/">
-            <motion.span
+            <m.span
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-shadow cursor-pointer"
               whileHover={{ scale: 1.04, y: -1 }}
               whileTap={{ scale: 0.97 }}
             >
               <Home size={16} />
               Ir al inicio
-            </motion.span>
+            </m.span>
           </Link>
 
-          <motion.button
+          <m.button
             onClick={() => window.history.back()}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
             whileHover={{ scale: 1.04, y: -1 }}
@@ -131,19 +144,19 @@ export default function NotFound() {
           >
             <ArrowLeft size={16} />
             Volver atrás
-          </motion.button>
-        </motion.div>
+          </m.button>
+        </m.div>
       </div>
 
       {/* Bottom signature */}
-      <motion.p
+      <m.p
         className="absolute bottom-8 text-xs text-slate-400 dark:text-slate-600"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        alessandropoves.dev
-      </motion.p>
+        alessandro-poves.vercel.app
+      </m.p>
     </div>
   );
 }

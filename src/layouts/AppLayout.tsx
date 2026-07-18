@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
 import { ReactLenis, useLenis } from "lenis/react";
-import Header from "./Header";
-import Footer from "./Footer";
-import { ScrollProgress } from "./magicui/scroll-progress";
-import LoadingScreen from "./LoadingScreen";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import { ScrollProgress } from "@/components/ui";
+import LoadingScreen from "@/components/common/LoadingScreen";
 
 // ═══════════════════════════════════════════════════════════════
 // Lenis options
@@ -43,7 +43,7 @@ function PageContent() {
 
   return (
     <AnimatePresence mode="wait" initial={false}>
-      <motion.div
+      <m.div
         key={location.pathname}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -51,7 +51,7 @@ function PageContent() {
         transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
       >
         <Outlet />
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   );
 }

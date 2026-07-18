@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import type { LucideIcon } from 'lucide-react'
 
 /* Skill categories */
 export const SKILL_CATEGORIES = [
@@ -61,4 +62,45 @@ export const portfolioSchema = z.object({
     featured: z.boolean(),
 })
 export type Portfolio = z.infer<typeof portfolioSchema>
+
+/* Trayectoria (timeline de la sección Sobre mí) */
+export const TIMELINE_TYPES = ['education', 'milestone', 'work'] as const
+export const timelineEntrySchema = z.object({
+    year: z.string(),
+    title: z.string(),
+    description: z.string(),
+    type: z.enum(TIMELINE_TYPES),
+})
+export type TimelineEntry = z.infer<typeof timelineEntrySchema>
+export type TimelineType = TimelineEntry['type']
+
+/* Anotaciones semanales del curso (página /anotaciones) */
+export const anotacionSchema = z.object({
+    semana: z.number().int().positive(),
+    titulo: z.string(),
+    fecha: z.string(),
+    content: z.string(),
+    temas: z.array(z.string()),
+    estado: z.enum(['completado', 'en-curso', 'pendiente']),
+    unidad: z.enum(['I', 'II']),
+    avance: z.number().min(0).max(100),
+    reflexion: z.string().optional(),
+    imagenes: z.array(z.object({ src: z.string(), caption: z.string() })).optional(),
+})
+export type Anotacion = z.infer<typeof anotacionSchema>
+
+/* ── Tipos que contienen componentes React (iconos de lucide) ──
+   No se validan con zod porque un componente no es un dato
+   serializable; aquí solo se declara la forma para reutilizarla. */
+export interface SocialLink {
+    name: string
+    href: string
+    icon: LucideIcon
+}
+
+export interface SoftSkill {
+    icon: LucideIcon
+    title: string
+    desc: string
+}
 
