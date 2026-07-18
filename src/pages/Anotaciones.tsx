@@ -32,8 +32,8 @@ const ESTADO_CONFIG = {
   "en-curso": {
     label: "En curso",
     icon: Clock,
-    pill: "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-blue-200/60 dark:border-blue-700/40",
-    dot: "bg-blue-500",
+    pill: "bg-accent-50 dark:bg-accent-900/20 text-accent-700 dark:text-accent-400 border-accent-200/60 dark:border-accent-700/40",
+    dot: "bg-accent-500",
   },
   pendiente: {
     label: "Pendiente",
@@ -58,76 +58,19 @@ interface Accent {
   softIcon: string;
 }
 
-const ACCENTS: Accent[] = [
-  {
-    text: "text-blue-600 dark:text-blue-400",
-    bar: "bg-gradient-to-r from-blue-500 to-cyan-400",
-    tile: "bg-gradient-to-br from-blue-500 to-cyan-400",
-    active: "bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md shadow-blue-500/25",
-    chip: "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-700/40",
-    dot: "bg-blue-500",
-    soft: "bg-blue-50/70 dark:bg-blue-900/10 border-blue-200/60 dark:border-blue-700/30",
-    softText: "text-blue-800 dark:text-blue-300",
-    softIcon: "text-blue-500",
-  },
-  {
-    text: "text-violet-600 dark:text-violet-400",
-    bar: "bg-gradient-to-r from-violet-500 to-fuchsia-400",
-    tile: "bg-gradient-to-br from-violet-500 to-fuchsia-400",
-    active: "bg-gradient-to-r from-violet-600 to-fuchsia-500 shadow-md shadow-violet-500/25",
-    chip: "bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300 border border-violet-200/60 dark:border-violet-700/40",
-    dot: "bg-violet-500",
-    soft: "bg-violet-50/70 dark:bg-violet-900/10 border-violet-200/60 dark:border-violet-700/30",
-    softText: "text-violet-800 dark:text-violet-300",
-    softIcon: "text-violet-500",
-  },
-  {
-    text: "text-emerald-600 dark:text-emerald-400",
-    bar: "bg-gradient-to-r from-emerald-500 to-teal-400",
-    tile: "bg-gradient-to-br from-emerald-500 to-teal-400",
-    active: "bg-gradient-to-r from-emerald-600 to-teal-500 shadow-md shadow-emerald-500/25",
-    chip: "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-700/40",
-    dot: "bg-emerald-500",
-    soft: "bg-emerald-50/70 dark:bg-emerald-900/10 border-emerald-200/60 dark:border-emerald-700/30",
-    softText: "text-emerald-800 dark:text-emerald-300",
-    softIcon: "text-emerald-500",
-  },
-  {
-    text: "text-amber-600 dark:text-amber-400",
-    bar: "bg-gradient-to-r from-amber-500 to-orange-400",
-    tile: "bg-gradient-to-br from-amber-500 to-orange-400",
-    active: "bg-gradient-to-r from-amber-500 to-orange-500 shadow-md shadow-amber-500/25",
-    chip: "bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-700/40",
-    dot: "bg-amber-500",
-    soft: "bg-amber-50/70 dark:bg-amber-900/10 border-amber-200/60 dark:border-amber-700/30",
-    softText: "text-amber-800 dark:text-amber-300",
-    softIcon: "text-amber-500",
-  },
-  {
-    text: "text-rose-600 dark:text-rose-400",
-    bar: "bg-gradient-to-r from-rose-500 to-pink-400",
-    tile: "bg-gradient-to-br from-rose-500 to-pink-400",
-    active: "bg-gradient-to-r from-rose-600 to-pink-500 shadow-md shadow-rose-500/25",
-    chip: "bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300 border border-rose-200/60 dark:border-rose-700/40",
-    dot: "bg-rose-500",
-    soft: "bg-rose-50/70 dark:bg-rose-900/10 border-rose-200/60 dark:border-rose-700/30",
-    softText: "text-rose-800 dark:text-rose-300",
-    softIcon: "text-rose-500",
-  },
-  {
-    text: "text-indigo-600 dark:text-indigo-400",
-    bar: "bg-gradient-to-r from-indigo-500 to-purple-400",
-    tile: "bg-gradient-to-br from-indigo-500 to-purple-400",
-    active: "bg-gradient-to-r from-indigo-600 to-purple-500 shadow-md shadow-indigo-500/25",
-    chip: "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-700/40",
-    dot: "bg-indigo-500",
-    soft: "bg-indigo-50/70 dark:bg-indigo-900/10 border-indigo-200/60 dark:border-indigo-700/30",
-    softText: "text-indigo-800 dark:text-indigo-300",
-    softIcon: "text-indigo-500",
-  },
-];
+const ACCENT: Accent = {
+  text: "text-accent-600 dark:text-accent-400",
+  bar: "bg-gradient-to-r from-accent-500 to-accent-400",
+  tile: "bg-gradient-to-br from-accent-500 to-accent-400",
+  active: "bg-gradient-to-r from-accent-600 to-accent-500 shadow-md shadow-accent-500/25",
+  chip: "bg-accent-50 dark:bg-accent-900/20 text-accent-700 dark:text-accent-300 border border-accent-200/60 dark:border-accent-700/40",
+  dot: "bg-accent-500",
+  soft: "bg-accent-50/70 dark:bg-accent-900/10 border-accent-200/60 dark:border-accent-700/30",
+  softText: "text-accent-800 dark:text-accent-300",
+  softIcon: "text-accent-500",
+};
 
-const accentFor = (semana: number) => ACCENTS[(semana - 1) % ACCENTS.length];
+
 
 // ═══════════════════════════════════════════════════════════════
 // Parser de apuntes — texto plano → bloques estilizados
@@ -218,7 +161,7 @@ function ContentBlocks({ content, accent }: { content: string; accent: Accent })
             );
           case "mono":
             return (
-              <pre key={i} className="rounded-xl bg-slate-900 dark:bg-slate-950/80 border border-slate-800 dark:border-slate-700/50 px-4 py-3 mb-3 overflow-x-auto">
+              <pre key={i} className="rounded-xl bg-night-900 dark:bg-night-950/80 border border-slate-800 dark:border-slate-700/50 px-4 py-3 mb-3 overflow-x-auto">
                 <code className="text-xs font-mono leading-relaxed text-slate-200">
                   {block.items.join("\n")}
                 </code>
@@ -251,8 +194,8 @@ function StatsBar() {
 
   const stats = [
     { label: "Semanas totales", value: total, color: "text-slate-900 dark:text-white", Icon: BookOpen, tile: "bg-gradient-to-br from-slate-600 to-slate-500" },
-    { label: "Completadas", value: completados, color: "text-emerald-600 dark:text-emerald-400", Icon: CheckCircle2, tile: "bg-gradient-to-br from-emerald-500 to-teal-400" },
-    { label: "En curso", value: enCurso, color: "text-blue-600 dark:text-blue-400", Icon: Clock, tile: "bg-gradient-to-br from-blue-500 to-cyan-400" },
+    { label: "Completadas", value: completados, color: "text-emerald-600 dark:text-emerald-400", Icon: CheckCircle2, tile: "bg-gradient-to-br from-emerald-500 to-accent-400" },
+    { label: "En curso", value: enCurso, color: "text-accent-600 dark:text-accent-400", Icon: Clock, tile: "bg-gradient-to-br from-accent-500 to-accent-400" },
     { label: "Pendientes", value: pendientes, color: "text-slate-500 dark:text-slate-400", Icon: Circle, tile: "bg-gradient-to-br from-slate-400 to-slate-300 dark:from-slate-600 dark:to-slate-500" },
   ];
 
@@ -276,11 +219,11 @@ function StatsBar() {
       <div className="col-span-2 sm:col-span-4 rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-4">
         <div className="flex justify-between text-sm mb-2">
           <span className="font-medium text-slate-700 dark:text-slate-300">Progreso del curso</span>
-          <span className="font-bold text-blue-600 dark:text-blue-400">{progreso}%</span>
+          <span className="font-bold text-accent-600 dark:text-accent-400">{progreso}%</span>
         </div>
         <div className="h-2.5 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
           <m.div
-            className="h-full rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-400"
+            className="h-full rounded-full bg-gradient-to-r from-accent-500 via-accent-500 to-accent-400"
             initial={{ width: 0 }}
             animate={{ width: `${progreso}%` }}
             transition={{ duration: 1.2, ease, delay: 0.3 }}
@@ -305,7 +248,7 @@ function SidebarItem({
   onClick: () => void;
 }) {
   const cfg = ESTADO_CONFIG[anotacion.estado];
-  const accent = accentFor(anotacion.semana);
+  const accent = ACCENT;
   const Icon = cfg.icon;
   const tile =
     anotacion.estado === "pendiente"
@@ -340,7 +283,7 @@ function SidebarItem({
 
 function WeekContent({ anotacion }: { anotacion: Anotacion }) {
   const cfg = ESTADO_CONFIG[anotacion.estado];
-  const accent = accentFor(anotacion.semana);
+  const accent = ACCENT;
   const Icon = cfg.icon;
 
   return (
@@ -477,7 +420,7 @@ function MobileTabStrip({
     <div className="flex gap-1.5 overflow-x-auto pb-2 mb-6 md:hidden [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
       {anotaciones.map((a, i) => {
         const cfg = ESTADO_CONFIG[a.estado];
-        const accent = accentFor(a.semana);
+        const accent = ACCENT;
         const isActive = i === selected;
         return (
           <button
@@ -513,7 +456,7 @@ export default function Anotaciones() {
   const [selected, setSelected] = useState(defaultIndex >= 0 ? defaultIndex : anotaciones.length - 1);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-20">
+    <div className="min-h-screen bg-slate-50 dark:bg-night-950 pt-24 pb-20">
       <div className="container-page max-w-5xl">
 
         {/* Header */}
@@ -523,13 +466,13 @@ export default function Anotaciones() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease }}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-200/50 dark:border-blue-700/40 text-blue-700 dark:text-blue-400 text-xs font-medium mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-50 dark:bg-accent-900/20 border border-accent-200/50 dark:border-accent-700/40 text-accent-700 dark:text-accent-400 text-xs font-medium mb-4">
             <BookOpen size={13} />
             Diario de aprendizaje
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3">
             Anotaciones del{" "}
-            <span className="bg-gradient-to-r from-blue-600 via-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-600 via-accent-500 to-accent-500 bg-clip-text text-transparent">
               Curso
             </span>
           </h1>

@@ -22,7 +22,7 @@ export const ScrollProgress = React.forwardRef<
       <m.div
         ref={ref}
         className={cn(
-          "fixed inset-x-0 top-0 z-[71] h-[3px] origin-left bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-400",
+          "fixed inset-x-0 top-0 z-[71] h-[3px] origin-left bg-gradient-to-r from-accent-500 via-accent-500 to-accent-400",
           className,
         )}
         style={{ scaleX: scrollYProgress }}
@@ -31,7 +31,7 @@ export const ScrollProgress = React.forwardRef<
 
       {/* Glow beneath the bar */}
       <m.div
-        className="fixed inset-x-0 top-0 z-[70] h-[6px] origin-left bg-gradient-to-r from-blue-500/40 via-violet-500/40 to-cyan-400/40 blur-[4px]"
+        className="fixed inset-x-0 top-0 z-[70] h-[6px] origin-left bg-gradient-to-r from-accent-500/40 via-accent-500/40 to-accent-400/40 blur-[4px]"
         style={{ scaleX: scrollYProgress }}
       />
     </>

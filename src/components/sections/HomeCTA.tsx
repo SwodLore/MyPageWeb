@@ -17,7 +17,7 @@ export default function HomeCTA() {
       <div className="container-page">
         <GlassCard className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 md:p-10">
           <div className="text-center md:text-left">
-            <span className="text-sm font-semibold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+            <span className="text-sm font-semibold uppercase tracking-widest text-accent-600 dark:text-accent-400">
               Disponibilidad
             </span>
             <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mt-2">

@@ -43,7 +43,7 @@ function SkillCard({ skill }: SkillCardProps) {
             case "avanzado":
                 return "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
             case "intermedio":
-                return "bg-blue-500/20 text-blue-400 border-blue-500/30";
+                return "bg-accent-500/20 text-accent-400 border-accent-500/30";
             case "basico":
                 return "bg-amber-500/20 text-amber-400 border-amber-500/30";
             default:
@@ -67,10 +67,10 @@ function SkillCard({ skill }: SkillCardProps) {
             className="group relative cursor-pointer flex-shrink-0"
         >
             {/* Glow effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-40 blur-lg transition-opacity duration-500" />
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent-500 via-accent-500 to-accent-500 rounded-2xl opacity-0 group-hover:opacity-40 blur-lg transition-opacity duration-500" />
 
             {/* Card */}
-            <div className="relative flex flex-col items-center gap-3 p-5 md:p-6 w-28 md:w-32 rounded-xl md:rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 shadow-xl transition-all duration-300 group-hover:border-blue-500/50 group-hover:shadow-blue-500/20">
+            <div className="relative flex flex-col items-center gap-3 p-5 md:p-6 w-28 md:w-32 rounded-xl md:rounded-2xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 shadow-xl transition-all duration-300 group-hover:border-accent-500/50 group-hover:shadow-accent-500/20">
                 {/* Glare effect */}
                 <m.div
                     className="absolute inset-0 rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden"
@@ -142,8 +142,8 @@ export function SkillsMarquee({
             onMouseLeave={() => setIsPaused(false)}
         >
             {/* Gradient masks for smooth fade effect */}
-            <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-slate-100 dark:from-slate-950 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-slate-100 dark:from-slate-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-slate-100 dark:from-night-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-slate-100 dark:from-night-950 to-transparent z-10 pointer-events-none" />
 
             {/* Scrolling container */}
             <m.div
@@ -232,7 +232,7 @@ function SkillCardGrid({ skill }: SkillCardGridProps) {
             case "avanzado":
                 return "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
             case "intermedio":
-                return "bg-blue-500/20 text-blue-400 border-blue-500/30";
+                return "bg-accent-500/20 text-accent-400 border-accent-500/30";
             case "basico":
                 return "bg-amber-500/20 text-amber-400 border-amber-500/30";
             default:
@@ -256,9 +256,9 @@ function SkillCardGrid({ skill }: SkillCardGridProps) {
             whileHover={{ scale: 1.05, z: 50 }}
             className="group relative cursor-pointer"
         >
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-opacity duration-500" />
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent-500 via-accent-500 to-accent-500 rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-opacity duration-500" />
 
-            <div className="relative flex flex-col items-center gap-3 p-4 md:p-5 rounded-xl md:rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 shadow-xl transition-all duration-300 group-hover:border-blue-500/50 group-hover:shadow-blue-500/10">
+            <div className="relative flex flex-col items-center gap-3 p-4 md:p-5 rounded-xl md:rounded-2xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 shadow-xl transition-all duration-300 group-hover:border-accent-500/50 group-hover:shadow-accent-500/10">
                 <m.div
                     className="absolute inset-0 rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden"
                 >
@@ -266,7 +266,7 @@ function SkillCardGrid({ skill }: SkillCardGridProps) {
                 </m.div>
 
                 <m.div
-                    className="relative w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900/50 p-2 border border-slate-200 dark:border-slate-700/50"
+                    className="relative w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-night-900/50 p-2 border border-slate-200 dark:border-slate-700/50"
                     style={{ transform: "translateZ(30px)" }}
                 >
                     <m.img

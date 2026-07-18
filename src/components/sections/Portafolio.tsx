@@ -29,14 +29,14 @@ import { GlowButton, GlassCard } from "@/components/ui";
 
 const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   Fullstack: {
-    bg: "bg-blue-100 dark:bg-blue-900/30",
-    text: "text-blue-700 dark:text-blue-300",
-    border: "border-blue-200/60 dark:border-blue-700/40",
+    bg: "bg-accent-100 dark:bg-accent-900/30",
+    text: "text-accent-700 dark:text-accent-300",
+    border: "border-accent-200/60 dark:border-accent-700/40",
   },
   React: {
-    bg: "bg-cyan-100 dark:bg-cyan-900/30",
-    text: "text-cyan-700 dark:text-cyan-300",
-    border: "border-cyan-200/60 dark:border-cyan-700/40",
+    bg: "bg-accent-100 dark:bg-accent-900/30",
+    text: "text-accent-700 dark:text-accent-300",
+    border: "border-accent-200/60 dark:border-accent-700/40",
   },
   Laravel: {
     bg: "bg-red-100 dark:bg-red-900/30",
@@ -49,14 +49,14 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string
     border: "border-amber-200/60 dark:border-amber-700/40",
   },
   Bash: {
-    bg: "bg-green-100 dark:bg-green-900/30",
-    text: "text-green-700 dark:text-green-300",
-    border: "border-green-200/60 dark:border-green-700/40",
+    bg: "bg-accent-100 dark:bg-accent-900/30",
+    text: "text-accent-700 dark:text-accent-300",
+    border: "border-accent-200/60 dark:border-accent-700/40",
   },
   Frontend: {
-    bg: "bg-violet-100 dark:bg-violet-900/30",
-    text: "text-violet-700 dark:text-violet-300",
-    border: "border-violet-200/60 dark:border-violet-700/40",
+    bg: "bg-accent-100 dark:bg-accent-900/30",
+    text: "text-accent-700 dark:text-accent-300",
+    border: "border-accent-200/60 dark:border-accent-700/40",
   },
 };
 
@@ -92,7 +92,7 @@ function CategoryFilters({ active, onSelect, counts }: CategoryFiltersProps) {
           {active === cat && (
             <m.span
               layoutId="filter-pill"
-              className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md shadow-blue-500/30"
+              className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 shadow-md shadow-accent-500/30"
               transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
             />
           )}
@@ -154,7 +154,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
       }}
       className="group"
     >
-      <div className="relative h-full flex flex-col overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700/70 bg-white dark:bg-slate-900 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-blue-500/8 hover:border-blue-400/40">
+      <div className="relative h-full flex flex-col overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700/70 bg-white dark:bg-night-900 shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-accent-500/8 hover:border-accent-400/40">
 
         {/* ── Image ─────────────────────────────────────────── */}
         <div className="relative aspect-video overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
@@ -169,11 +169,11 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
                   decoding="async"
                 />
               </m.div>
-              <div className="absolute inset-0 bg-gradient-to-t from-white/70 dark:from-slate-900/70 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/70 dark:from-night-900/70 via-transparent to-transparent" />
             </>
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-violet-500">
+            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-night-900">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-500 to-accent-500">
                 <Github size={32} className="text-white" />
               </div>
             </div>
@@ -196,13 +196,13 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
           </div>
 
           {/* Hover overlay */}
-          <div className="absolute inset-0 bg-slate-900/72 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <div className="absolute inset-0 bg-night-900/72 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
           {/* Hover actions */}
           <div className="absolute inset-0 flex items-center justify-center gap-2.5 opacity-0 translate-y-3 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
             <button
               onClick={() => onOpenModal(project)}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-slate-900 text-sm font-semibold shadow-xl hover:bg-blue-50 transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-slate-900 text-sm font-semibold shadow-xl hover:bg-accent-50 transition-colors"
             >
               <Eye size={15} />
               Detalles
@@ -212,7 +212,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
                 href={project.urlPageWeb}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold shadow-xl hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 text-white text-sm font-semibold shadow-xl hover:opacity-90 transition-opacity"
               >
                 <Globe size={15} />
                 Visitar
@@ -241,7 +241,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
 
           {/* Title & description */}
           <div className="flex-1">
-            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+            <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors leading-snug">
               {project.name}
             </h3>
             <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
@@ -255,7 +255,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
               <div
                 key={tech.name}
                 title={tech.name}
-                className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 flex items-center justify-center p-1 hover:border-blue-400/50 transition-colors"
+                className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 flex items-center justify-center p-1 hover:border-accent-400/50 transition-colors"
               >
                 <img
                   src={tech.img}
@@ -276,7 +276,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
           <div className="flex gap-2 pt-1">
             <button
               onClick={() => onOpenModal(project)}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 text-white text-sm font-semibold shadow-md shadow-accent-500/20 hover:shadow-lg hover:shadow-accent-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <Eye size={15} />
               Ver detalles
@@ -288,7 +288,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   title="Ver sitio web"
-                  className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-blue-500/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all"
+                  className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-accent-500/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all"
                 >
                   <ExternalLink size={15} className="text-slate-600 dark:text-slate-300" />
                 </a>
@@ -299,7 +299,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   title="Ver código"
-                  className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-blue-500/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all"
+                  className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-accent-500/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all"
                 >
                   <Github size={15} className="text-slate-600 dark:text-slate-300" />
                 </a>
@@ -357,7 +357,7 @@ export default function Portafolio() {
         {/* ── Section Header ─────────────────────────────────── */}
         <div className="text-center space-y-6">
           <m.span
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-100/80 dark:bg-accent-900/30 border border-accent-200/50 dark:border-accent-700/50 text-accent-700 dark:text-accent-300 text-sm font-medium"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -374,7 +374,7 @@ export default function Portafolio() {
             transition={{ delay: 0.08 }}
           >
             Mis{" "}
-            <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
               Proyectos
             </span>
           </m.h2>

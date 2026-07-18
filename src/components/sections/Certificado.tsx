@@ -24,70 +24,14 @@ type CertColor = {
   badge: string;
 };
 
-function getCertColor(name: string): CertColor {
-  const n = name.toLowerCase();
-
-  if (
-    n.includes("hack") ||
-    n.includes("ciber") ||
-    n.includes("security") ||
-    n.includes("segur") ||
-    n.includes("pentest")
-  )
-    return {
-      gradient: "from-red-500 to-orange-500",
-      medalFrom: "#ef4444",
-      medalTo: "#f97316",
-      badge: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
-    };
-
-  if (n.includes("react") || n.includes("typescript") || n.includes("web"))
-    return {
-      gradient: "from-blue-500 to-cyan-500",
-      medalFrom: "#3b82f6",
-      medalTo: "#06b6d4",
-      badge: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-    };
-
-  if (n.includes("laravel") || n.includes("php"))
-    return {
-      gradient: "from-rose-500 to-pink-500",
-      medalFrom: "#f43f5e",
-      medalTo: "#ec4899",
-      badge: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300",
-    };
-
-  if (
-    n.includes("cisco") ||
-    n.includes("network") ||
-    n.includes("ccna") ||
-    n.includes("ip")
-  )
-    return {
-      gradient: "from-emerald-500 to-teal-500",
-      medalFrom: "#10b981",
-      medalTo: "#14b8a6",
-      badge:
-        "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
-    };
-
-  if (n.includes("java") || n.includes("python") || n.includes("backend"))
-    return {
-      gradient: "from-amber-500 to-yellow-500",
-      medalFrom: "#f59e0b",
-      medalTo: "#eab308",
-      badge:
-        "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
-    };
-
-  return {
-    gradient: "from-violet-500 to-purple-500",
-    medalFrom: "#8b5cf6",
-    medalTo: "#a855f7",
-    badge:
-      "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300",
-  };
-}
+/* Esquema único conectado al design system: cambia los tokens
+   --color-accent-* en index.css y estas tarjetas cambian solas. */
+const CERT_COLOR: CertColor = {
+  gradient: "from-accent-600 to-accent-400",
+  medalFrom: "var(--color-accent-600)",
+  medalTo: "var(--color-accent-400)",
+  badge: "bg-accent-100 text-accent-700 dark:bg-accent-900/30 dark:text-accent-300",
+};
 
 // ═══════════════════════════════════════════════════════════════
 // Flip Card
@@ -102,7 +46,7 @@ function CertificateCard({ cert, index }: CertificateCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [flipped, setFlipped] = useState(false);
-  const colors = getCertColor(cert.name);
+  const colors = CERT_COLOR;
 
   return (
     <m.div
@@ -133,7 +77,7 @@ function CertificateCard({ cert, index }: CertificateCardProps) {
         {/* ── FRONT ─────────────────────────────────────────── */}
         <div
           style={{ backfaceVisibility: "hidden" }}
-          className="absolute inset-0 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-lg overflow-hidden"
+          className="absolute inset-0 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-night-900 shadow-lg overflow-hidden"
         >
           {/* Header gradient */}
           <div
@@ -187,7 +131,7 @@ function CertificateCard({ cert, index }: CertificateCardProps) {
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
           }}
-          className="absolute inset-0 flex flex-col rounded-2xl border border-slate-700/60 bg-slate-900 shadow-lg overflow-hidden p-5 gap-4"
+          className="absolute inset-0 flex flex-col rounded-2xl border border-slate-700/60 bg-night-900 shadow-lg overflow-hidden p-5 gap-4"
         >
           {/* Top: gradient strip + title */}
           <div className="flex items-start gap-3">
@@ -207,13 +151,13 @@ function CertificateCard({ cert, index }: CertificateCardProps) {
           {/* Details */}
           <div className="flex-1 space-y-2.5">
             <div className="flex items-center gap-2 text-xs">
-              <Building size={12} className="text-blue-400 flex-shrink-0" />
+              <Building size={12} className="text-accent-400 flex-shrink-0" />
               <span className="text-slate-200 font-medium truncate">
                 {cert.institution}
               </span>
             </div>
             <div className="flex items-center gap-2 text-xs">
-              <User size={12} className="text-violet-400 flex-shrink-0" />
+              <User size={12} className="text-accent-400 flex-shrink-0" />
               <span className="text-slate-400 truncate">{cert.teacher}</span>
             </div>
             <div className="flex items-center gap-2 text-xs">
@@ -305,7 +249,7 @@ export default function Certificado() {
 
       {/* Stats banner */}
       <m.div
-        className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-500 p-8 md:p-10 shadow-2xl"
+        className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-accent-600 via-accent-500 to-accent-500 p-8 md:p-10 shadow-2xl"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -323,7 +267,7 @@ export default function Certificado() {
           <h3 className="text-2xl md:text-3xl font-bold mb-3">
             Competencias Certificadas
           </h3>
-          <p className="text-blue-100 text-lg max-w-2xl mx-auto">
+          <p className="text-accent-100 text-lg max-w-2xl mx-auto">
             <span className="font-bold text-white">{certificados.length}</span>{" "}
             certificaciones que avalan mi experiencia en desarrollo web,
             ciberseguridad, redes y metodologías modernas.

@@ -18,7 +18,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 const LEVEL_STYLE = {
   Avanzado:   "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-400/30",
-  Intermedio: "bg-blue-500/15   text-blue-600   dark:text-blue-400   border-blue-400/30",
+  Intermedio: "bg-accent-500/15   text-accent-600   dark:text-accent-400   border-accent-400/30",
   Básico:     "bg-amber-500/15  text-amber-600  dark:text-amber-400  border-amber-400/30",
 } as const;
 
@@ -44,10 +44,10 @@ function SkillCard({
       exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.18 } }}
       transition={{ duration: 0.35, delay: index * 0.025 }}
       whileHover={{ y: -4, scale: 1.05 }}
-      className="group flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md hover:shadow-blue-500/8 hover:border-blue-300/50 dark:hover:border-blue-600/50 transition-all duration-300 cursor-default"
+      className="group flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-night-900 border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md hover:shadow-accent-500/8 hover:border-accent-300/50 dark:hover:border-accent-600/50 transition-all duration-300 cursor-default"
     >
       {/* Icon */}
-      <div className="w-11 h-11 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/50 group-hover:border-blue-300/40 transition-colors flex items-center justify-center">
+      <div className="w-11 h-11 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/50 group-hover:border-accent-300/40 transition-colors flex items-center justify-center">
         <img
           src={skill.img}
           alt={skill.name}
@@ -91,13 +91,13 @@ export default function Skills() {
       : skills.filter((s) => s.category === (activeTab as SkillCategory));
 
   return (
-    <section className="section-padding bg-slate-50 dark:bg-slate-950">
+    <section className="section-padding bg-slate-50 dark:bg-night-950">
       <div className="container-page space-y-20">
 
         {/* ── Page hero ──────────────────────────────────────── */}
         <div className="mx-auto max-w-4xl space-y-6 text-center">
           <m.div
-            className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-700 dark:border-blue-700/50 dark:bg-blue-500/10 dark:text-blue-300"
+            className="inline-flex items-center gap-2 rounded-full border border-accent-200 bg-accent-50 px-4 py-1.5 text-sm font-medium text-accent-700 dark:border-accent-700/50 dark:bg-accent-500/10 dark:text-accent-300"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -114,7 +114,7 @@ export default function Skills() {
             transition={{ delay: 0.08 }}
           >
             Habilidades que convierten{" "}
-            <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
               ideas en productos
             </span>
           </m.h1>
@@ -146,7 +146,7 @@ export default function Skills() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm dark:border-slate-800/60 dark:bg-slate-900/80"
+                className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm dark:border-slate-800/60 dark:bg-night-900/80"
               >
                 <p className="font-semibold text-slate-900 dark:text-white">
                   {item.title}
@@ -192,7 +192,7 @@ export default function Skills() {
                   {activeTab === tab && (
                     <m.span
                       layoutId="skills-tab-pill"
-                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 shadow-md shadow-blue-500/30"
+                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-600 to-accent-600 shadow-md shadow-accent-500/30"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                     />
                   )}
@@ -233,14 +233,14 @@ export default function Skills() {
 
           {/* Delivery process */}
           <m.div
-            className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80 space-y-5"
+            className="rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800/60 dark:bg-night-900/80 space-y-5"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-300">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-100 text-accent-600 dark:bg-accent-900/30 dark:text-accent-300">
                 <Rocket size={20} />
               </div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white">
@@ -276,7 +276,7 @@ export default function Skills() {
 
           {/* Soft skills */}
           <m.div
-            className="flex flex-col gap-5 rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800/60 dark:bg-slate-900/80"
+            className="flex flex-col gap-5 rounded-3xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800/60 dark:bg-night-900/80"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -297,7 +297,7 @@ export default function Skills() {
                   key={title}
                   className="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50/80 dark:border-slate-700/50 dark:bg-slate-800/40"
                 >
-                  <Icon size={15} className="mt-0.5 text-blue-500 flex-shrink-0" />
+                  <Icon size={15} className="mt-0.5 text-accent-500 flex-shrink-0" />
                   <div>
                     <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
                       {title}
@@ -310,7 +310,7 @@ export default function Skills() {
               ))}
             </div>
 
-            <div className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-4 text-sm text-blue-700 dark:border-blue-700/40 dark:bg-blue-500/10 dark:text-blue-300">
+            <div className="rounded-2xl border border-accent-200 bg-accent-50 px-5 py-4 text-sm text-accent-700 dark:border-accent-700/40 dark:bg-accent-500/10 dark:text-accent-300">
               Listo para integrarme en tu equipo o liderar la construcción
               end-to-end de tu siguiente producto.
             </div>
@@ -345,7 +345,7 @@ export default function Skills() {
             {EDUCATION.map((edu, i) => (
               <m.div
                 key={edu.institution}
-                className={`relative overflow-hidden rounded-3xl border bg-white p-6 shadow-xl dark:bg-slate-900/80 ${edu.accentBorder}`}
+                className={`relative overflow-hidden rounded-3xl border bg-white p-6 shadow-xl dark:bg-night-900/80 ${edu.accentBorder}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -356,7 +356,7 @@ export default function Skills() {
                 />
                 <div className="relative flex flex-col gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-night-900">
                       <img
                         src={edu.logo}
                         alt={edu.institution}

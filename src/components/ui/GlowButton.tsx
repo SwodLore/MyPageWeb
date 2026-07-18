@@ -45,12 +45,12 @@ export function GlowButton({
 
     const variantStyles = {
         primary: `
-      bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-500
+      bg-gradient-to-r from-accent-600 via-accent-500 to-accent-500
       text-white shadow-xl
-      hover:shadow-[0_0_40px_rgba(59,130,246,0.5),0_0_60px_rgba(139,92,246,0.3)]
+      hover:shadow-[var(--glow-accent)]
     `,
         secondary: `
-      bg-white/80 dark:bg-slate-900/80
+      bg-white/80 dark:bg-night-900/80
       text-slate-900 dark:text-white
       border border-slate-200 dark:border-slate-700
       backdrop-blur-lg

@@ -9,16 +9,8 @@ import { X, ExternalLink, Github, Layers, Star } from "lucide-react";
 // Category colours (dark-mode variants — modal is always dark)
 // ═══════════════════════════════════════════════════════════════
 
-const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  Fullstack: { bg: "bg-blue-500/20",   text: "text-blue-300",   border: "border-blue-500/30" },
-  React:     { bg: "bg-cyan-500/20",   text: "text-cyan-300",   border: "border-cyan-500/30" },
-  Laravel:   { bg: "bg-red-500/20",    text: "text-red-300",    border: "border-red-500/30" },
-  Python:    { bg: "bg-amber-500/20",  text: "text-amber-300",  border: "border-amber-500/30" },
-  Bash:      { bg: "bg-green-500/20",  text: "text-green-300",  border: "border-green-500/30" },
-  Frontend:  { bg: "bg-violet-500/20", text: "text-violet-300", border: "border-violet-500/30" },
-};
-
-const DEFAULT_COLOR = { bg: "bg-slate-700", text: "text-slate-300", border: "border-slate-600" };
+/* Badge de categoría — conectado al design system */
+const CATEGORY_STYLE = { bg: "bg-accent-500/20", text: "text-accent-300", border: "border-accent-500/30" };
 
 // ═══════════════════════════════════════════════════════════════
 // Modal
@@ -45,7 +37,7 @@ export default function Modal({ onClose, project }: ModalProps) {
       <Dialog.Portal>
         <Dialog.Overlay asChild>
           <m.div
-            className="fixed inset-0 bg-slate-950/80 backdrop-blur-xl z-[80]"
+            className="fixed inset-0 bg-night-950/80 backdrop-blur-xl z-[80]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -70,7 +62,7 @@ export default function Modal({ onClose, project }: ModalProps) {
               onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
             >
         <m.div
-          className="relative w-full max-w-3xl bg-slate-900 rounded-2xl md:rounded-3xl shadow-2xl shadow-black/60 border border-slate-800/60 overflow-hidden"
+          className="relative w-full max-w-3xl bg-night-900 rounded-2xl md:rounded-3xl shadow-2xl shadow-black/60 border border-slate-800/60 overflow-hidden"
           initial={{ opacity: 0, scale: 0.93, y: 28 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.93, y: 28 }}
@@ -107,7 +99,7 @@ export default function Modal({ onClose, project }: ModalProps) {
             </div>
 
             {/* Screenshot */}
-            <div className="relative w-full aspect-video bg-slate-950 rounded-xl overflow-hidden border border-slate-700/50 shadow-xl">
+            <div className="relative w-full aspect-video bg-night-950 rounded-xl overflow-hidden border border-slate-700/50 shadow-xl">
               {project.img ? (
                 <img
                   src={project.img}
@@ -117,7 +109,7 @@ export default function Modal({ onClose, project }: ModalProps) {
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-3">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-500 to-accent-500 flex items-center justify-center">
                     <Github size={32} className="text-white" />
                   </div>
                   <span className="text-slate-500 text-sm">Sin vista previa</span>
@@ -139,7 +131,7 @@ export default function Modal({ onClose, project }: ModalProps) {
                 </Dialog.Title>
                 <div className="flex flex-wrap gap-1.5 mt-0.5">
                   {project.category.map((cat) => {
-                    const c = CATEGORY_COLORS[cat] ?? DEFAULT_COLOR;
+                    const c = CATEGORY_STYLE;
                     return (
                       <span
                         key={cat}
@@ -161,8 +153,8 @@ export default function Modal({ onClose, project }: ModalProps) {
             {/* Technologies */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center border border-cyan-500/30 flex-shrink-0">
-                  <Layers size={16} className="text-blue-400" />
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-500/20 to-accent-500/20 flex items-center justify-center border border-accent-500/30 flex-shrink-0">
+                  <Layers size={16} className="text-accent-400" />
                 </div>
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider">
                   Tecnologías utilizadas
@@ -177,7 +169,7 @@ export default function Modal({ onClose, project }: ModalProps) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.04 }}
                     whileHover={{ y: -3, scale: 1.05 }}
-                    className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-800/60 border border-slate-700/50 hover:border-cyan-500/50 hover:bg-slate-800 transition-all duration-200"
+                    className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-800/60 border border-slate-700/50 hover:border-accent-500/50 hover:bg-slate-800 transition-all duration-200"
                   >
                     <img
                       src={tech.img}
@@ -200,7 +192,7 @@ export default function Modal({ onClose, project }: ModalProps) {
                   href={project.urlPageWeb}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-cyan-500/30 transition-shadow"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 text-white font-semibold shadow-lg shadow-accent-500/25 hover:shadow-xl hover:shadow-accent-500/30 transition-shadow"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                 >

@@ -18,45 +18,53 @@ html.lenis body {
 @custom-variant dark (&:where(.dark *), &:where([data-theme="dark"] *));
 
 /* ═══════════════════════════════════════════════════════════════
-   🎨 DESIGN SYSTEM - Alessandro Poves Portfolio
-   Modern, animated, professional design tokens
+   🎨 DESIGN SYSTEM — Alessandro Poves Portfolio
+   Tema "Noche Morada": una sola familia de color (morado) con
+   4-5 intensidades + negros teñidos de morado para el modo oscuro.
+   Regla: el acento es SIEMPRE la escala accent-*; los fondos dark
+   son SIEMPRE la escala night-*. Nada de azules/cyans sueltos.
    ═══════════════════════════════════════════════════════════════ */
 
+@theme {
+  /* Acento morado — única familia de color del sitio (escala completa) */
+  --color-accent-50: #f5f3ff;
+  --color-accent-100: #ede9fe;
+  --color-accent-200: #ddd6fe;
+  --color-accent-300: #c4b5fd;
+  --color-accent-400: #a78bfa;
+  --color-accent-500: #8b5cf6;
+  --color-accent-600: #7c3aed;
+  --color-accent-700: #6d28d9;
+  --color-accent-800: #5b21b6;
+  --color-accent-900: #4c1d95;
+  --color-accent-950: #2e1065;
+
+  /* Noche — negros teñidos de morado (fondos del modo oscuro) */
+  --color-night-950: #0a0118;
+  /* fondo base */
+  --color-night-900: #120627;
+  /* superficie elevada (header, footer) */
+  --color-night-800: #1b0f38;
+  /* cards */
+  --color-night-700: #2a1a52;
+  /* bordes */
+}
+
 :root {
-  /* Primary Colors */
-  --color-primary: 59 130 246;
-  /* Blue-500 */
-  --color-primary-light: 96 165 250;
-  /* Blue-400 */
-  --color-primary-dark: 37 99 235;
-  /* Blue-600 */
-
-  /* Accent Colors */
-  --color-accent: 139 92 246;
-  /* Violet-500 */
-  --color-accent-light: 167 139 250;
-  /* Violet-400 */
-  --color-cyan: 34 211 238;
-  /* Cyan-400 */
-
   /* Glass Effect */
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.3);
   --glass-blur: 16px;
 
-  /* Glow Effects */
-  --glow-primary: 0 0 20px rgba(59, 130, 246, 0.5);
+  /* Glow morado — la "vida" del tema, un solo matiz */
   --glow-accent: 0 0 20px rgba(139, 92, 246, 0.5);
-  --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.5);
 }
 
 .dark {
-  --glass-bg: rgba(15, 23, 42, 0.8);
-  --glass-border: rgba(148, 163, 184, 0.1);
+  --glass-bg: rgba(18, 6, 39, 0.8);
+  --glass-border: rgba(167, 139, 250, 0.12);
 
-  --glow-primary: 0 0 30px rgba(96, 165, 250, 0.4);
   --glow-accent: 0 0 30px rgba(167, 139, 250, 0.4);
-  --glow-cyan: 0 0 30px rgba(34, 211, 238, 0.4);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -90,33 +98,33 @@ html.lenis body {
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(59, 130, 246, 0.25);
+    background: rgba(139, 92, 246, 0.25);
     border-radius: 99px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(59, 130, 246, 0.55);
+    background: rgba(139, 92, 246, 0.55);
   }
   .dark ::-webkit-scrollbar-thumb {
-    background: rgba(96, 165, 250, 0.2);
+    background: rgba(167, 139, 250, 0.2);
   }
   .dark ::-webkit-scrollbar-thumb:hover {
-    background: rgba(96, 165, 250, 0.5);
+    background: rgba(167, 139, 250, 0.5);
   }
 
   /* ── Selection ─────────────────────────────────── */
   ::selection {
-    background-color: rgba(59, 130, 246, 0.25);
-    color: #1e3a8a;
+    background-color: rgba(139, 92, 246, 0.25);
+    color: #4c1d95;
   }
 
   .dark ::selection {
-    background-color: rgba(96, 165, 250, 0.25);
-    color: #dbeafe;
+    background-color: rgba(167, 139, 250, 0.25);
+    color: #ede9fe;
   }
 
   /* ── Focus visible ─────────────────────────────── */
   :focus-visible {
-    outline: 2px solid rgba(59, 130, 246, 0.7);
+    outline: 2px solid rgba(139, 92, 246, 0.7);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -144,11 +152,11 @@ html.lenis body {
 
   /* Text Gradients */
   .text-gradient-primary {
-    @apply bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent-600 via-accent-500 to-accent-400 bg-clip-text text-transparent;
   }
 
   .text-gradient-primary-dark {
-    @apply bg-gradient-to-r from-blue-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent-400 via-accent-300 to-accent-200 bg-clip-text text-transparent;
   }
 
   /* Glassmorphism */
@@ -175,11 +183,11 @@ html.lenis body {
 
   0%,
   100% {
-    box-shadow: var(--glow-primary);
+    box-shadow: var(--glow-accent);
   }
 
   50% {
-    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8), 0 0 60px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 40px rgba(139, 92, 246, 0.8), 0 0 60px rgba(196, 181, 253, 0.4);
   }
 }
 
@@ -252,15 +260,15 @@ html.lenis body {
 }
 
 .aurora-blob-1 {
-  @apply bg-gradient-to-br from-blue-400/40 via-cyan-300/30 to-transparent;
+  @apply bg-gradient-to-br from-accent-500/40 via-accent-300/30 to-transparent;
 }
 
 .aurora-blob-2 {
-  @apply bg-gradient-to-br from-violet-400/40 via-purple-300/30 to-transparent;
+  @apply bg-gradient-to-br from-accent-400/40 via-accent-200/25 to-transparent;
 }
 
 .aurora-blob-3 {
-  @apply bg-gradient-to-br from-pink-400/30 via-rose-300/20 to-transparent;
+  @apply bg-gradient-to-br from-accent-600/30 via-accent-300/15 to-transparent;
 }
 
 
@@ -268,13 +276,13 @@ html.lenis body {
 
   0%,
   100% {
-    border-color: rgba(59, 130, 246, 0.5);
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
   }
 
   50% {
-    border-color: rgba(139, 92, 246, 0.5);
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+    border-color: rgba(196, 181, 253, 0.5);
+    box-shadow: 0 0 20px rgba(167, 139, 250, 0.4);
   }
 }
 
@@ -323,13 +331,13 @@ html.lenis body {
   /* Glow Button */
   .btn-glow {
     @apply relative overflow-hidden rounded-2xl px-8 py-4 font-semibold text-white shadow-xl transition-all duration-300;
-    background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
+    background: linear-gradient(135deg, var(--color-accent-600), var(--color-accent-400));
     animation: glow-pulse 3s ease-in-out infinite;
   }
 
   .btn-glow:hover {
     @apply scale-105 -translate-y-1;
-    box-shadow: 0 0 50px rgba(59, 130, 246, 0.6), 0 0 80px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 50px rgba(139, 92, 246, 0.6), 0 0 80px rgba(196, 181, 253, 0.4);
   }
 
   .btn-glow::before {
@@ -353,7 +361,7 @@ html.lenis body {
   /* Shimmer Button */
   .btn-shimmer {
     @apply relative overflow-hidden rounded-2xl px-8 py-4 font-semibold text-white;
-    background: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-accent)));
+    background: linear-gradient(135deg, var(--color-accent-600), var(--color-accent-400));
   }
 
   .btn-shimmer::after {
@@ -384,7 +392,7 @@ html.lenis body {
 
   .glass-card:hover {
     @apply scale-[1.02] -translate-y-1;
-    box-shadow: var(--glow-primary);
+    box-shadow: var(--glow-accent);
   }
 
   /* Animated Border */
@@ -399,10 +407,10 @@ html.lenis body {
     border-radius: inherit;
     padding: 2px;
     background: linear-gradient(90deg,
-        rgb(var(--color-primary)),
-        rgb(var(--color-accent)),
-        rgb(var(--color-cyan)),
-        rgb(var(--color-primary)));
+        var(--color-accent-600),
+        var(--color-accent-400),
+        var(--color-accent-300),
+        var(--color-accent-600));
     background-size: 300% 100%;
     animation: shimmer 4s linear infinite;
     -webkit-mask:
@@ -529,7 +537,7 @@ html.lenis body {
   }
 
   .btn-glow {
-    box-shadow: var(--glow-primary) !important;
+    box-shadow: var(--glow-accent) !important;
   }
 
   /* Hide custom cursor for reduced-motion — native cursor is shown via media query inversion */

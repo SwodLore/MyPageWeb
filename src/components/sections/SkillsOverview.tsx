@@ -35,23 +35,23 @@ export default function SkillsOverview() {
       variants={staggerContainer}
     >
       {/* Gradient background - responsive to theme */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-slate-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-slate-50 to-slate-100 dark:from-night-950 dark:via-night-900 dark:to-night-950" />
 
       {/* Decorative blurs */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
 
       <div className="container-page relative z-10">
         {/* Section Header */}
         <m.div className="text-center mb-16" variants={fadeInUp}>
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-sm font-medium mb-6">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-400 text-sm font-medium mb-6">
             <Sparkles size={14} />
             Stack Tecnológico
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6">
             Habilidades que convierten
             <br />
-            <span className="bg-gradient-to-r from-violet-600 via-blue-600 to-cyan-500 dark:from-violet-400 dark:via-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
               ideas en productos reales
             </span>
           </h2>
@@ -63,7 +63,7 @@ export default function SkillsOverview() {
         {/* Skills Marquee - Full Width with Two Rows */}
         <m.div variants={fadeInUp} className="mb-12">
           <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-            <span className="w-8 h-1 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full" />
+            <span className="w-8 h-1 bg-gradient-to-r from-accent-500 to-accent-500 rounded-full" />
             Mis Tecnologías
           </h3>
           <div className="space-y-4">
@@ -77,7 +77,7 @@ export default function SkillsOverview() {
         {/* Workflow Cards - Horizontal Grid */}
         <m.div variants={fadeInUp}>
           <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-            <span className="w-8 h-1 bg-gradient-to-r from-violet-500 to-pink-500 rounded-full" />
+            <span className="w-8 h-1 bg-gradient-to-r from-accent-500 to-accent-500 rounded-full" />
             Cómo Trabajo
           </h3>
           <div className="grid md:grid-cols-3 gap-4">
@@ -89,9 +89,9 @@ export default function SkillsOverview() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="p-5 rounded-xl bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 hover:border-violet-500/50 transition-all duration-300"
+                className="p-5 rounded-xl bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 hover:border-accent-500/50 transition-all duration-300"
               >
-                <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-blue-500 to-violet-500 text-white rounded-md mb-3">
+                <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-accent-500 to-accent-500 text-white rounded-md mb-3">
                   {item.tag}
                 </span>
                 <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
@@ -109,7 +109,7 @@ export default function SkillsOverview() {
         <m.div className="text-center mt-12" variants={fadeInUp}>
           <MotionLink
             to="/skills"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-blue-600 text-white font-semibold shadow-xl hover:shadow-2xl transition-shadow"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-accent-600 to-accent-600 text-white font-semibold shadow-xl hover:shadow-2xl transition-shadow"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.98 }}
           >

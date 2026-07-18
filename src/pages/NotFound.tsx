@@ -14,7 +14,7 @@ function Particles() {
       {particles.map((i) => (
         <m.div
           key={i}
-          className="absolute rounded-full bg-blue-500/10 dark:bg-blue-400/10"
+          className="absolute rounded-full bg-accent-500/10 dark:bg-accent-400/10"
           style={{
             width: Math.random() * 60 + 20,
             height: Math.random() * 60 + 20,
@@ -55,9 +55,9 @@ export default function NotFound() {
   }, []);
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-slate-50 dark:bg-slate-950 px-4">
+    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-slate-50 dark:bg-night-950 px-4">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blue-50/50 via-transparent to-violet-50/30 dark:from-blue-950/30 dark:via-transparent dark:to-violet-950/20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-accent-50/50 via-transparent to-accent-50/30 dark:from-accent-950/30 dark:via-transparent dark:to-accent-950/20" />
       {mounted && <Particles />}
 
       {/* Grid mesh */}
@@ -77,7 +77,7 @@ export default function NotFound() {
           transition={{ duration: 0.7, ease }}
           className="mb-4"
         >
-          <span className="text-[10rem] sm:text-[14rem] font-black leading-none select-none bg-gradient-to-br from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent"
+          <span className="text-[10rem] sm:text-[14rem] font-black leading-none select-none bg-gradient-to-br from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent"
             style={{ backgroundSize: "200% auto" }}
           >
             404
@@ -127,7 +127,7 @@ export default function NotFound() {
         >
           <Link to="/">
             <m.span
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-shadow cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 text-white font-semibold shadow-lg shadow-accent-500/20 hover:shadow-accent-500/30 transition-shadow cursor-pointer"
               whileHover={{ scale: 1.04, y: -1 }}
               whileTap={{ scale: 0.97 }}
             >

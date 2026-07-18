@@ -15,7 +15,7 @@ function AuroraBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-950 dark:via-slate-900/80 dark:to-slate-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-accent-50/30 to-slate-50 dark:from-night-950 dark:via-night-900/80 dark:to-night-950" />
 
       {/* Blob 1 — blue, top-left */}
       <m.div
@@ -49,7 +49,7 @@ function AuroraBackground() {
       />
 
       {/* Radial vignette to fade out edges */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,transparent_60%,var(--tw-gradient-from))] from-slate-50 dark:from-slate-950" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,transparent_60%,var(--tw-gradient-from))] from-slate-50 dark:from-night-950" />
     </div>
   );
 }
@@ -74,13 +74,13 @@ function ProfilePhoto() {
   return (
     <div className="relative select-none">
       {/* Large ambient glow */}
-      <div className="absolute -inset-10 rounded-full bg-gradient-to-r from-blue-500/15 via-violet-500/15 to-cyan-500/15 blur-3xl animate-pulse-glow" />
+      <div className="absolute -inset-10 rounded-full bg-gradient-to-r from-accent-500/15 via-accent-500/15 to-accent-500/15 blur-3xl animate-pulse-glow" />
 
       {/* Animated gradient border ring */}
-      <div className="absolute -inset-[3px] rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-400 opacity-50 blur-[3px] animate-spin-slow" />
+      <div className="absolute -inset-[3px] rounded-full bg-gradient-to-r from-accent-500 via-accent-500 to-accent-400 opacity-50 blur-[3px] animate-spin-slow" />
 
       {/* Inner shadow ring for depth */}
-      <div className="absolute -inset-[3px] rounded-full bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-400 opacity-30 animate-spin-slow" />
+      <div className="absolute -inset-[3px] rounded-full bg-gradient-to-r from-accent-500 via-accent-500 to-accent-400 opacity-30 animate-spin-slow" />
 
       {/* Photo */}
       <div className="relative rounded-full overflow-hidden border-[3px] border-white/40 dark:border-slate-900/60 shadow-2xl animate-float-slow">
@@ -100,7 +100,7 @@ function ProfilePhoto() {
         {personal.orbitingTech.map((tech, i) => (
           <div
             key={tech.name}
-            className={`absolute ${ORBIT_POSITIONS[i % ORBIT_POSITIONS.length]} w-11 h-11 rounded-xl bg-white dark:bg-slate-900 shadow-lg border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center animate-spin-slower-reverse`}
+            className={`absolute ${ORBIT_POSITIONS[i % ORBIT_POSITIONS.length]} w-11 h-11 rounded-xl bg-white dark:bg-night-900 shadow-lg border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center animate-spin-slower-reverse`}
           >
             <img
               src={tech.img}
@@ -183,7 +183,7 @@ export default function HomeHero() {
               {/* Last name — animated gradient */}
               <div className="overflow-hidden">
                 <m.span
-                  className="block text-6xl sm:text-7xl md:text-8xl font-bold tracking-tight bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent"
+                  className="block text-6xl sm:text-7xl md:text-8xl font-bold tracking-tight bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent"
                   initial={{ y: "110%" }}
                   animate={{
                     y: 0,
@@ -315,7 +315,7 @@ export default function HomeHero() {
       {/* Scroll indicator */}
       <m.button
         onClick={() => scrollTo("stats-section")}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-slate-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300 cursor-pointer"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-slate-400 hover:text-accent-500 dark:hover:text-accent-400 transition-colors duration-300 cursor-pointer"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.0, duration: 0.6 }}

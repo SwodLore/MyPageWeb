@@ -25,10 +25,10 @@ type TypeConfig = {
 
 const TYPE_CONFIG: Record<TimelineType, TypeConfig> = {
   education: {
-    dot: "bg-blue-500",
-    bg: "bg-blue-50 dark:bg-blue-900/30",
-    text: "text-blue-700 dark:text-blue-300",
-    border: "border-blue-200 dark:border-blue-800/50",
+    dot: "bg-accent-500",
+    bg: "bg-accent-50 dark:bg-accent-900/30",
+    text: "text-accent-700 dark:text-accent-300",
+    border: "border-accent-200 dark:border-accent-800/50",
     icon: GraduationCap,
   },
   milestone: {
@@ -111,13 +111,13 @@ function TimelineItem({ item, index, isLast }: TLItemProps) {
 
 export default function AboutSection() {
   return (
-    <section className="section-padding bg-white dark:bg-slate-950">
+    <section className="section-padding bg-white dark:bg-night-950">
       <div className="container-page space-y-16">
 
         {/* ── Header ─────────────────────────────────────────── */}
         <div className="text-center space-y-4">
           <m.span
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-100/80 dark:bg-accent-900/30 border border-accent-200/50 dark:border-accent-700/50 text-accent-700 dark:text-accent-300 text-sm font-medium"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -134,7 +134,7 @@ export default function AboutSection() {
             transition={{ delay: 0.08 }}
           >
             Quién está detrás{" "}
-            <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
               del código
             </span>
           </m.h2>
@@ -174,10 +174,10 @@ export default function AboutSection() {
               {VALUE_PROPS.map(({ icon: Icon, label, desc }) => (
                 <div
                   key={label}
-                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/60 hover:border-blue-300/50 dark:hover:border-blue-700/50 transition-colors"
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-night-900/60 border border-slate-200/80 dark:border-slate-800/60 hover:border-accent-300/50 dark:hover:border-accent-700/50 transition-colors"
                 >
-                  <div className="w-9 h-9 mb-3 rounded-xl bg-gradient-to-br from-blue-500/15 to-violet-500/15 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center">
-                    <Icon size={16} className="text-blue-600 dark:text-blue-400" />
+                  <div className="w-9 h-9 mb-3 rounded-xl bg-gradient-to-br from-accent-500/15 to-accent-500/15 border border-accent-200/60 dark:border-accent-800/40 flex items-center justify-center">
+                    <Icon size={16} className="text-accent-600 dark:text-accent-400" />
                   </div>
                   <p className="text-sm font-bold text-slate-900 dark:text-white">{label}</p>
                   <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">

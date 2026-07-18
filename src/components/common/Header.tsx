@@ -4,6 +4,7 @@ import { LayoutGroup, m, AnimatePresence } from "framer-motion";
 import { Menu, Sparkles, X } from "lucide-react";
 import { useLenis } from "lenis/react";
 import ThemeToggle from "./ThemeToggle";
+import BrandMark from "./BrandMark";
 import { personal } from "@/data/personal";
 import { HEADER_NAV, SOCIAL_LINKS } from "@/data/navigation";
 
@@ -11,7 +12,12 @@ import { HEADER_NAV, SOCIAL_LINKS } from "@/data/navigation";
 // Header
 // ═══════════════════════════════════════════════════════════════
 
-export default function Header() {
+interface HeaderProps {
+  /** false mientras corre el intro: el logo espera su llegada vía layoutId */
+  brandReady?: boolean;
+}
+
+export default function Header({ brandReady = true }: HeaderProps) {
   const lenis = useLenis();
   const location = useLocation();
   const [scrolled, setScrolled]       = useState(false);
@@ -51,7 +57,7 @@ export default function Header() {
       <m.header
         className={`fixed top-0 left-0 right-0 z-50 w-full transition-[background-color,border-color,box-shadow] duration-300 ${
           scrolled
-            ? "bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-lg shadow-slate-200/20 dark:shadow-slate-900/30"
+            ? "bg-white/85 dark:bg-night-900/85 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-lg shadow-slate-200/20 dark:shadow-slate-900/30"
             : "bg-transparent"
         }`}
         initial={{ y: -100, opacity: 0 }}
@@ -68,20 +74,29 @@ export default function Header() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
             >
-              <div className="relative">
-                <img
-                  src="/icon.webp"
-                  alt="Alessandro Poves"
-                  className="h-14 w-auto object-contain"
-                />
-                {/* Availability dot */}
-                {personal.available && (
-                  <span className="absolute bottom-1 right-0 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-white dark:border-slate-900" />
-                  </span>
-                )}
-              </div>
+              {brandReady ? (
+                // key fuerza remontaje al terminar el intro: framer detecta
+                // el layoutId compartido y anima el logo desde el loader.
+                <m.div
+                  key="brand-mark"
+                  layoutId="brand-mark"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="relative"
+                >
+                  <BrandMark className="h-11 w-auto" />
+                  {/* Availability dot */}
+                  {personal.available && (
+                    <span className="absolute -bottom-0.5 -right-1 flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-white dark:border-night-900" />
+                    </span>
+                  )}
+                </m.div>
+              ) : (
+                <div className="relative opacity-0" aria-hidden="true">
+                  <BrandMark className="h-11 w-auto" />
+                </div>
+              )}
               <div className="hidden sm:block">
                 <span className="block text-base font-bold text-slate-900 dark:text-white leading-tight">
                   Alessandro Poves
@@ -109,7 +124,7 @@ export default function Header() {
                   const pill = isActive && (
                     <m.div
                       layoutId="activeNavTab"
-                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 shadow-md shadow-blue-500/25"
+                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 shadow-md shadow-accent-500/25"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.55 }}
                     />
                   );
@@ -155,7 +170,7 @@ export default function Header() {
               {/* CTA — visible from lg */}
               <m.button
                 onClick={() => scrollTo("contacto")}
-                className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-shadow cursor-pointer"
+                className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 text-white text-sm font-semibold shadow-md shadow-accent-500/20 hover:shadow-lg hover:shadow-accent-500/30 transition-shadow cursor-pointer"
                 whileHover={{ scale: 1.04, y: -1 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -222,7 +237,7 @@ export default function Header() {
               exit={{ opacity: 0, y: -12, scale: 0.97 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="rounded-2xl border border-slate-200/50 dark:border-slate-700/50 bg-white/96 dark:bg-slate-900/96 backdrop-blur-xl shadow-2xl overflow-hidden">
+              <div className="rounded-2xl border border-slate-200/50 dark:border-slate-700/50 bg-white/96 dark:bg-night-900/96 backdrop-blur-xl shadow-2xl overflow-hidden">
 
                 {/* Availability row */}
                 {personal.available && (
@@ -245,7 +260,7 @@ export default function Header() {
                       ? location.pathname === item.href
                       : activeSection === item.id && location.pathname === "/";
                     const key = isRoute ? item.href : item.id;
-                    const activeClass = "bg-gradient-to-r from-blue-600 to-cyan-500 text-white";
+                    const activeClass = "bg-gradient-to-r from-accent-600 to-accent-500 text-white";
                     const inactiveClass = "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800";
                     const baseClass = `w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors cursor-pointer ${isActive ? activeClass : inactiveClass}`;
 
@@ -283,7 +298,7 @@ export default function Header() {
                 <div className="p-2 pt-0">
                   <m.button
                     onClick={() => scrollTo("contacto")}
-                    className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-semibold shadow-md cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 text-white text-sm font-semibold shadow-md cursor-pointer"
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.22 }}
@@ -303,7 +318,7 @@ export default function Header() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={name}
-                      className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-700 transition-colors"
+                      className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-accent-600 dark:hover:text-accent-400 hover:border-accent-300 dark:hover:border-accent-700 transition-colors"
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.28 + i * 0.04 }}

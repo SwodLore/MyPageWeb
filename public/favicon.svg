@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Tile noche con el monograma <ap> — favicon maestro.
+       Colores fijos (un favicon no puede leer el CSS del sitio):
+       night #0a0118 · a #7c3aed · p #a78bfa · brackets #c4b5fd -->
+  <rect width="512" height="512" rx="104" fill="#0a0118"/>
+  <g transform="translate(56 133) scale(1.176)" style="isolation:isolate">
+    <g fill="none" stroke-linecap="round" opacity="0.92" style="mix-blend-mode:screen">
+      <circle cx="120" cy="110" r="40" stroke="#7c3aed" stroke-width="34"/>
+      <line x1="160" y1="76" x2="160" y2="150" stroke="#7c3aed" stroke-width="34"/>
+      <line x1="174" y1="76" x2="174" y2="196" stroke="#a78bfa" stroke-width="34"/>
+      <circle cx="214" cy="110" r="40" stroke="#a78bfa" stroke-width="34"/>
+    </g>
+    <g fill="none" stroke="#c4b5fd" stroke-width="15" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="44,78 18,110 44,142"/>
+      <polyline points="298,78 324,110 298,142"/>
+    </g>
+    <ellipse cx="197" cy="141" rx="19" ry="13" fill="#ffffff" transform="rotate(-10 197 141)"/>
+  </g>
+</svg>

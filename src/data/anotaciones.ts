@@ -150,7 +150,7 @@ Tipografía:
   font-bold, font-semibold, text-xl, text-sm, leading-relaxed, tracking-wide, uppercase
 
 Colores y Background:
-  bg-blue-500, text-white, border-gray-200, shadow-md
+  bg-accent-500, text-white, border-gray-200, shadow-md
 
 Espaciado:
   p-4 (padding), m-2 (margin), px-6 (padding horizontal), gap-4

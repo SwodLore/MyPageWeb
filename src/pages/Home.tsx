@@ -39,7 +39,7 @@ export default function Home() {
       {/* Portfolio */}
       <m.section
         id="portafolio"
-        className="section-padding bg-slate-50 dark:bg-slate-950"
+        className="section-padding bg-slate-50 dark:bg-night-950"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
@@ -53,7 +53,7 @@ export default function Home() {
       {/* Certificados */}
       <m.section
         id="certificados"
-        className="section-padding bg-gradient-to-b from-white via-violet-50/30 to-blue-50/30 dark:from-slate-950 dark:via-violet-950/10 dark:to-slate-950"
+        className="section-padding bg-gradient-to-b from-white via-accent-50/30 to-accent-50/30 dark:from-night-950 dark:via-accent-950/10 dark:to-night-950"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
@@ -63,7 +63,7 @@ export default function Home() {
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100/80 dark:bg-amber-900/30 border border-amber-200/50 dark:border-amber-700/50 text-amber-700 dark:text-amber-300 text-sm font-medium mb-6">
             🏆 Formación Continua
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 dark:from-amber-400 dark:via-orange-400 dark:to-rose-400 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-amber-600 via-accent-600 to-accent-600 dark:from-amber-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
             Certificaciones
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-slate-500 dark:text-slate-400 mt-4">

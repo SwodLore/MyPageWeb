@@ -75,7 +75,7 @@ function FormField({
     <m.div className="group space-y-2" variants={fadeInUp}>
       <Label
         htmlFor={id}
-        className="group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400"
+        className="group-focus-within:text-accent-600 dark:group-focus-within:text-accent-400"
       >
         {label}
       </Label>
@@ -98,7 +98,7 @@ const contactItems = [
     title: "Email",
     value: personal.email,
     href: `mailto:${personal.email}`,
-    color: "text-blue-500 bg-blue-100 dark:bg-blue-900/30"
+    color: "text-accent-500 bg-accent-100 dark:bg-accent-900/30"
   },
   {
     icon: Phone,
@@ -111,13 +111,13 @@ const contactItems = [
     icon: MapPin,
     title: "Ubicación",
     value: personal.location,
-    color: "text-rose-500 bg-rose-100 dark:bg-rose-900/30"
+    color: "text-accent-500 bg-accent-100 dark:bg-accent-900/30"
   },
 ];
 
 /* Presentación local sobre los links canónicos de data/navigation */
 const SOCIAL_HOVER: Record<string, string> = {
-  LinkedIn: "hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-700",
+  LinkedIn: "hover:bg-accent-50 hover:border-accent-300 dark:hover:bg-accent-900/20 dark:hover:border-accent-700",
   GitHub: "hover:bg-slate-100 hover:border-slate-300 dark:hover:bg-slate-800 dark:hover:border-slate-600",
 };
 
@@ -170,7 +170,7 @@ export default function Contacto() {
   }, [formData]);
 
   return (
-    <section className="section-padding bg-gradient-to-b from-white via-slate-50 to-blue-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950/20">
+    <section className="section-padding bg-gradient-to-b from-white via-slate-50 to-accent-50/30 dark:from-night-950 dark:via-night-900 dark:to-accent-950/20">
       <div className="container-page">
         {/* Section Header */}
         <m.div
@@ -182,7 +182,7 @@ export default function Contacto() {
         >
           <m.span
             variants={fadeInUp}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100/80 dark:bg-blue-900/30 border border-blue-200/50 dark:border-blue-700/50 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-100/80 dark:bg-accent-900/30 border border-accent-200/50 dark:border-accent-700/50 text-accent-700 dark:text-accent-300 text-sm font-medium mb-6"
           >
             <Sparkles size={14} />
             Contacto
@@ -193,7 +193,7 @@ export default function Contacto() {
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4"
           >
             Trabajemos{" "}
-            <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500 dark:from-blue-400 dark:via-violet-400 dark:to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
               Juntos
             </span>
           </m.h2>
@@ -233,7 +233,7 @@ export default function Contacto() {
           >
             <GlassCard className="p-8 md:p-10" hover={false}>
               <div className="flex items-center gap-3 mb-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 text-white">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent-500 to-accent-500 text-white">
                   <MessageCircle size={24} />
                 </div>
                 <div>
@@ -330,7 +330,7 @@ export default function Contacto() {
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-slate-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          className="text-slate-900 dark:text-white font-semibold hover:text-accent-600 dark:hover:text-accent-400 transition-colors"
                         >
                           {item.value}
                         </a>

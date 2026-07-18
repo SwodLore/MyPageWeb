@@ -45,12 +45,12 @@ export function GlassCard({
             }
             className={`
         relative rounded-3xl p-6
-        bg-white/70 dark:bg-slate-900/70
+        bg-white/70 dark:bg-night-900/70
         backdrop-blur-xl
         border border-white/30 dark:border-slate-700/50
         shadow-xl
         transition-shadow duration-300
-        ${glow ? "hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] dark:hover:shadow-[0_0_40px_rgba(96,165,250,0.2)]" : ""}
+        ${glow ? "hover:shadow-[var(--glow-accent)]" : ""}
         ${className}
       `}
         >

@@ -79,8 +79,8 @@ export const EDUCATION = [
     highlight:
       "En 8.º semestre, profundizando en arquitectura de software, ciberseguridad y gestión de proyectos de alto impacto.",
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Escudo_UNCP.png/330px-Escudo_UNCP.png",
-    accent: "from-indigo-500/15 via-indigo-500/8 to-transparent",
-    accentBorder: "border-indigo-200/60 dark:border-indigo-800/40",
+    accent: "from-accent-500/15 via-accent-500/8 to-transparent",
+    accentBorder: "border-accent-200/60 dark:border-accent-800/40",
   },
   {
     institution: "ICPNA",

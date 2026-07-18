@@ -77,7 +77,7 @@ export default function CustomCursor() {
       >
         <div
           className={`w-2.5 h-2.5 rounded-full transition-colors duration-150 ${
-            hovered ? "bg-cyan-400" : "bg-blue-500"
+            hovered ? "bg-accent-400" : "bg-accent-500"
           }`}
         />
       </m.div>
@@ -103,8 +103,8 @@ export default function CustomCursor() {
         <div
           className={`w-9 h-9 rounded-full border-2 transition-colors duration-150 ${
             hovered
-              ? "border-cyan-400 bg-cyan-400/8"
-              : "border-blue-400/50 bg-transparent"
+              ? "border-accent-400 bg-accent-400/8"
+              : "border-accent-400/50 bg-transparent"
           }`}
         />
       </m.div>

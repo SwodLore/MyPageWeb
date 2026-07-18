@@ -11,9 +11,9 @@ const highlightCards = [
     label: "Proyectos",
     description: "Aplicaciones web y APIs",
     Icon: Sparkles,
-    gradient: "from-blue-600 via-blue-500 to-cyan-400",
-    shadowColor: "shadow-blue-500/20",
-    borderColor: "border-blue-500/20",
+    gradient: "from-accent-600 via-accent-500 to-accent-400",
+    shadowColor: "shadow-accent-500/20",
+    borderColor: "border-accent-500/20",
   },
   {
     value: 8,
@@ -22,9 +22,9 @@ const highlightCards = [
     label: "Certificaciones",
     description: "React, Laravel y más",
     Icon: Award,
-    gradient: "from-violet-600 via-purple-500 to-fuchsia-400",
-    shadowColor: "shadow-violet-500/20",
-    borderColor: "border-violet-500/20",
+    gradient: "from-accent-600 via-accent-500 to-accent-400",
+    shadowColor: "shadow-accent-500/20",
+    borderColor: "border-accent-500/20",
   },
   {
     value: 20,
@@ -33,9 +33,9 @@ const highlightCards = [
     label: "Tecnologías",
     description: "Stack moderno full stack",
     Icon: Zap,
-    gradient: "from-rose-600 via-pink-500 to-orange-400",
-    shadowColor: "shadow-rose-500/20",
-    borderColor: "border-rose-500/20",
+    gradient: "from-accent-600 via-accent-500 to-accent-400",
+    shadowColor: "shadow-accent-500/20",
+    borderColor: "border-accent-500/20",
   },
 ];
 
@@ -43,11 +43,11 @@ export default function HomeStats() {
   return (
     <section id="stats-section" className="relative py-20 md:py-28 overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-slate-100 to-slate-200 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-100 via-slate-100 to-slate-200 dark:from-night-900 dark:via-night-900 dark:to-night-950" />
 
       {/* Decorative elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
 
       <div className="container-page relative z-10">
         <div className="grid gap-6 md:gap-8 md:grid-cols-3">

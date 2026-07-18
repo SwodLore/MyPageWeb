@@ -10,8 +10,8 @@ export const fieldStyles = `
   text-slate-900 dark:text-white
   placeholder:text-slate-400 dark:placeholder:text-slate-500
   hover:border-slate-300 dark:hover:border-slate-600
-  focus:outline-none focus:border-blue-500 dark:focus:border-blue-400
-  focus:shadow-[0_0_20px_rgba(59,130,246,0.3)]
+  focus:outline-none focus:border-accent-500 dark:focus:border-accent-400
+  focus:shadow-[var(--glow-accent)]
 `;
 
 export function Input({ className, ...props }: React.ComponentProps<"input">) {
