@@ -1,100 +1,92 @@
 import { useRef } from "react";
 import { m, useInView } from "framer-motion";
-import {
-  Briefcase,
-  GraduationCap,
-  Lightbulb,
-  MapPin,
-  Sparkles,
-} from "lucide-react";
+import { MapPin, Sparkles } from "lucide-react";
 import { personal } from "@/data/personal";
 import type { TimelineEntry, TimelineType } from "@/types";
 import { VALUE_PROPS } from "@/data/aboutMe";
+import { PromptLine } from "@/components/ui/TerminalPrompt";
+import { TERMINAL_COLORS } from "@/lib/terminalTheme";
 
 // ═══════════════════════════════════════════════════════════════
-// Config
+// Git log — la trayectoria como historial de commits
 // ═══════════════════════════════════════════════════════════════
 
-type TypeConfig = {
-  dot: string;
-  bg: string;
-  text: string;
-  border: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+/* Intensidad del punto según el tipo de hito — variedad dentro
+   de la familia morada, sin salir del sistema. */
+const DOT_COLOR: Record<TimelineType, string> = {
+  education: "bg-accent-400",
+  milestone: "bg-accent-500",
+  work: "bg-accent-600",
 };
 
-const TYPE_CONFIG: Record<TimelineType, TypeConfig> = {
-  education: {
-    dot: "bg-accent-500",
-    bg: "bg-accent-50 dark:bg-accent-900/30",
-    text: "text-accent-700 dark:text-accent-300",
-    border: "border-accent-200 dark:border-accent-800/50",
-    icon: GraduationCap,
-  },
-  milestone: {
-    dot: "bg-amber-500",
-    bg: "bg-amber-50 dark:bg-amber-900/30",
-    text: "text-amber-700 dark:text-amber-300",
-    border: "border-amber-200 dark:border-amber-800/50",
-    icon: Lightbulb,
-  },
-  work: {
-    dot: "bg-emerald-500",
-    bg: "bg-emerald-50 dark:bg-emerald-900/30",
-    text: "text-emerald-700 dark:text-emerald-300",
-    border: "border-emerald-200 dark:border-emerald-800/50",
-    icon: Briefcase,
-  },
-};
+/* Hash tipo git, determinístico a partir del contenido:
+   el mismo hito produce siempre el mismo hash. */
+function fakeHash(seed: string) {
+  let h = 2166136261;
+  for (const c of seed) {
+    h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0;
+  }
+  return h.toString(16).padStart(7, "0").slice(0, 7);
+}
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-// ═══════════════════════════════════════════════════════════════
-// Timeline Item
-// ═══════════════════════════════════════════════════════════════
-
-interface TLItemProps {
+interface CommitItemProps {
   item: TimelineEntry;
   index: number;
   isLast: boolean;
+  isHead: boolean;
 }
 
-function TimelineItem({ item, index, isLast }: TLItemProps) {
+function CommitItem({ item, index, isLast, isHead }: CommitItemProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const cfg = TYPE_CONFIG[item.type];
-  const Icon = cfg.icon;
+  const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
     <m.div
       ref={ref}
-      className="relative flex gap-5"
+      className="relative flex gap-4"
       initial={{ opacity: 0, x: 24 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.55, delay: index * 0.1, ease }}
+      transition={{ duration: 0.5, delay: index * 0.08, ease }}
     >
-      {/* Vertical connector */}
-      {!isLast && (
-        <div
-          className={`absolute left-[19px] top-11 bottom-0 w-px ${cfg.dot} opacity-20`}
-        />
-      )}
-
-      {/* Icon node */}
-      <div
-        className={`flex-shrink-0 mt-0.5 w-10 h-10 rounded-xl border flex items-center justify-center ${cfg.bg} ${cfg.border}`}
-      >
-        <Icon size={16} className={cfg.text} />
+      {/* Rama: punto de commit + línea que se dibuja al scrollear */}
+      <div className="flex flex-col items-center pt-1">
+        <span className={`relative z-10 h-3.5 w-3.5 rounded-full ${DOT_COLOR[item.type]} ring-4 ring-white dark:ring-night-950`}>
+          {isHead && (
+            <span className="absolute inset-0 rounded-full bg-accent-400 animate-ping opacity-50" aria-hidden="true" />
+          )}
+        </span>
+        {!isLast && (
+          <m.div
+            className="w-px flex-1 bg-accent-500/30 origin-top"
+            initial={{ scaleY: 0 }}
+            animate={inView ? { scaleY: 1 } : {}}
+            transition={{ duration: 0.6, delay: index * 0.08 + 0.2, ease }}
+          />
+        )}
       </div>
 
-      {/* Text */}
+      {/* Contenido del commit — jerarquía tipo git real:
+          tag (año) en amarillo > HEAD en verde > mensaje > hash tenue */}
       <div className="flex-1 pb-8">
-        <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold mb-1.5 border ${cfg.bg} ${cfg.text} ${cfg.border}`}
-        >
-          {item.year}
-        </span>
-        <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-snug">
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] leading-none">
+          <span
+            className="rounded-md px-1.5 py-1 font-bold"
+            style={{ backgroundColor: TERMINAL_COLORS.branch, color: TERMINAL_COLORS.ink }}
+          >
+            tag: {item.year}
+          </span>
+          {isHead && (
+            <span className="font-semibold" style={{ color: TERMINAL_COLORS.prompt }}>
+              (HEAD → ahora)
+            </span>
+          )}
+          <span className="text-slate-300 dark:text-slate-600">
+            {fakeHash(item.year + item.title)}
+          </span>
+        </p>
+        <h4 className="mt-2 text-base font-bold text-slate-900 dark:text-white leading-snug">
           {item.title}
         </h4>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
@@ -111,7 +103,7 @@ function TimelineItem({ item, index, isLast }: TLItemProps) {
 
 export default function AboutSection() {
   return (
-    <section className="section-padding bg-white dark:bg-night-950">
+    <section className="pt-16 md:pt-24 lg:pt-28 pb-10 md:pb-14 bg-white dark:bg-night-950">
       <div className="container-page space-y-16">
 
         {/* ── Header ─────────────────────────────────────────── */}
@@ -134,7 +126,7 @@ export default function AboutSection() {
             transition={{ delay: 0.08 }}
           >
             Quién está detrás{" "}
-            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
+            <span className="text-accent-600 dark:text-accent-400">
               del código
             </span>
           </m.h2>
@@ -195,16 +187,20 @@ export default function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.12, ease }}
           >
-            <p className="text-xs font-bold tracking-[0.2em] uppercase text-slate-400 dark:text-slate-500 mb-8">
-              Trayectoria
-            </p>
+            {/* git log: los commits más recientes arriba, como en la terminal */}
+            <div className="mb-8 text-sm">
+              <PromptLine path="~/carrera" branch="main">
+                <span className="text-slate-600 dark:text-slate-300">git log --carrera</span>
+              </PromptLine>
+            </div>
             <div>
-              {personal.timeline.map((item, i) => (
-                <TimelineItem
+              {[...personal.timeline].reverse().map((item, i, arr) => (
+                <CommitItem
                   key={item.year}
                   item={item}
                   index={i}
-                  isLast={i === personal.timeline.length - 1}
+                  isLast={i === arr.length - 1}
+                  isHead={i === 0}
                 />
               ))}
             </div>

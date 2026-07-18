@@ -32,7 +32,7 @@ export const personal = {
   // Typewriter en el Hero
   roles: [
     "Desarrollador Full Stack",
-    "Especialista en React & Angular",
+    "Especialista en React & TypeScript",
     "Experto en Laravel & NestJS",
     "Apasionado por la Ciberseguridad",
   ],
@@ -88,16 +88,23 @@ export const personal = {
     },
     {
       year: "2024",
-      title: "DevOps & Ciberseguridad",
+      title: "Metodologías Ágiles",
       description:
-        "Docker, AWS, Hacking Ético y Redes (Cisco CCNA). Ampliación del stack con NestJS y Angular.",
-      type: "milestone" as const,
+        "Scrum, trabajo en equipo y buenas prácticas: aprendí a construir software con proceso, no solo con código.",
+      type: "education" as const,
     },
     {
       year: "2025",
-      title: "Proyectos de Producción",
+      title: "DevOps & Ciberseguridad",
       description:
-        "Consultoría técnica, proyectos fullstack en producción y contribuciones open source.",
+        "Docker, AWS, Hacking Ético y Redes (Cisco CCNA). Ampliación del stack con NestJS.",
+      type: "milestone" as const,
+    },
+    {
+      year: "2026",
+      title: "Proyectos de Gran Escala",
+      description:
+        "Construyendo proyectos grandes en producción: consultoría técnica, fullstack y contribuciones open source.",
       type: "work" as const,
     },
   ],

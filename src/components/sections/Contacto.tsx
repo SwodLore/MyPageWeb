@@ -193,7 +193,7 @@ export default function Contacto() {
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4"
           >
             Trabajemos{" "}
-            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
+            <span className="text-accent-600 dark:text-accent-400">
               Juntos
             </span>
           </m.h2>
@@ -233,7 +233,7 @@ export default function Contacto() {
           >
             <GlassCard className="p-8 md:p-10" hover={false}>
               <div className="flex items-center gap-3 mb-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-accent-500 to-accent-500 text-white">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-500 text-white">
                   <MessageCircle size={24} />
                 </div>
                 <div>

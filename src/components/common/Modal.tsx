@@ -109,7 +109,7 @@ export default function Modal({ onClose, project }: ModalProps) {
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-3">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-500 to-accent-500 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-2xl bg-accent-500 flex items-center justify-center">
                     <Github size={32} className="text-white" />
                   </div>
                   <span className="text-slate-500 text-sm">Sin vista previa</span>

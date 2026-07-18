@@ -506,6 +506,18 @@ html.lenis body {
     animation: pulse-glow 5s ease-in-out infinite;
     will-change: opacity;
   }
+
+  /* Marquee de skills — CSS puro: el compositor lo mueve sin JS,
+     y pausar con hover congela la posición exacta (sin saltos). */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee var(--marquee-duration, 30s) linear infinite;
+    will-change: transform;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -545,5 +557,9 @@ html.lenis body {
     html, a, button, [role="button"], input, textarea, select, label {
       cursor: auto !important;
     }
+  }
+
+  .animate-marquee {
+    animation: none !important;
   }
 }

@@ -173,7 +173,7 @@ function ProjectCard({ project, index, onOpenModal }: ProjectCardProps) {
             </>
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-night-900">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-500 to-accent-500">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent-500">
                 <Github size={32} className="text-white" />
               </div>
             </div>
@@ -374,7 +374,7 @@ export default function Portafolio() {
             transition={{ delay: 0.08 }}
           >
             Mis{" "}
-            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
+            <span className="text-accent-600 dark:text-accent-400">
               Proyectos
             </span>
           </m.h2>

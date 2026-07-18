@@ -1,43 +1,21 @@
 import { m } from "framer-motion";
-import { Sparkles, Award, Zap } from "lucide-react";
-import { AnimatedCounter, TiltCard } from "@/components/ui";
+import { AnimatedCounter } from "@/components/ui";
+import { PromptLine } from "@/components/ui/TerminalPrompt";
+import { TERMINAL_COLORS } from "@/lib/terminalTheme";
 import { EASE_OUT } from "@/lib/animations";
 
-const highlightCards = [
-  {
-    value: 30,
-    prefix: "+",
-    suffix: "",
-    label: "Proyectos",
-    description: "Aplicaciones web y APIs",
-    Icon: Sparkles,
-    gradient: "from-accent-600 via-accent-500 to-accent-400",
-    shadowColor: "shadow-accent-500/20",
-    borderColor: "border-accent-500/20",
-  },
-  {
-    value: 8,
-    prefix: "",
-    suffix: "",
-    label: "Certificaciones",
-    description: "React, Laravel y más",
-    Icon: Award,
-    gradient: "from-accent-600 via-accent-500 to-accent-400",
-    shadowColor: "shadow-accent-500/20",
-    borderColor: "border-accent-500/20",
-  },
-  {
-    value: 20,
-    prefix: "+",
-    suffix: "",
-    label: "Tecnologías",
-    description: "Stack moderno full stack",
-    Icon: Zap,
-    gradient: "from-accent-600 via-accent-500 to-accent-400",
-    shadowColor: "shadow-accent-500/20",
-    borderColor: "border-accent-500/20",
-  },
-];
+/* Stats como salida de terminal — continúa la mini-ventana del hero.
+   Siempre oscura (una terminal no tiene modo claro), igual que el
+   loader y el modal. El prompt segmentado es la cita visual del
+   powerlevel10k real del usuario (ver terminal.png): rosa=usuario,
+   naranja=ruta, amarillo=rama git, lavanda=hora — colores literales
+   de su terminal, fuera de la paleta igual que los semáforos macOS. */
+
+const STATS = [
+  { label: "proyectos", value: 30, prefix: "+", bar: 0.9, desc: "aplicaciones web y APIs" },
+  { label: "certificaciones", value: 8, prefix: "", bar: 0.55, desc: "React, Laravel y más" },
+  { label: "tecnologías", value: 20, prefix: "+", bar: 0.75, desc: "stack full stack moderno" },
+] as const;
 
 export default function HomeStats() {
   return (
@@ -50,56 +28,78 @@ export default function HomeStats() {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl" />
 
       <div className="container-page relative z-10">
-        <div className="grid gap-6 md:gap-8 md:grid-cols-3">
-          {highlightCards.map((card, index) => (
-            <m.div
-              key={card.label}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15, ease: EASE_OUT }}
-              whileHover={{ y: -8, scale: 1.02 }}
-              className="group relative"
-            >
-              {/* Glow effect behind card */}
-              <div className={`absolute -inset-1 bg-gradient-to-r ${card.gradient} rounded-3xl opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500`} />
+        <m.div
+          className="mx-auto max-w-2xl rounded-2xl border border-night-700 bg-night-950 shadow-2xl shadow-accent-500/10 overflow-hidden"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: EASE_OUT }}
+        >
+          {/* ── Barra de título macOS ─────────────────────────── */}
+          <div className="relative flex items-center px-4 py-3 bg-night-900 border-b border-night-700">
+            <span className="flex gap-1.5" aria-hidden="true">
+              <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+              <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+              <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+            </span>
+            <span className="absolute left-1/2 -translate-x-1/2 font-mono text-xs text-slate-500 select-none">
+              …/Project/portfolio
+            </span>
+          </div>
 
-              {/* Card */}
-              <TiltCard className={`relative p-8 rounded-2xl bg-white/80 dark:bg-slate-800/50 backdrop-blur-xl border ${card.borderColor} shadow-2xl ${card.shadowColor} transition-all duration-300 h-full`}>
-                {/* Icon */}
-                <div className="mb-6">
-                  <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${card.gradient} shadow-lg`}>
-                    <card.Icon size={24} className="text-white" />
+          {/* ── Cuerpo de la terminal ─────────────────────────── */}
+          <div className="p-6 md:p-8 font-mono text-sm">
+            <PromptLine path="~/portfolio">
+              <span className="text-slate-300">ale --stats</span>
+            </PromptLine>
+
+            <div className="mt-6 space-y-6">
+              {STATS.map((stat, i) => (
+                <m.div
+                  key={stat.label}
+                  initial={{ opacity: 0, x: -12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.15 + i * 0.18, ease: EASE_OUT }}
+                >
+                  <div className="flex items-baseline justify-between gap-4">
+                    <span className="text-slate-400">
+                      <span className="text-accent-500 select-none">› </span>
+                      {stat.label}
+                    </span>
+                    <span className="text-2xl md:text-3xl font-bold text-white tabular-nums">
+                      <AnimatedCounter value={stat.value} prefix={stat.prefix} suffix="" />
+                    </span>
                   </div>
-                </div>
 
-                {/* Counter */}
-                <div className="mb-4">
-                  <span className={`text-5xl md:text-6xl font-bold bg-gradient-to-r ${card.gradient} bg-clip-text text-transparent`}>
-                    <AnimatedCounter
-                      value={card.value}
-                      prefix={card.prefix}
-                      suffix={card.suffix}
+                  {/* Barra de progreso */}
+                  <div className="mt-2 h-1.5 rounded-full bg-night-700 overflow-hidden">
+                    <m.div
+                      className="h-full rounded-full bg-accent-500 origin-left"
+                      initial={{ scaleX: 0 }}
+                      whileInView={{ scaleX: stat.bar }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.9, delay: 0.3 + i * 0.18, ease: EASE_OUT }}
                     />
-                  </span>
-                </div>
+                  </div>
 
-                {/* Label */}
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                  {card.label}
-                </h3>
+                  <p className="mt-1.5 text-xs text-slate-500">{stat.desc}</p>
+                </m.div>
+              ))}
+            </div>
 
-                {/* Description */}
-                <p className="text-slate-600 dark:text-slate-400 text-sm">
-                  {card.description}
-                </p>
-
-                {/* Decorative line */}
-                <div className={`absolute bottom-0 left-8 right-8 h-1 bg-gradient-to-r ${card.gradient} rounded-full opacity-50`} />
-              </TiltCard>
-            </m.div>
-          ))}
-        </div>
+            {/* Prompt final con rama git y cursor vivo */}
+            <div className="mt-7">
+              <PromptLine path="…/portfolio" branch="main">
+                <span
+                  className="inline-block h-4 w-2 translate-y-0.5 animate-pulse"
+                  style={{ backgroundColor: TERMINAL_COLORS.prompt }}
+                  aria-hidden="true"
+                />
+              </PromptLine>
+            </div>
+          </div>
+        </m.div>
       </div>
     </section>
   );

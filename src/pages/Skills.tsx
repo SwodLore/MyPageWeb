@@ -114,7 +114,7 @@ export default function Skills() {
             transition={{ delay: 0.08 }}
           >
             Habilidades que convierten{" "}
-            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
+            <span className="text-accent-600 dark:text-accent-400">
               ideas en productos
             </span>
           </m.h1>
@@ -192,7 +192,7 @@ export default function Skills() {
                   {activeTab === tab && (
                     <m.span
                       layoutId="skills-tab-pill"
-                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-600 to-accent-600 shadow-md shadow-accent-500/30"
+                      className="absolute inset-0 rounded-xl bg-accent-600 shadow-md shadow-accent-500/30"
                       transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                     />
                   )}

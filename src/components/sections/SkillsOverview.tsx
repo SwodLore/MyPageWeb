@@ -28,7 +28,7 @@ export default function SkillsOverview() {
   return (
     <m.section
       id="skills-overview"
-      className="relative section-padding overflow-hidden"
+      className="relative pt-14 md:pt-20 pb-16 md:pb-24 lg:pb-28 overflow-hidden"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
@@ -51,7 +51,7 @@ export default function SkillsOverview() {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6">
             Habilidades que convierten
             <br />
-            <span className="bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
+            <span className="text-accent-600 dark:text-accent-400">
               ideas en productos reales
             </span>
           </h2>
@@ -63,7 +63,7 @@ export default function SkillsOverview() {
         {/* Skills Marquee - Full Width with Two Rows */}
         <m.div variants={fadeInUp} className="mb-12">
           <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-            <span className="w-8 h-1 bg-gradient-to-r from-accent-500 to-accent-500 rounded-full" />
+            <span className="w-8 h-1 bg-accent-500 rounded-full" />
             Mis Tecnologías
           </h3>
           <div className="space-y-4">
@@ -77,7 +77,7 @@ export default function SkillsOverview() {
         {/* Workflow Cards - Horizontal Grid */}
         <m.div variants={fadeInUp}>
           <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-            <span className="w-8 h-1 bg-gradient-to-r from-accent-500 to-accent-500 rounded-full" />
+            <span className="w-8 h-1 bg-accent-500 rounded-full" />
             Cómo Trabajo
           </h3>
           <div className="grid md:grid-cols-3 gap-4">
@@ -89,9 +89,9 @@ export default function SkillsOverview() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="p-5 rounded-xl bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200 dark:border-slate-700/50 hover:border-accent-500/50 transition-all duration-300"
+                className="p-5 rounded-xl bg-white dark:bg-night-800 border border-slate-200 dark:border-night-700 hover:border-accent-500/50 hover:shadow-[var(--glow-accent)] transition-all duration-300"
               >
-                <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-accent-500 to-accent-500 text-white rounded-md mb-3">
+                <span className="inline-block px-3 py-1 font-mono text-xs font-bold lowercase tracking-wide bg-accent-600 text-white rounded-md mb-3">
                   {item.tag}
                 </span>
                 <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
@@ -109,7 +109,7 @@ export default function SkillsOverview() {
         <m.div className="text-center mt-12" variants={fadeInUp}>
           <MotionLink
             to="/skills"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-accent-600 to-accent-600 text-white font-semibold shadow-xl hover:shadow-2xl transition-shadow"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-accent-600 hover:bg-accent-700 text-white font-semibold shadow-md hover:shadow-lg transition-all"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.98 }}
           >

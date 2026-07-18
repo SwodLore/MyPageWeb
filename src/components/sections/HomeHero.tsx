@@ -36,17 +36,22 @@ function AuroraBackground() {
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 6 }}
       />
 
-      {/* Mesh grid lines */}
-      <div
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.06]"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, currentColor 1px, transparent 1px),
-            linear-gradient(to bottom, currentColor 1px, transparent 1px)
-          `,
-          backgroundSize: "72px 72px",
-        }}
-      />
+      {/* Retícula blueprint — el mismo plano de construcción del logo.
+          SVG estático con <pattern>: se pinta una vez, cero costo de runtime. */}
+      <svg
+        className="absolute inset-0 h-full w-full text-accent-500/[0.05] dark:text-accent-300/[0.05]"
+        aria-hidden="true"
+      >
+        <defs>
+          <pattern id="hero-blueprint" width="72" height="72" patternUnits="userSpaceOnUse">
+            <path d="M72 0H0V72" fill="none" stroke="currentColor" strokeWidth="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hero-blueprint)" />
+        {/* Líneas base horizontales — como las guías del logotipo */}
+        <line x1="0" y1="38%" x2="100%" y2="38%" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="0" y1="62%" x2="100%" y2="62%" stroke="currentColor" strokeWidth="1.5" />
+      </svg>
 
       {/* Radial vignette to fade out edges */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,transparent_60%,var(--tw-gradient-from))] from-slate-50 dark:from-night-950" />
@@ -94,6 +99,13 @@ function ProfilePhoto() {
           />
         </div>
       </div>
+
+      {/* Círculo guía blueprint — la órbita "planificada en el plano".
+          Un borde punteado estático: cero costo, siempre alineado. */}
+      <div
+        className="absolute inset-[-66px] rounded-full border border-dashed border-accent-500/25 dark:border-accent-300/20"
+        aria-hidden="true"
+      />
 
       {/* Orbiting tech icons — outer ring rotates, icons counter-rotate to stay upright */}
       <div className="absolute inset-[-48px] animate-spin-slower" style={{ transformOrigin: "center center" }}>
@@ -183,7 +195,7 @@ export default function HomeHero() {
               {/* Last name — animated gradient */}
               <div className="overflow-hidden">
                 <m.span
-                  className="block text-6xl sm:text-7xl md:text-8xl font-bold tracking-tight bg-gradient-to-r from-accent-600 via-accent-600 to-accent-500 dark:from-accent-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent"
+                  className="block text-6xl sm:text-7xl md:text-8xl font-bold tracking-tight text-accent-600 dark:text-accent-400"
                   initial={{ y: "110%" }}
                   animate={{
                     y: 0,
@@ -216,19 +228,32 @@ export default function HomeHero() {
               {personal.location}
             </m.div>
 
-            {/* Typewriter subtitle */}
+            {/* Typewriter dentro de una mini-ventana de terminal.
+                Los tres puntos son los semáforos de macOS — colores
+                literales de Apple, cita visual fuera de la paleta. */}
             <m.div
-              className="text-xl md:text-2xl font-semibold text-slate-600 dark:text-slate-300 min-h-[2rem]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.52 }}
             >
-              <Typewriter
-                words={personal.roles}
-                typingSpeed={75}
-                deletingSpeed={35}
-                delayBetweenWords={2500}
-              />
+              <div className="inline-flex items-center gap-3 rounded-xl px-4 py-2.5 bg-white/70 border border-slate-200/80 shadow-sm backdrop-blur-sm dark:bg-night-900/70 dark:border-night-700">
+                <span className="flex gap-1.5" aria-hidden="true">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+                </span>
+                <span className="font-mono text-sm text-accent-600 dark:text-accent-400 select-none">
+                  ~$
+                </span>
+                <span className="text-lg md:text-xl font-semibold text-slate-600 dark:text-slate-300 min-h-[1.75rem]">
+                  <Typewriter
+                    words={personal.roles}
+                    typingSpeed={75}
+                    deletingSpeed={35}
+                    delayBetweenWords={2500}
+                  />
+                </span>
+              </div>
             </m.div>
 
             {/* Bio */}
