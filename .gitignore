@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Imágenes de referencia de diseño (no desplegar)
+public/Diseno.png
+public/Loader_*.png
+terminal.png

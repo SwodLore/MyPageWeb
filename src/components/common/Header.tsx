@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LayoutGroup, m, AnimatePresence } from "framer-motion";
 import { Menu, Sparkles, X } from "lucide-react";
 import { useLenis } from "lenis/react";
@@ -45,10 +45,18 @@ export default function Header({ brandReady = true }: HeaderProps) {
     };
   }, []);
 
+  const navigate = useNavigate();
+
   const scrollTo = (id: string) => {
+    setMenuOpen(false);
+    // Las secciones solo existen en la home: desde otra ruta,
+    // navega a / llevando el destino; AppLayout hace el scroll.
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: id } });
+      return;
+    }
     const el = document.getElementById(id);
     if (el) lenis?.scrollTo(el, { offset: -80, duration: 1.4 });
-    setMenuOpen(false);
   };
 
   return (

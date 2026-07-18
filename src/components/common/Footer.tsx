@@ -1,4 +1,5 @@
 import { m } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useLenis } from "lenis/react";
 import {
   Github, Mail, MapPin,
@@ -35,9 +36,16 @@ const STATUS_ITEMS = [
 
 export default function Footer() {
   const lenis = useLenis();
+  const location = useLocation();
+  const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
 
   const scrollTo = (id: string) => {
+    // Las secciones solo existen en la home (mismo arreglo que Header)
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: id } });
+      return;
+    }
     const el = document.getElementById(id);
     if (el) lenis?.scrollTo(el, { offset: -80, duration: 1.4 });
   };

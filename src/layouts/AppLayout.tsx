@@ -28,8 +28,18 @@ function ScrollReset() {
   const lenis = useLenis();
 
   useEffect(() => {
+    // Si venimos de otra ruta con un destino (Header/Footer),
+    // esperamos un tick a que la home monte y scrolleamos ahí.
+    const target = (location.state as { scrollTo?: string } | null)?.scrollTo;
+    if (target && location.pathname === "/") {
+      const t = setTimeout(() => {
+        const el = document.getElementById(target);
+        if (el) lenis?.scrollTo(el, { offset: -80, duration: 1.4 });
+      }, 150);
+      return () => clearTimeout(t);
+    }
     lenis?.scrollTo(0, { immediate: true });
-  }, [location.pathname, lenis]);
+  }, [location.pathname, location.state, lenis]);
 
   return null;
 }
