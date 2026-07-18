@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { m } from "framer-motion";
+import { Award } from "lucide-react";
 import HomeHero from "@/components/sections/HomeHero";
 import HomeStats from "@/components/sections/HomeStats";
 import SkillsOverview from "@/components/sections/SkillsOverview";
@@ -60,11 +61,13 @@ export default function Home() {
         variants={fadeInUp}
       >
         <div className="container-page text-center mb-12">
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100/80 dark:bg-amber-900/30 border border-amber-200/50 dark:border-amber-700/50 text-amber-700 dark:text-amber-300 text-sm font-medium mb-6">
-            🏆 Formación Continua
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-100/80 dark:bg-accent-900/30 border border-accent-200/50 dark:border-accent-700/50 text-accent-700 dark:text-accent-300 text-sm font-medium mb-6">
+            <Award size={14} />
+            Formación Continua
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-amber-600 via-accent-600 to-accent-600 dark:from-amber-400 dark:via-accent-400 dark:to-accent-400 bg-clip-text text-transparent">
-            Certificaciones
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white">
+            Certificaciones{" "}
+            <span className="text-accent-600 dark:text-accent-400">verificadas</span>
           </h2>
           <p className="max-w-2xl mx-auto text-lg text-slate-500 dark:text-slate-400 mt-4">
             Certificaciones que respaldan mi experiencia técnica y compromiso con la excelencia.

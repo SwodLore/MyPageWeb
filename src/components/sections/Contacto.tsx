@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { m } from "framer-motion";
 import {
-  ArrowRight,
+  CheckCheck,
   CheckCircle2,
   Download,
   Mail,
@@ -85,6 +85,82 @@ function FormField({
         <Input {...commonProps} type={type} />
       )}
     </m.div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// iPhone con la conversación de WhatsApp en vivo: refleja lo que
+// el visitante escribe en el formulario, burbuja a burbuja.
+// CSS puro + profile.webp (ya cargada en el hero) — costo ~cero.
+// ═══════════════════════════════════════════════════════════════
+
+const CHAT_TIME = new Date().toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" });
+
+interface PhoneMockupProps {
+  name: string;
+  email: string;
+  message: string;
+}
+
+function PhoneMockup({ name, email, message }: PhoneMockupProps) {
+  const hasDraft = Boolean(name.trim() || email.trim() || message.trim());
+
+  return (
+    <div className="relative w-[280px] shrink-0 overflow-hidden rounded-[2.6rem] border-[6px] border-night-700 bg-night-950 shadow-2xl shadow-accent-500/15">
+      {/* Isla dinámica */}
+      <div className="absolute left-1/2 top-2 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" aria-hidden="true" />
+
+      {/* Header del chat */}
+      <div className="border-b border-night-700 bg-night-900 px-4 pb-3 pt-10">
+        <div className="flex items-center gap-2.5">
+          <img src="/profile.webp" alt="" className="h-9 w-9 rounded-full object-cover" />
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold text-white">Alessandro Poves</p>
+            <p className="flex items-center gap-1 text-[10px] text-emerald-400">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+              en línea
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Conversación */}
+      <div className="flex h-[290px] flex-col gap-2 overflow-y-auto p-3 text-[13px] leading-snug" data-lenis-prevent>
+        {/* Mensaje entrante fijo */}
+        <div className="max-w-[85%] self-start rounded-2xl rounded-tl-sm bg-night-800 px-3 py-2 text-slate-200">
+          ¡Hola! 👋 Cuéntame sobre tu proyecto — respondo en menos de 24 horas.
+          <span className="mt-1 block text-right text-[9px] text-slate-500">{CHAT_TIME}</span>
+        </div>
+
+        {/* Borrador en vivo del visitante */}
+        {hasDraft ? (
+          <div className="max-w-[85%] self-end rounded-2xl rounded-tr-sm bg-accent-600 px-3 py-2 text-white">
+            {name.trim() && (
+              <p>
+                Hola, soy <strong>{name}</strong> 👋
+              </p>
+            )}
+            {email.trim() && <p className="text-white/80">{email}</p>}
+            {message.trim() && <p className="mt-1 whitespace-pre-wrap">{message}</p>}
+            <span className="mt-1 flex items-center justify-end gap-1 text-[9px] text-white/70">
+              {CHAT_TIME}
+              <CheckCheck size={11} />
+            </span>
+          </div>
+        ) : (
+          <div className="max-w-[85%] self-end rounded-2xl rounded-tr-sm border border-dashed border-night-700 px-3 py-2 italic text-slate-500">
+            Tu mensaje aparecerá aquí mientras escribes…
+          </div>
+        )}
+      </div>
+
+      {/* Barra de escritura (decorativa) */}
+      <div className="border-t border-night-700 bg-night-900 p-3">
+        <div className="rounded-full bg-night-800 px-4 py-2 text-xs text-slate-500">
+          Escribe usando el formulario
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -293,95 +369,74 @@ export default function Contacto() {
             </GlassCard>
           </m.div>
 
-          {/* Contact Info & Social */}
+          {/* iPhone con el chat en vivo + contacto compacto */}
           <m.div
-            className="space-y-6"
+            className="flex flex-col items-center gap-6"
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: easing, delay: 0.1 }}
           >
-            {/* Contact Info Card */}
-            <GlassCard className="p-6 md:p-8">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
-                Información de contacto
-              </h3>
+            <PhoneMockup
+              name={formData.name}
+              email={formData.email}
+              message={formData.message}
+            />
 
-              <div className="space-y-5">
-                {contactItems.map((item, index) => (
-                  <m.div
-                    key={item.title}
-                    className="flex items-center gap-4"
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ x: 6 }}
-                  >
-                    <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${item.color}`}>
-                      <item.icon size={20} />
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                        {item.title}
-                      </p>
-                      {item.href ? (
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-slate-900 dark:text-white font-semibold hover:text-accent-600 dark:hover:text-accent-400 transition-colors"
-                        >
-                          {item.value}
-                        </a>
-                      ) : (
-                        <p className="text-slate-900 dark:text-white font-semibold">
-                          {item.value}
-                        </p>
-                      )}
-                    </div>
-                  </m.div>
-                ))}
+            {/* Contacto compacto: datos + redes + CV */}
+            <GlassCard className="w-full p-5" hover={false}>
+              <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5">
+                {contactItems.map((item) =>
+                  item.href ? (
+                    <a
+                      key={item.title}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-accent-600 dark:hover:text-accent-400 transition-colors"
+                    >
+                      <item.icon size={15} className="text-accent-500" />
+                      {item.value}
+                    </a>
+                  ) : (
+                    <span
+                      key={item.title}
+                      className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300"
+                    >
+                      <item.icon size={15} className="text-accent-500" />
+                      {item.value}
+                    </span>
+                  )
+                )}
               </div>
-            </GlassCard>
 
-            {/* Social Links Card */}
-            <GlassCard className="p-6 md:p-8">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
-                Sígueme en redes
-              </h3>
-
-              <div className="space-y-3">
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-3 border-t border-slate-200 dark:border-night-700 pt-4">
                 {socialLinks.map((social) => (
                   <m.a
                     key={social.name}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 transition-all ${social.color}`}
-                    whileHover={{ scale: 1.02, x: 4 }}
-                    whileTap={{ scale: 0.98 }}
+                    aria-label={social.name}
+                    className="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 dark:border-night-700 bg-white dark:bg-night-800 text-slate-500 dark:text-slate-400 hover:border-accent-500/50 hover:text-accent-500 transition-colors"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <div className="flex items-center gap-3 text-slate-700 dark:text-slate-300">
-                      <social.icon size={18} />
-                      <span className="font-medium">{social.name}</span>
-                    </div>
-                    <ArrowRight size={16} className="text-slate-400" />
+                    <social.icon size={16} />
                   </m.a>
                 ))}
+                <m.a
+                  href="/cv.pdf"
+                  download="Alessandro-Poves-CV.pdf"
+                  onClick={triggerSimpleConfetti}
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 dark:border-night-700 px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:border-accent-500/50 hover:text-accent-600 dark:hover:text-accent-400 transition-colors"
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Download size={15} />
+                  Descargar CV
+                </m.a>
               </div>
-
-              <m.a
-                href="/cv.pdf"
-                download="Alessandro-Poves-CV.pdf"
-                onClick={triggerSimpleConfetti}
-                className="inline-flex items-center gap-2 mt-4 px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Download size={16} />
-                Descargar CV
-              </m.a>
             </GlassCard>
           </m.div>
         </div>

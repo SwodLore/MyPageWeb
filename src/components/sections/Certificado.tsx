@@ -1,277 +1,204 @@
-import { useRef, useState } from "react";
-import { m, useInView } from "framer-motion";
-import {
-  Award,
-  Building,
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-  ExternalLink,
-  User,
-} from "lucide-react";
+import { useMemo, useState } from "react";
+import { AnimatePresence, m } from "framer-motion";
+import { Building, Calendar, ExternalLink, Folder, FolderOpen, User } from "lucide-react";
 import { certificados } from "@/data/certificados";
-import { GlowButton } from "@/components/ui";
 import type { Certificate } from "@/types";
+import { EASE_OUT } from "@/lib/animations";
 
 // ═══════════════════════════════════════════════════════════════
-// Category color resolver
+// Finder de certificados — una ventana macOS con sidebar de
+// categorías, los certificados como "archivos" (icono = logo real
+// de la institución) y un panel de detalles al seleccionar.
+// Siempre oscura, como toda ventana del sitio.
 // ═══════════════════════════════════════════════════════════════
 
-type CertColor = {
-  gradient: string;
-  medalFrom: string;
-  medalTo: string;
-  badge: string;
-};
+/* Logos claros (blancos) necesitan tile oscuro para no desaparecer */
+const LIGHT_LOGOS = /udemy/i;
 
-/* Esquema único conectado al design system: cambia los tokens
-   --color-accent-* en index.css y estas tarjetas cambian solas. */
-const CERT_COLOR: CertColor = {
-  gradient: "from-accent-600 to-accent-400",
-  medalFrom: "var(--color-accent-600)",
-  medalTo: "var(--color-accent-400)",
-  badge: "bg-accent-100 text-accent-700 dark:bg-accent-900/30 dark:text-accent-300",
-};
-
-// ═══════════════════════════════════════════════════════════════
-// Flip Card
-// ═══════════════════════════════════════════════════════════════
-
-interface CertificateCardProps {
-  cert: Certificate;
-  index: number;
+function tileClassFor(cert: Certificate) {
+  return LIGHT_LOGOS.test(cert.institution)
+    ? "bg-night-800 ring-1 ring-night-600"
+    : "bg-white";
 }
 
-function CertificateCard({ cert, index }: CertificateCardProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [flipped, setFlipped] = useState(false);
-  const colors = CERT_COLOR;
-
-  return (
-    <m.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{
-        duration: 0.55,
-        delay: (index % 6) * 0.08,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-      onClick={() => setFlipped((f) => !f)}
-      style={{ perspective: "1200px" }}
-      className="h-[280px] cursor-pointer select-none"
-      aria-label={`Certificado: ${cert.name} — clic para voltear`}
-    >
-      {/* Inner wrapper — rotates */}
-      <div
-        style={{
-          transformStyle: "preserve-3d",
-          transition: "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
-          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-          width: "100%",
-          height: "100%",
-          position: "relative",
-        }}
-      >
-        {/* ── FRONT ─────────────────────────────────────────── */}
-        <div
-          style={{ backfaceVisibility: "hidden" }}
-          className="absolute inset-0 flex flex-col rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-night-900 shadow-lg overflow-hidden"
-        >
-          {/* Header gradient */}
-          <div
-            className={`relative h-[88px] bg-gradient-to-br ${colors.gradient} flex-shrink-0 overflow-hidden`}
-          >
-            {/* Decorative rings */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-              <div className="absolute top-2 left-3 w-14 h-14 border border-white/50 rounded-full" />
-              <div className="absolute bottom-0 right-3 w-20 h-20 border border-white/30 rounded-full" />
-            </div>
-
-            {/* Medal — bottom-centered, overflow onto content */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-10">
-              <div
-                className="w-14 h-14 rounded-full border-[3px] border-white dark:border-slate-900 shadow-xl flex items-center justify-center"
-                style={{
-                  background: `linear-gradient(135deg, ${colors.medalFrom}, ${colors.medalTo})`,
-                }}
-              >
-                <Award size={22} className="text-white" />
-              </div>
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 flex flex-col items-center gap-2 pt-10 px-4 pb-4">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white text-center leading-snug line-clamp-2">
-              {cert.name}
-            </h3>
-
-            <span className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
-              <Building size={11} className="flex-shrink-0" />
-              <span className="truncate max-w-[160px]">{cert.institution}</span>
-            </span>
-
-            <span
-              className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold ${colors.badge}`}
-            >
-              Verificado
-            </span>
-
-            <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-auto">
-              Toca para ver detalles
-            </p>
-          </div>
-        </div>
-
-        {/* ── BACK ──────────────────────────────────────────── */}
-        <div
-          style={{
-            backfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-          }}
-          className="absolute inset-0 flex flex-col rounded-2xl border border-slate-700/60 bg-night-900 shadow-lg overflow-hidden p-5 gap-4"
-        >
-          {/* Top: gradient strip + title */}
-          <div className="flex items-start gap-3">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{
-                background: `linear-gradient(135deg, ${colors.medalFrom}, ${colors.medalTo})`,
-              }}
-            >
-              <Award size={18} className="text-white" />
-            </div>
-            <p className="text-xs font-bold text-white leading-snug line-clamp-3 flex-1">
-              {cert.name}
-            </p>
-          </div>
-
-          {/* Details */}
-          <div className="flex-1 space-y-2.5">
-            <div className="flex items-center gap-2 text-xs">
-              <Building size={12} className="text-accent-400 flex-shrink-0" />
-              <span className="text-slate-200 font-medium truncate">
-                {cert.institution}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-xs">
-              <User size={12} className="text-accent-400 flex-shrink-0" />
-              <span className="text-slate-400 truncate">{cert.teacher}</span>
-            </div>
-            <div className="flex items-center gap-2 text-xs">
-              <Calendar size={12} className="text-slate-500 flex-shrink-0" />
-              <span className="text-slate-500">{cert.dateCertificate}</span>
-            </div>
-          </div>
-
-          {/* Link — stops propagation so clicking doesn't flip back */}
-          <a
-            href={cert.urlCertificate}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-white text-xs font-bold shadow-lg hover:opacity-90 transition-opacity"
-            style={{
-              background: `linear-gradient(90deg, ${colors.medalFrom}, ${colors.medalTo})`,
-            }}
-          >
-            <ExternalLink size={13} />
-            Ver Certificado
-          </a>
-        </div>
-      </div>
-    </m.div>
-  );
+/* Categoría derivada del nombre — solo para agrupar en el sidebar */
+function categoryFor(cert: Certificate): string {
+  const n = cert.name.toLowerCase();
+  if (/hack|ciber|segur|pentest|security/.test(n)) return "Ciberseguridad";
+  if (/cisco|ccna|red(es)?\b|network|ip\b/.test(n)) return "Redes";
+  if (/react|typescript|javascript|web|front|laravel|php|css|html/.test(n)) return "Web";
+  if (/java\b|python|backend|nest|api|sql/.test(n)) return "Backend";
+  return "Otros";
 }
-
-// ═══════════════════════════════════════════════════════════════
-// Main
-// ═══════════════════════════════════════════════════════════════
-
-const INITIAL_COUNT = 6;
-const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Certificado() {
-  const [showAll, setShowAll] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("Todos");
+  const [selected, setSelected] = useState<Certificate | null>(null);
 
-  const displayed = showAll
-    ? certificados
-    : certificados.slice(0, INITIAL_COUNT);
-  const hasMore = certificados.length > INITIAL_COUNT;
+  const categories = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const cert of certificados) {
+      const cat = categoryFor(cert);
+      counts.set(cat, (counts.get(cat) ?? 0) + 1);
+    }
+    return [["Todos", certificados.length] as const, ...counts.entries()];
+  }, []);
+
+  const visible =
+    activeCategory === "Todos"
+      ? certificados
+      : certificados.filter((c) => categoryFor(c) === activeCategory);
+
+  const selectCategory = (cat: string) => {
+    setActiveCategory(cat);
+    setSelected(null);
+  };
 
   return (
-    <div className="container-page flex flex-col gap-12 md:gap-16">
-
-      {/* Hint */}
-      <m.p
-        className="text-center text-sm text-slate-400 dark:text-slate-500 -mb-4"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.3 }}
-      >
-        Toca o pasa el cursor sobre una card para ver los detalles
-      </m.p>
-
-      {/* Grid */}
-      <div className="grid gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {displayed.map((cert: Certificate, index: number) => (
-          <CertificateCard key={cert.name} cert={cert} index={index} />
-        ))}
-      </div>
-
-      {/* Expand / collapse */}
-      {hasMore && (
-        <m.div
-          className="text-center"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
-          <GlowButton onClick={() => setShowAll(!showAll)} variant="primary">
-            {showAll ? (
-              <>
-                Ver menos certificados
-                <ChevronUp size={18} />
-              </>
-            ) : (
-              <>
-                Ver todos ({certificados.length})
-                <ChevronDown size={18} />
-              </>
-            )}
-          </GlowButton>
-        </m.div>
-      )}
-
-      {/* Stats banner */}
+    <div className="container-page">
       <m.div
-        className="relative overflow-hidden rounded-2xl md:rounded-3xl bg-gradient-to-r from-accent-600 via-accent-500 to-accent-500 p-8 md:p-10 shadow-2xl"
+        className="mx-auto max-w-4xl overflow-hidden rounded-2xl border border-night-700 bg-night-900 shadow-2xl shadow-accent-500/10"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: easing }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6, ease: EASE_OUT }}
       >
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+        {/* ── Barra de título ─────────────────────────────────── */}
+        <div className="relative flex items-center border-b border-night-700 bg-night-950/70 px-4 py-3">
+          <span className="flex gap-1.5" aria-hidden="true">
+            <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+            <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+            <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+          </span>
+          <span className="absolute left-1/2 -translate-x-1/2 font-mono text-xs text-slate-500 select-none">
+            ~/certificados
+          </span>
+        </div>
 
-        <div className="relative text-center text-white">
-          <div className="flex justify-center mb-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
-              <Award size={28} />
-            </div>
+        <div className="flex flex-col md:flex-row">
+          {/* ── Sidebar (md+) / chips (móvil) ─────────────────── */}
+          <nav
+            className="flex gap-1.5 overflow-x-auto border-b border-night-700 bg-night-950/40 p-3 md:w-48 md:shrink-0 md:flex-col md:gap-1 md:border-b-0 md:border-r md:p-4"
+            aria-label="Categorías de certificados"
+          >
+            {categories.map(([cat, count]) => {
+              const active = activeCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => selectCategory(cat)}
+                  className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-1.5 text-sm transition-colors cursor-pointer ${
+                    active
+                      ? "bg-accent-600 text-white"
+                      : "text-slate-400 hover:bg-night-800 hover:text-white"
+                  }`}
+                >
+                  {active ? <FolderOpen size={14} /> : <Folder size={14} />}
+                  <span className="whitespace-nowrap">{cat}</span>
+                  <span className={`ml-auto font-mono text-[10px] ${active ? "text-white/70" : "text-slate-600"}`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* ── Grilla de "archivos" ──────────────────────────── */}
+          <div className="min-h-[280px] flex-1 p-4 md:p-5">
+            <AnimatePresence mode="popLayout">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+                {visible.map((cert, i) => {
+                  const isSelected = selected?.name === cert.name;
+                  return (
+                    <m.button
+                      key={cert.name}
+                      layout
+                      initial={{ opacity: 0, scale: 0.92 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.25, delay: i * 0.03 }}
+                      onClick={() => setSelected(isSelected ? null : cert)}
+                      aria-pressed={isSelected}
+                      className={`flex cursor-pointer flex-col items-center gap-2 rounded-xl p-3 text-center transition-colors ${
+                        isSelected
+                          ? "bg-accent-500/15 ring-2 ring-accent-500"
+                          : "hover:bg-night-800/70"
+                      }`}
+                    >
+                      {/* Icono del archivo = logo real de la institución */}
+                      <span className={`grid h-14 w-14 place-items-center rounded-xl p-2 shadow-md ${tileClassFor(cert)}`}>
+                        <img
+                          src={cert.imgInstitution}
+                          alt={cert.institution}
+                          className="max-h-full max-w-full object-contain"
+                          loading="lazy"
+                        />
+                      </span>
+                      <span className="line-clamp-2 text-xs font-medium leading-snug text-slate-200">
+                        {cert.name}
+                      </span>
+                      <span className="font-mono text-[10px] text-slate-500">.pdf</span>
+                    </m.button>
+                  );
+                })}
+              </div>
+            </AnimatePresence>
           </div>
-          <h3 className="text-2xl md:text-3xl font-bold mb-3">
-            Competencias Certificadas
-          </h3>
-          <p className="text-accent-100 text-lg max-w-2xl mx-auto">
-            <span className="font-bold text-white">{certificados.length}</span>{" "}
-            certificaciones que avalan mi experiencia en desarrollo web,
-            ciberseguridad, redes y metodologías modernas.
-          </p>
+        </div>
+
+        {/* ── Barra de estado / panel de detalles ─────────────── */}
+        <div className="min-h-[72px] border-t border-night-700 bg-night-950/70 px-4 py-3 md:px-5">
+          <AnimatePresence mode="wait">
+            {selected ? (
+              <m.div
+                key={selected.name}
+                className="flex flex-wrap items-center gap-x-5 gap-y-2"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-bold text-white">{selected.name}</p>
+                  <p className="mt-0.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
+                    <span className="inline-flex items-center gap-1">
+                      <Building size={11} className="text-accent-400" />
+                      {selected.institution}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <User size={11} className="text-accent-400" />
+                      {selected.teacher}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <Calendar size={11} className="text-accent-400" />
+                      {selected.dateCertificate}
+                    </span>
+                  </p>
+                </div>
+                <a
+                  href={selected.urlCertificate}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-accent-600 px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-accent-500"
+                >
+                  <ExternalLink size={13} />
+                  Ver certificado
+                </a>
+              </m.div>
+            ) : (
+              <m.p
+                key="status"
+                className="py-2 font-mono text-xs text-slate-500"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {visible.length} {visible.length === 1 ? "elemento" : "elementos"} · selecciona un
+                certificado para ver sus detalles
+              </m.p>
+            )}
+          </AnimatePresence>
         </div>
       </m.div>
     </div>
