@@ -74,6 +74,16 @@ export const timelineEntrySchema = z.object({
 export type TimelineEntry = z.infer<typeof timelineEntrySchema>
 export type TimelineType = TimelineEntry['type']
 
+/* Entregables de una semana: informe PDF, repositorio, deploy en vivo,
+   diapositivas, documentación o evidencia de metodología Scrum */
+export const ENTREGABLE_TIPOS = ['pdf', 'github', 'web', 'slides', 'docs', 'scrum'] as const
+export const entregableSchema = z.object({
+    tipo: z.enum(ENTREGABLE_TIPOS),
+    label: z.string(),
+    href: z.string().url(),
+})
+export type Entregable = z.infer<typeof entregableSchema>
+
 /* Anotaciones semanales del curso (página /anotaciones) */
 export const anotacionSchema = z.object({
     semana: z.number().int().positive(),
@@ -86,6 +96,7 @@ export const anotacionSchema = z.object({
     avance: z.number().min(0).max(100),
     reflexion: z.string().optional(),
     imagenes: z.array(z.object({ src: z.string(), caption: z.string() })).optional(),
+    entregables: z.array(entregableSchema).optional(),
 })
 export type Anotacion = z.infer<typeof anotacionSchema>
 

@@ -1,11 +1,17 @@
 // ─── Anotaciones por semana — IS093A Desarrollo de Aplicaciones Web ──────────
-// Curso: 2026-I  |  Docente: Dr. Jaime Suasnabar Terrel  |  UNCP
+// Curso: 2026-I  |  UNCP
+// Docentes: Ing. Miguel Elías Aguilar Coronación (prácticas del curso)
+//           · Dr. Jaime Suasnabar Terrel (evaluaciones y proyecto académico)
 
 import { z } from "zod";
 import { type Anotacion, anotacionSchema } from "@/types";
 import { validateData } from "@/lib/validateData";
 
 const BASE = "https://portafolio-academico-two.vercel.app/assets/img";
+
+// Informes PDF alojados como "release assets" en GitHub (no inflan el repo).
+// Release: https://github.com/SwodLore/anotaciones-daw/releases/tag/v1
+const PDF_BASE = "https://github.com/SwodLore/anotaciones-daw/releases/download/v1";
 
 export const anotaciones: Anotacion[] = [
 
@@ -18,6 +24,9 @@ export const anotaciones: Anotacion[] = [
     unidad: "I",
     avance: 6,
     estado: "completado",
+    entregables: [
+      { tipo: "pdf", label: "Infografía — Funcionamiento de la web", href: `${PDF_BASE}/Semana1-Desarrollo_Web_infografia.pdf` },
+    ],
     temas: ["Soluciones web", "DNS / TCP-IP / HTTP", "Roles de desarrollo", "Visual Studio Code", "Git y GitHub"],
     imagenes: [
       { src: `${BASE}/HTML-CSS-JS.webp`, caption: "Tecnologías Web Básicas" },
@@ -68,6 +77,14 @@ GIT Y GITHUB
     unidad: "I",
     avance: 12,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica individual — Mi primera web", href: "https://github.com/SwodLore/My_first_web_page" },
+      { tipo: "web",    label: "Práctica individual", href: "https://myfristpagealepoves.netlify.app" },
+      { tipo: "github", label: "Práctica grupal", href: "https://github.com/SwodLore/Tarea_2_Grupal" },
+      { tipo: "web",    label: "Práctica grupal", href: "https://mellow-centaur-bbfc08.netlify.app" },
+      { tipo: "pdf",    label: "Guía práctica (individual)", href: `${PDF_BASE}/Semana2-Guia_Practica_Semana_2-Poves-Martinez-Alessandro.pdf` },
+      { tipo: "pdf",    label: "Guía práctica (grupal)", href: `${PDF_BASE}/Semana2grupal-Guia_Practica_Semana_2_GRUPAL.pdf` },
+    ],
     temas: ["Open Web Platform", "HTML5 y XML", "Árbol DOM", "SEO", "CSS3", "Flexbox", "Grid", "Diseño responsivo"],
     imagenes: [
       { src: `${BASE}/nivelesweb.webp`, caption: "Niveles de la Web" },
@@ -136,6 +153,11 @@ Lab 02A: Diseño flexbox, diseño fluido y responsivo.`,
       { src: `${BASE}/frontend_vs_backend.webp`, caption: "Frontend vs Backend" },
       { src: `${BASE}/ux-ui.webp`, caption: "UX / UI Design" },
     ],
+    entregables: [
+      { tipo: "github", label: "Práctica individual — TechStore", href: "https://github.com/SwodLore/TechStore_bs-tw" },
+      { tipo: "pdf",    label: "Guía práctica", href: `${PDF_BASE}/Semana3-Guia_Practica_Semana_3.pdf` },
+      { tipo: "pdf",    label: "Exposición Desarrollo Web", href: `${PDF_BASE}/Semana3-ExposicionDesarrolloWeb.pdf` },
+    ],
     content: `BOOTSTRAP
 • Framework CSS basado en clases predefinidas. Sistema de grid de 12 columnas.
 • Layout: container, container-fluid, row, col-sm-*, col-md-*, col-lg-*.
@@ -184,6 +206,11 @@ Práctica Calificada 03: desarrollo de un sitio web completo con CSS (Bootstrap 
     unidad: "I",
     avance: 24,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica individual — Matrix", href: "https://github.com/SwodLore/Matrix" },
+      { tipo: "github", label: "Práctica calificada 1", href: "https://github.com/CristhianRudolf7/WebSemana4" },
+      { tipo: "pdf",    label: "Guía práctica", href: `${PDF_BASE}/Semana4-Guia_Practica_Semana_4.pdf` },
+    ],
     temas: ["Motores JS", "Variables y tipos", "Funciones", "TypeScript", "DOM", "Canvas"],
     content: `JAVASCRIPT — FUNDAMENTOS
 • Motor JS: V8 (Chrome/Node), SpiderMonkey (Firefox). Interpreta y ejecuta JS.
@@ -239,6 +266,12 @@ Lab 04: Desarrollo de una animación con JavaScript y Canvas.`,
     unidad: "I",
     avance: 30,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica individual — Ciberseguridad", href: "https://github.com/SwodLore/Semana5-Ciberseguridad" },
+      { tipo: "github", label: "Práctica grupal", href: "https://github.com/SwodLore/Semana5-Practica2" },
+      { tipo: "pdf",    label: "Guía práctica (individual)", href: `${PDF_BASE}/Semana5-Guia_Practica_Semana_5.pdf` },
+      { tipo: "pdf",    label: "Guía práctica (grupal)", href: `${PDF_BASE}/Semana5grupal-Guia_Practica_Semana_5_GRUPAL.pdf` },
+    ],
     temas: ["Client Side Rendering", "Gestión de dependencias", "JSX", "Props", "Children", "CSS Modules", "Styled Components"],
     imagenes: [
       { src: `${BASE}/ginkana.webp`, caption: "GINKANA — Actividad de clase" },
@@ -297,6 +330,11 @@ Lab 05A: Pasar datos con props y children, mostrar en componente hijo.`,
     unidad: "I",
     avance: 36,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica individual — API", href: "https://github.com/SwodLore/Semana6_api" },
+      { tipo: "github", label: "Práctica calificada 2", href: "https://github.com/Sullit0/desarrollo-web-semana-6" },
+      { tipo: "pdf",    label: "Guía práctica", href: `${PDF_BASE}/Semana6-Guia_Practica_Semana_6.pdf` },
+    ],
     temas: ["Eventos", "Renderizado condicional", "Renderizado iterativo", "Formularios", "Routing", "Promesas", "Async/Await", "Axios"],
     content: `EVENTOS EN REACT
 • Se escriben en camelCase: onClick, onChange, onSubmit, onMouseEnter.
@@ -354,6 +392,12 @@ Lab 06A: Eventos y Renderizado Condicional e iterativo con datos de una API real
     unidad: "I",
     avance: 44,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica individual — CineHooks", href: "https://github.com/SwodLore/CineHooks" },
+      { tipo: "github", label: "Práctica grupal", href: "https://github.com/SwodLore/Semana7_PGrupal" },
+      { tipo: "pdf",    label: "Guía práctica (individual)", href: `${PDF_BASE}/Semana7-Guia_Practica_Semana_7.pdf` },
+      { tipo: "pdf",    label: "Guía práctica grupal — Parte 2", href: `${PDF_BASE}/Semana7grupal-Guia_Practica_Grupal_Semana_7_-_Parte_2.pdf` },
+    ],
     temas: ["useState", "useEffect", "useContext", "useRef", "useReducer", "useCallback", "useMemo", "Hooks personalizados"],
     content: `HOOKS EN REACT
 Los Hooks son funciones especiales que permiten usar estado y otras características de React en componentes funcionales. Solo se usan en el nivel superior del componente (no dentro de condicionales o bucles).
@@ -414,6 +458,10 @@ Desarrollo de una solución web de una sola página (SPA) para una empresa local
     unidad: "I",
     avance: 50,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Examen parcial — Ing. Suasnabar", href: "https://github.com/SilencedSign87/ParcialDesarrolloWeb" },
+      { tipo: "pdf",    label: "Evaluación parcial", href: `${PDF_BASE}/Semana8-EvalParcial.1.pdf` },
+    ],
     temas: ["Revisión Evaluación de Logro 1", "Reforzamiento Unidad I", "1er Consolidado"],
     content: `Semana de parciales — 1er Consolidado de Evaluación Continua.
 
@@ -436,6 +484,10 @@ Con esta semana se cierra la unidad de frontend. La Unidad II se enfoca en el ba
     unidad: "II",
     avance: 56,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica individual — XAMPP", href: "https://github.com/SwodLore/Semana9-XAMP" },
+      { tipo: "pdf",    label: "Guía práctica", href: `${PDF_BASE}/Semana9Guia_Practica_Semana_9.pdf` },
+    ],
     temas: ["Server Side Rendering", "PHP", "Formularios PHP", "JSP y Servlets", "PHP vs JSP"],
     content: `TECNOLOGÍA DE SERVIDOR (SSR CLÁSICO)
 • A diferencia del CSR de React, aquí el servidor genera el HTML completo en cada petición.
@@ -477,6 +529,10 @@ Lab 09: Formulario con procesamiento en PHP (validación y respuesta dinámica).
     unidad: "II",
     avance: 62,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica grupal", href: "https://github.com/SilencedSign87/DesarrolloWeb-Practicas/tree/main/Semana%2010-2" },
+      { tipo: "pdf",    label: "Guía práctica (grupal)", href: `${PDF_BASE}/Semana10grupal-Guia_Practica_Semana_10_-_Grupal.pdf` },
+    ],
     temas: ["Sintaxis Python", "Estructuras de datos", "Funciones", "POO", "Herencia", "Módulos y pip", "Entornos virtuales"],
     content: `PYTHON — FUNDAMENTOS
 • Lenguaje interpretado, tipado dinámico y fuerte. La indentación define los bloques (no hay llaves).
@@ -519,6 +575,12 @@ Lab 10: Ejercicios de POO — sistema de clases con herencia y métodos sobreesc
     unidad: "II",
     avance: 68,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica individual — Django", href: "https://github.com/SwodLore/Practica11-DJango" },
+      { tipo: "github", label: "Práctica grupal", href: "https://github.com/SilencedSign87/DesarrolloWeb-Practicas/tree/main/Practica-11-grupal" },
+      { tipo: "pdf",    label: "Guía práctica (individual)", href: `${PDF_BASE}/Semana11-Guia_Practica_Semana_11.pdf` },
+      { tipo: "pdf",    label: "Guía práctica (grupal)", href: `${PDF_BASE}/Semana11grupal-Guia_Practica_Semana_11_-_Grupal.pdf` },
+    ],
     temas: ["Arquitectura MTV", "Proyectos y apps", "URLs y vistas", "Django Templates", "Modelos y ORM", "Migraciones"],
     content: `DJANGO — FRAMEWORK WEB DE PYTHON
 • Framework "baterías incluidas": ORM, admin, autenticación y plantillas ya integrados.
@@ -569,6 +631,10 @@ Lab 11: App de blog con modelos, vistas y plantillas con herencia.`,
     unidad: "II",
     avance: 75,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica individual — Django", href: "https://github.com/SwodLore/Semana12_Django" },
+      { tipo: "pdf",    label: "Guía práctica", href: `${PDF_BASE}/Semana12-Guia_Practica_Semana_12.pdf` },
+    ],
     temas: ["Forms y ModelForms", "Validación", "Django Admin", "Autenticación", "Sesiones", "Middleware"],
     content: `FORMULARIOS EN DJANGO
 • forms.Form: formulario declarado a mano → nombre = forms.CharField(max_length=50).
@@ -611,6 +677,12 @@ Lab 12: CRUD completo con ModelForms, login de usuarios y panel admin personaliz
     unidad: "II",
     avance: 81,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica individual — Django", href: "https://github.com/SwodLore/Semana13_Django" },
+      { tipo: "pdf",    label: "Guía práctica", href: `${PDF_BASE}/Semana13-Guia_Practica_Semana_13.pdf` },
+      { tipo: "github", label: "Sistema académico integral — Ing. Suasnabar", href: "https://github.com/SwodLore/sistema_academico_integral" },
+      { tipo: "web",    label: "Sistema académico integral", href: "https://sistema-academico-integral.vercel.app/login" },
+    ],
     temas: ["Principios REST", "Django REST Framework", "Serializers", "ViewSets y Routers", "Autenticación por token", "Postman"],
     content: `PRINCIPIOS REST
 • Recursos identificados por URLs: /api/posts/, /api/posts/1/.
@@ -654,6 +726,10 @@ Lab 13: API REST completa del blog con DRF, autenticación por token y pruebas e
     unidad: "II",
     avance: 87,
     estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica grupal", href: "https://github.com/SilencedSign87/DesarrolloWeb-Practicas/tree/main/practica-14-grupal" },
+      { tipo: "pdf",    label: "Guía práctica (grupal)", href: `${PDF_BASE}/Semana14grupal-Practica_Semana_14_-_Grupal.docx.pdf` },
+    ],
     temas: ["Monolito vs Microservicios", "Comunicación entre servicios", "API Gateway", "Docker", "Despliegue"],
     content: `MONOLITO VS MICROSERVICIOS
 • Monolito: toda la aplicación en un solo despliegue (el Django típico). Simple de desarrollar, difícil de escalar por partes.
@@ -693,7 +769,11 @@ Lab 14: Dividir el proyecto en dos microservicios Django comunicados por REST y 
     fecha: "13 – 19 jul 2026",
     unidad: "II",
     avance: 93,
-    estado: "en-curso",
+    estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Práctica grupal final — URBANMOVE", href: "https://github.com/rodriguezhq/URBANMOVE" },
+      { tipo: "slides", label: "Diapositivas de la exposición", href: "https://canva.link/axfecdkeaq766nb" },
+    ],
     temas: ["Proyecto final", "Exposición", "Evaluación de Logro 2"],
     content: `EVALUACIÓN DE LOGRO 02
 Desarrollo y exposición del proyecto final del curso: solución web completa con frontend en React y backend en Django (API REST), aplicando lo aprendido en ambas unidades.
@@ -717,7 +797,14 @@ PREPARACIÓN
     fecha: "20 – 24 jul 2026",
     unidad: "II",
     avance: 100,
-    estado: "pendiente",
+    estado: "completado",
+    entregables: [
+      { tipo: "github", label: "Sistema académico integral — Ing. Suasnabar", href: "https://github.com/SwodLore/sistema_academico_integral" },
+      { tipo: "web",    label: "Sistema académico integral", href: "https://sistema-academico-integral.vercel.app/login" },
+      { tipo: "docs",   label: "Documentación del sistema", href: "https://docs.google.com/document/d/1x9VhUe96cSnaVeyvX6eqfPoxFNg5YLiAFp1ZZdvk1E0/edit" },
+      { tipo: "scrum",  label: "Historias cerradas (Issues)", href: "https://github.com/SwodLore/sistema_academico_integral/issues?q=is%3Aissue+state%3Aclosed" },
+      { tipo: "scrum",  label: "Tablero del proyecto", href: "https://github.com/users/SwodLore/projects/3" },
+    ],
     temas: ["Revisión Evaluación de Logro 2", "Reforzamiento Unidad II", "2do Consolidado", "Cierre del curso"],
     content: `Semana de cierre — 2do Consolidado de Evaluación Continua.
 

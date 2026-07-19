@@ -5,15 +5,24 @@ import {
   CheckCircle2,
   Clock,
   Circle,
-  Tag,
   Calendar,
   ImageIcon,
   MessageSquareQuote,
   FlaskConical,
   NotebookPen,
+  FileText,
+  Github,
+  Globe,
+  Paperclip,
+  ExternalLink,
+  ArrowUpRight,
+  Layers,
+  Presentation,
+  NotebookText,
+  ListChecks,
 } from "lucide-react";
 import { anotaciones } from "@/data/anotaciones";
-import type { Anotacion } from "@/types";
+import type { Anotacion, Entregable } from "@/types";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
 // ═══════════════════════════════════════════════════════════════
@@ -69,6 +78,119 @@ const ACCENT: Accent = {
   softText: "text-accent-800 dark:text-accent-300",
   softIcon: "text-accent-500",
 };
+
+// ─── Entregables por tipo — cada uno con su color "real" ────────
+// PDF = rojo (informe/Adobe), GitHub = grafito (código),
+// deploy = verde (en vivo). Colores semánticos, fuera de la paleta.
+
+const ENTREGABLE_CONFIG: Record<
+  Entregable["tipo"],
+  { icon: typeof FileText; kicker: string; className: string; iconWrap: string }
+> = {
+  pdf: {
+    icon: FileText,
+    kicker: "Informe PDF",
+    className:
+      "bg-red-50 dark:bg-red-950/30 text-red-700 dark:text-red-300 border-red-200/70 dark:border-red-800/50 hover:border-red-300 dark:hover:border-red-700",
+    iconWrap: "bg-red-100 text-red-600 dark:bg-red-900/40 dark:text-red-400",
+  },
+  github: {
+    icon: Github,
+    kicker: "Repositorio",
+    className:
+      "bg-slate-100 dark:bg-slate-800/70 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600",
+    iconWrap: "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100",
+  },
+  web: {
+    icon: Globe,
+    kicker: "Deploy en vivo",
+    className:
+      "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 border-emerald-200/70 dark:border-emerald-800/50 hover:border-emerald-300 dark:hover:border-emerald-700",
+    iconWrap: "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400",
+  },
+  slides: {
+    icon: Presentation,
+    kicker: "Diapositivas",
+    className:
+      "bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300 border-amber-200/70 dark:border-amber-800/50 hover:border-amber-300 dark:hover:border-amber-700",
+    iconWrap: "bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-400",
+  },
+  docs: {
+    icon: NotebookText,
+    kicker: "Documentación",
+    className:
+      "bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 border-blue-200/70 dark:border-blue-800/50 hover:border-blue-300 dark:hover:border-blue-700",
+    iconWrap: "bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400",
+  },
+  scrum: {
+    icon: ListChecks,
+    kicker: "Metodología Scrum",
+    className:
+      "bg-cyan-50 dark:bg-cyan-950/30 text-cyan-700 dark:text-cyan-300 border-cyan-200/70 dark:border-cyan-800/50 hover:border-cyan-300 dark:hover:border-cyan-700",
+    iconWrap: "bg-cyan-100 text-cyan-600 dark:bg-cyan-900/40 dark:text-cyan-400",
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════
+// Colores por tecnología — SOLO en esta página (/anotaciones)
+// ───────────────────────────────────────────────────────────────
+// Son colores de MARCA reales (React cian, Django verde, Docker
+// azul…) usados como cita visual para diferenciar semanas y temas.
+// NO tocan la paleta global (accent/night) ni ninguna otra página.
+// El color dominante de la semana = el primer tech que matchea.
+// ═══════════════════════════════════════════════════════════════
+
+interface Tech {
+  label: string;
+  color: string; // hex de marca
+  role: string; // línea corta que explica su rol
+  match: RegExp; // se busca en título + temas
+}
+
+const TECH: Tech[] = [
+  { label: "React",      color: "#61DAFB", role: "Librería frontend basada en componentes", match: /react|hook|jsx|props/i },
+  { label: "Docker",     color: "#2496ED", role: "Contenedores y orquestación de servicios", match: /docker|microservicio|contenedor|gateway/i },
+  { label: "Django",     color: "#44B78B", role: "Framework backend en Python (MTV)", match: /django|\bmtv\b|orm|serializer|\bdrf\b/i },
+  { label: "Python",     color: "#F7C948", role: "Lenguaje backend, scripting y POO", match: /python|\bpoo\b/i },
+  { label: "TypeScript", color: "#3178C6", role: "JavaScript con tipado estático", match: /typescript/i },
+  { label: "JavaScript", color: "#E8C020", role: "Lógica e interactividad en el navegador", match: /javascript|\bdom\b|canvas|async|promesa|axios|evento/i },
+  { label: "Tailwind",   color: "#38BDF8", role: "CSS de utilidades atómicas", match: /tailwind/i },
+  { label: "Bootstrap",  color: "#7952B3", role: "Framework CSS de componentes", match: /bootstrap/i },
+  { label: "PHP",        color: "#8993BE", role: "Lenguaje de servidor clásico", match: /\bphp\b/i },
+  { label: "Java / JSP", color: "#EA8C10", role: "Páginas dinámicas sobre servlets", match: /\bjsp\b|servlet|\bjava\b/i },
+  { label: "REST API",   color: "#22C55E", role: "Servicios web con verbos HTTP", match: /\bapi\b|\brest\b/i },
+  { label: "Postman",    color: "#FF6C37", role: "Cliente para probar APIs", match: /postman/i },
+  { label: "Git",        color: "#F05032", role: "Control de versiones distribuido", match: /\bgit\b|github/i },
+  { label: "HTML5",      color: "#E34F26", role: "Estructura semántica de la web", match: /html/i },
+  { label: "CSS3",       color: "#1572B6", role: "Estilos, Flexbox y Grid", match: /\bcss\b|flexbox|grid|responsiv/i },
+  { label: "SEO",        color: "#34A853", role: "Optimización para buscadores", match: /\bseo\b/i },
+];
+
+const DEFAULT_COLOR = "#8b5cf6"; // accent-500 — fallback si la semana no tiene tech
+
+function detectStack(a: Anotacion): Tech[] {
+  const haystack = [a.titulo, ...a.temas].join(" ");
+  return TECH.filter((t) => t.match.test(haystack));
+}
+
+function weekColor(a: Anotacion): string {
+  return detectStack(a)[0]?.color ?? DEFAULT_COLOR;
+}
+
+// "#RRGGBB" + alpha(0..1) → "#RRGGBBAA" (soportado por navegadores)
+function withAlpha(hex: string, a: number): string {
+  return hex + Math.round(a * 255).toString(16).padStart(2, "0");
+}
+
+// Elige texto legible (negro/blanco) según la luminancia del fondo
+function readableText(hex: string): string {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.slice(0, 2), 16);
+  const g = parseInt(c.slice(2, 4), 16);
+  const b = parseInt(c.slice(4, 6), 16);
+  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return lum > 0.6 ? "#0a0118" : "#ffffff";
+}
 
 
 
@@ -248,32 +370,136 @@ function SidebarItem({
   onClick: () => void;
 }) {
   const cfg = ESTADO_CONFIG[anotacion.estado];
-  const accent = ACCENT;
   const Icon = cfg.icon;
-  const tile =
-    anotacion.estado === "pendiente"
-      ? "bg-slate-300 dark:bg-slate-600"
-      : accent.tile;
+  const isPending = anotacion.estado === "pendiente";
+  const wc = weekColor(anotacion);
+  const txt = readableText(wc);
 
   return (
     <button
       onClick={onClick}
+      style={isActive ? { backgroundColor: wc } : undefined}
       className={`w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
-        isActive ? accent.active : "hover:bg-slate-100 dark:hover:bg-slate-800/70"
+        isActive ? "shadow-md" : "hover:bg-slate-100 dark:hover:bg-slate-800/70"
       }`}
     >
-      <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white ${isActive ? "bg-white/25" : tile} transition-colors`}>
+      <div
+        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors ${
+          isPending && !isActive ? "bg-slate-300 dark:bg-slate-600 text-white" : ""
+        }`}
+        style={
+          isActive
+            ? { backgroundColor: withAlpha(txt, 0.22), color: txt }
+            : isPending
+            ? undefined
+            : { backgroundColor: wc, color: txt }
+        }
+      >
         <Icon size={13} />
       </div>
       <div className="min-w-0 flex-1">
-        <p className={`text-xs font-bold uppercase tracking-widest ${isActive ? "text-white/70" : "text-slate-400 dark:text-slate-500"}`}>
+        <p
+          className={`text-xs font-bold uppercase tracking-widest ${isActive ? "" : "text-slate-400 dark:text-slate-500"}`}
+          style={isActive ? { color: txt, opacity: 0.75 } : undefined}
+        >
           S{String(anotacion.semana).padStart(2, "0")}
         </p>
-        <p className={`text-sm font-medium truncate leading-tight mt-0.5 ${isActive ? "text-white" : "text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white"}`}>
+        <p
+          className={`text-sm font-medium truncate leading-tight mt-0.5 ${
+            isActive ? "" : "text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white"
+          }`}
+          style={isActive ? { color: txt } : undefined}
+        >
           {anotacion.titulo}
         </p>
       </div>
     </button>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Entregables — tarjetas de descarga / enlace por semana
+// ═══════════════════════════════════════════════════════════════
+
+function Entregables({ items }: { items: Entregable[] }) {
+  return (
+    <div className="rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-5 mb-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Paperclip size={14} className="text-accent-500" />
+        <span className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+          Entregables de la semana
+        </span>
+      </div>
+      <div className="grid gap-2.5 sm:grid-cols-2">
+        {items.map((item) => {
+          const cfg = ENTREGABLE_CONFIG[item.tipo];
+          const Icon = cfg.icon;
+          const isDownload = item.tipo === "pdf";
+          return (
+            <m.a
+              key={`${item.tipo}-${item.href}`}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group flex items-center gap-3 rounded-xl border px-3.5 py-3 transition-colors ${cfg.className}`}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${cfg.iconWrap}`}>
+                <Icon size={17} />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">
+                  {cfg.kicker}
+                </p>
+                <p className="text-sm font-semibold truncate leading-tight">{item.label}</p>
+              </div>
+              {isDownload ? (
+                <ExternalLink size={14} className="shrink-0 opacity-50 transition-opacity group-hover:opacity-90" />
+              ) : (
+                <ArrowUpRight size={16} className="shrink-0 opacity-50 transition-opacity group-hover:opacity-90" />
+              )}
+            </m.a>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Stack de la semana — tecnologías con su color de marca
+// ═══════════════════════════════════════════════════════════════
+
+function TechStack({ items }: { items: Tech[] }) {
+  return (
+    <div className="rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-5 mb-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Layers size={14} className="text-accent-500" />
+        <span className="text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+          Stack de la semana
+        </span>
+      </div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        {items.map((t) => (
+          <div
+            key={t.label}
+            className="flex items-center gap-3 rounded-xl border px-3 py-2"
+            style={{ backgroundColor: withAlpha(t.color, 0.08), borderColor: withAlpha(t.color, 0.3) }}
+          >
+            <span
+              className="shrink-0 px-2 py-1 rounded-md text-xs font-bold"
+              style={{ backgroundColor: t.color, color: readableText(t.color) }}
+            >
+              {t.label}
+            </span>
+            <span className="text-xs text-slate-600 dark:text-slate-300 leading-snug">
+              {t.role}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -285,6 +511,8 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
   const cfg = ESTADO_CONFIG[anotacion.estado];
   const accent = ACCENT;
   const Icon = cfg.icon;
+  const wc = weekColor(anotacion);
+  const stack = detectStack(anotacion);
 
   return (
     <m.div
@@ -295,8 +523,8 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
     >
       {/* Header */}
       <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50 p-6 mb-4">
-        {/* Barra superior con el color de la semana */}
-        <div className={`absolute inset-x-0 top-0 h-1 ${accent.bar}`} />
+        {/* Barra superior con el color de la tecnología de la semana */}
+        <div className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: wc }} />
         {/* Número de semana como marca de agua */}
         <span
           aria-hidden="true"
@@ -336,15 +564,24 @@ function WeekContent({ anotacion }: { anotacion: Anotacion }) {
             {anotacion.temas.map((tema) => (
               <span
                 key={tema}
-                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs ${accent.chip}`}
+                className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs border text-slate-600 dark:text-slate-300"
+                style={{ backgroundColor: withAlpha(wc, 0.12), borderColor: withAlpha(wc, 0.35) }}
               >
-                <Tag size={9} />
+                <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: wc }} />
                 {tema}
               </span>
             ))}
           </div>
         )}
       </div>
+
+      {/* Stack de la semana */}
+      {stack.length > 0 && <TechStack items={stack} />}
+
+      {/* Entregables */}
+      {anotacion.entregables && anotacion.entregables.length > 0 && (
+        <Entregables items={anotacion.entregables} />
+      )}
 
       {/* Images */}
       {anotacion.imagenes && anotacion.imagenes.length > 0 && (
@@ -419,20 +656,24 @@ function MobileTabStrip({
   return (
     <div className="flex gap-1.5 overflow-x-auto pb-2 mb-6 md:hidden [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
       {anotaciones.map((a, i) => {
-        const cfg = ESTADO_CONFIG[a.estado];
-        const accent = ACCENT;
         const isActive = i === selected;
+        const wc = weekColor(a);
+        const txt = readableText(wc);
         return (
           <button
             key={a.semana}
             onClick={() => onSelect(i)}
+            style={isActive ? { backgroundColor: wc, color: txt } : undefined}
             className={`shrink-0 flex flex-col items-center px-3 py-2 rounded-xl text-xs font-bold transition-all ${
               isActive
-                ? `${accent.active} text-white`
+                ? "shadow-md"
                 : "bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700"
             }`}
           >
-            <span className={`w-1.5 h-1.5 rounded-full mb-1 ${isActive ? "bg-white/70" : a.estado === "pendiente" ? cfg.dot : accent.dot}`} />
+            <span
+              className={`w-1.5 h-1.5 rounded-full mb-1 ${isActive || a.estado !== "pendiente" ? "" : "bg-slate-300 dark:bg-slate-600"}`}
+              style={isActive ? { backgroundColor: txt, opacity: 0.7 } : a.estado !== "pendiente" ? { backgroundColor: wc } : undefined}
+            />
             S{String(a.semana).padStart(2, "0")}
           </button>
         );
