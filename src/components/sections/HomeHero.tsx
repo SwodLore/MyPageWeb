@@ -116,14 +116,64 @@ function AuroraBackground({ introDone }: { introDone: boolean }) {
 // Profile Photo with orbiting tech icons
 // ═══════════════════════════════════════════════════════════════
 
-/* Reparte N iconos por igual sobre la circunferencia, empezando arriba
-   y girando en sentido horario. Antes eran 8 posiciones escritas a mano:
-   al pasar de 8 tecnologías, las extra se apilaban sobre las primeras. */
-function orbitPosition(index: number, total: number) {
-  const angle = (index / total) * 2 * Math.PI - Math.PI / 2;
+/* Reparto de las tecnologías en tres planos orbitales. El orden de
+   personal.orbitingTech ya viene agrupado por familia, así que cada
+   órbita queda temáticamente coherente. Las trayectorias y duraciones
+   se definen en index.css (.orbit-a/b/c). */
+const ORBITS = [
+  { className: "orbit-a", duration: 26, from: 0, to: 4 },   // frontend
+  { className: "orbit-b", duration: 33, from: 4, to: 8 },   // backend
+  { className: "orbit-c", duration: 40, from: 8, to: 11 },  // datos e infra
+] as const;
+
+/* Las trayectorias dibujadas — mismos trazados que los offset-path de
+   index.css, para que la línea coincida exactamente con el recorrido.
+   Hay un juego por breakpoint porque la foto cambia de tamaño y las
+   elipses con ella; el viewBox iguala al tamaño de .orbit-stage, así
+   el dibujo cae pixel a pixel sobre el camino real.
+   ⚠ Si cambias un path en index.css, cambia su gemelo aquí. */
+const ORBIT_GUIDES = [
+  {
+    size: 350,
+    visibility: "sm:hidden",
+    paths: [
+      "M 175 79 A 150 96 0 0 1 175 271 A 150 96 0 0 1 175 79 Z",
+      "M 133.5 36.5 A 150 96 60 0 1 216.5 313.5 A 150 96 60 0 1 133.5 36.5 Z",
+      "M 216.5 36.5 A 150 96 120 0 1 133.5 313.5 A 150 96 120 0 1 216.5 36.5 Z",
+    ],
+  },
+  {
+    size: 480,
+    visibility: "hidden sm:block lg:hidden",
+    paths: [
+      "M 240 120 A 205 120 0 0 1 240 360 A 205 120 0 0 1 240 120 Z",
+      "M 176.2 52.6 A 205 120 60 0 1 303.8 427.4 A 205 120 60 0 1 176.2 52.6 Z",
+      "M 303.8 52.6 A 205 120 120 0 1 176.2 427.4 A 205 120 120 0 1 303.8 52.6 Z",
+    ],
+  },
+  {
+    size: 520,
+    visibility: "hidden lg:block",
+    paths: [
+      "M 260 115 A 235 145 0 0 1 260 405 A 235 145 0 0 1 260 115 Z",
+      "M 191.5 44 A 235 145 60 0 1 328.5 476 A 235 145 60 0 1 191.5 44 Z",
+      "M 328.5 44 A 235 145 120 0 1 191.5 476 A 235 145 120 0 1 328.5 44 Z",
+    ],
+  },
+] as const;
+
+/* Cada satélite arranca ya avanzado en su recorrido mediante un delay
+   negativo. Los de una misma órbita comparten keyframes y solo se
+   separan por ese desfase, así mantienen una distancia angular
+   constante y no pueden alcanzarse nunca.
+   El offset-distance en línea es además la posición de reposo cuando
+   prefers-reduced-motion apaga la animación. */
+function orbitStyle(index: number, total: number, duration: number) {
+  const phase = index / total;
+  const delay = `${(-duration * phase).toFixed(2)}s`;
   return {
-    left: `${50 + 50 * Math.cos(angle)}%`,
-    top: `${50 + 50 * Math.sin(angle)}%`,
+    offsetDistance: `${(phase * 100).toFixed(2)}%`,
+    animationDelay: `${delay}, ${delay}`,
   };
 }
 
@@ -139,8 +189,11 @@ function ProfilePhoto({ introDone }: { introDone: boolean }) {
       {/* Inner shadow ring for depth */}
       <div className="absolute -inset-[3px] rounded-full bg-gradient-to-r from-accent-500 via-accent-500 to-accent-400 opacity-30 animate-spin-slow" />
 
-      {/* Photo */}
-      <div className="relative rounded-full overflow-hidden border-[3px] border-white/40 dark:border-slate-900/60 shadow-2xl animate-float-slow">
+      {/* Photo — z-10 es la línea de flotación del sistema orbital: los
+          satélites animan su z-index entre 1 y 20, así que la mitad
+          lejana de cada órbita pasa por detrás de la foto y la cercana
+          por delante. Ahí está la profundidad. */}
+      <div className="relative z-10 rounded-full overflow-hidden border-[3px] border-white/40 dark:border-slate-900/60 shadow-2xl animate-float-slow">
         <div className="w-60 h-60 sm:w-72 sm:h-72 lg:w-[340px] lg:h-[340px]">
           <img
             src="/profile.webp"
@@ -186,34 +239,58 @@ function ProfilePhoto({ introDone }: { introDone: boolean }) {
         />
       </svg>
 
-      {/* Orbiting tech icons — outer ring rotates, icons counter-rotate to stay upright.
-          Dos divs por icono a propósito: el de fuera coloca (transform: translate)
-          y el de dentro contra-gira (transform: rotate). En uno solo, la animación
-          CSS del giro pisaría al translate del centrado. */}
-      <div className="absolute inset-[-48px] animate-spin-slower" style={{ transformOrigin: "center center" }}>
-        {personal.orbitingTech.map((tech, i) => (
-          <div
-            key={tech.name}
-            className="absolute"
-            style={{
-              ...orbitPosition(i, personal.orbitingTech.length),
-              transform: "translate(-50%, -50%)",
-            }}
+      {/* Sistema orbital — tres planos inclinados recorridos con offset-path.
+          Cada satélite lleva su desfase; el tamaño de las trayectorias y la
+          profundidad (escala, opacidad, z-index) viven en index.css. */}
+      <div className="orbit-stage" aria-hidden="true">
+        {/* Las órbitas dibujadas. Van sin z-index (queda en 0), así que
+            pasan POR DETRÁS de la foto (z-10): la línea se corta al
+            entrar en el disco y reaparece al otro lado, que es lo que
+            vende la profundidad. Aparecen al caer el telón del intro. */}
+        {ORBIT_GUIDES.map((guide) => (
+          <svg
+            key={guide.size}
+            className={`absolute inset-0 h-full w-full ${guide.visibility}`}
+            viewBox={`0 0 ${guide.size} ${guide.size}`}
+            fill="none"
           >
-            <div className="w-11 h-11 rounded-xl bg-white dark:bg-night-900 shadow-lg border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center animate-spin-slower-reverse">
-              <img
-                src={tech.img}
-                alt={tech.name}
-                title={tech.name}
-                width={24}
-                height={24}
-                loading="lazy"
-                decoding="async"
-                className={`w-6 h-6 ${'invert' in tech && tech.invert ? 'dark:invert' : ''}`}
+            {guide.paths.map((d, i) => (
+              <m.path
+                key={d}
+                d={d}
+                strokeWidth="1"
+                strokeDasharray="3 6"
+                className="stroke-accent-500/30 dark:stroke-accent-300/25"
+                initial={{ opacity: 0 }}
+                animate={introDone ? { opacity: 1 } : {}}
+                transition={{ duration: 0.8, delay: 0.7 + i * 0.15 }}
               />
-            </div>
-          </div>
+            ))}
+          </svg>
         ))}
+
+        {ORBITS.map((orbit) =>
+          personal.orbitingTech.slice(orbit.from, orbit.to).map((tech, i, arr) => (
+            <div
+              key={tech.name}
+              className={`orbit-sat ${orbit.className}`}
+              style={orbitStyle(i, arr.length, orbit.duration)}
+            >
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-white dark:bg-night-900 shadow-lg border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center">
+                <img
+                  src={tech.img}
+                  alt=""
+                  title={tech.name}
+                  width={24}
+                  height={24}
+                  loading="lazy"
+                  decoding="async"
+                  className={`w-5 h-5 md:w-6 md:h-6 ${'invert' in tech && tech.invert ? 'dark:invert' : ''}`}
+                />
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

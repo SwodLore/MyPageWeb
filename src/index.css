@@ -518,6 +518,117 @@ html.lenis body {
     animation: marquee var(--marquee-duration, 30s) linear infinite;
     will-change: transform;
   }
+
+  /* ═══════════════════════════════════════════════════════════
+     🛰️  Sistema orbital del hero
+     Tres elipses inclinadas (0°, 60°, 120°) recorridas con
+     offset-path. La profundidad se finge con escala + opacidad
+     + z-index: la foto va en z-index 10 y los satélites animan
+     el suyo entre 1 y 20, así la mitad lejana pasa POR DETRÁS
+     de la foto y la cercana por delante.
+
+     ⚠ REGLA DE ORO DEL DIMENSIONADO:
+     ry + radio del icono debe ser MENOR que el radio de la foto,
+     pero por poco. Así el satélite se esconde justo tras el CANTO
+     de la foto. Si ry es mucho menor, las órbitas cruzan por el
+     medio de la cara y se ve fatal. Cada breakpoint tiene su foto
+     de distinto tamaño, por eso hay tres juegos de trayectorias:
+
+       móvil   foto r=120 · ry=96  · 96+20=116 < 120  ✓
+       tablet  foto r=144 · ry=120 · 120+22=142 < 144 ✓
+       escrit. foto r=170 · ry=145 · 145+22=167 < 170 ✓
+
+     Los caminos arrancan en el punto más alto de cada elipse, así
+     0% siempre es "lo más lejos" y 50% "lo más cerca", y unos
+     mismos keyframes de profundidad valen para las tres órbitas.
+     ═══════════════════════════════════════════════════════════ */
+
+  .orbit-stage {
+    position: absolute;
+    /* Centrado sin transform a propósito: un transform aquí crearía
+       contexto de apilamiento y los satélites ya no podrían pasar
+       por detrás de la foto. */
+    left: calc(50% - 175px);
+    top: calc(50% - 175px);
+    width: 350px;
+    height: 350px;
+    pointer-events: none;
+  }
+
+  .orbit-sat {
+    position: absolute;
+    /* Mantiene el logo derecho sin contra-rotación manual */
+    offset-rotate: 0deg;
+    offset-distance: 0%;
+    /* Ambas animaciones comparten duración: la posición avanza lineal
+       y la profundidad respira con ease. El desfase de cada satélite
+       lo inyecta el componente como animation-delay negativo. */
+    animation:
+      orbit-travel var(--orbit-duration, 30s) linear infinite,
+      orbit-depth var(--orbit-duration, 30s) ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .orbit-a {
+    offset-path: path("M 175 79 A 150 96 0 0 1 175 271 A 150 96 0 0 1 175 79 Z");
+    --orbit-duration: 26s;
+  }
+
+  .orbit-b {
+    offset-path: path("M 133.5 36.5 A 150 96 60 0 1 216.5 313.5 A 150 96 60 0 1 133.5 36.5 Z");
+    --orbit-duration: 33s;
+  }
+
+  .orbit-c {
+    offset-path: path("M 216.5 36.5 A 150 96 120 0 1 133.5 313.5 A 150 96 120 0 1 216.5 36.5 Z");
+    --orbit-duration: 40s;
+  }
+
+  @keyframes orbit-travel {
+    from { offset-distance: 0%; }
+    to   { offset-distance: 100%; }
+  }
+
+  /* Lejos (0%) → pequeño, tenue y detrás de la foto (z<10).
+     Cerca (50%) → tamaño real, opaco y por delante (z>10). */
+  @keyframes orbit-depth {
+    0%, 100% {
+      transform: scale(0.62);
+      opacity: 0.42;
+      z-index: 1;
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
+      z-index: 20;
+    }
+  }
+
+  /* Tablet — foto de 288px */
+  @media (min-width: 640px) {
+    .orbit-stage {
+      left: calc(50% - 240px);
+      top: calc(50% - 240px);
+      width: 480px;
+      height: 480px;
+    }
+    .orbit-a { offset-path: path("M 240 120 A 205 120 0 0 1 240 360 A 205 120 0 0 1 240 120 Z"); }
+    .orbit-b { offset-path: path("M 176.2 52.6 A 205 120 60 0 1 303.8 427.4 A 205 120 60 0 1 176.2 52.6 Z"); }
+    .orbit-c { offset-path: path("M 303.8 52.6 A 205 120 120 0 1 176.2 427.4 A 205 120 120 0 1 303.8 52.6 Z"); }
+  }
+
+  /* Escritorio — foto de 340px */
+  @media (min-width: 1024px) {
+    .orbit-stage {
+      left: calc(50% - 260px);
+      top: calc(50% - 260px);
+      width: 520px;
+      height: 520px;
+    }
+    .orbit-a { offset-path: path("M 260 115 A 235 145 0 0 1 260 405 A 235 145 0 0 1 260 115 Z"); }
+    .orbit-b { offset-path: path("M 191.5 44 A 235 145 60 0 1 328.5 476 A 235 145 60 0 1 191.5 44 Z"); }
+    .orbit-c { offset-path: path("M 328.5 44 A 235 145 120 0 1 191.5 476 A 235 145 120 0 1 328.5 44 Z"); }
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -546,6 +657,15 @@ html.lenis body {
   .animate-spin-slower-reverse,
   .animate-pulse-glow {
     animation: none !important;
+  }
+
+  /* Satélites: quietos pero repartidos. Cada uno conserva su
+     offset-distance en línea, así que al apagar la animación se
+     quedan donde estaban en vez de apilarse todos en el 0%. */
+  .orbit-sat {
+    animation: none !important;
+    opacity: 0.9;
+    transform: none;
   }
 
   .btn-glow {
