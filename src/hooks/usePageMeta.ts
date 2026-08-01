@@ -6,8 +6,8 @@ const DEFAULT_TITLE =
 /**
  * Actualiza el <title> y la meta description de la pestaña por ruta.
  * En un SPA todas las rutas comparten el index.html, así que sin esto
- * /skills o /anotaciones mostrarían el título de la home en Google
- * y al compartir el enlace. Al desmontar restaura los valores por defecto.
+ * /skills mostraría el título de la home en Google y al compartir el
+ * enlace. Al desmontar restaura los valores por defecto.
  */
 export function usePageMeta(title?: string, description?: string) {
   useEffect(() => {

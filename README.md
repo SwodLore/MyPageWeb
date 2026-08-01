@@ -48,18 +48,17 @@ La arquitectura sigue las mejores prácticas para aplicaciones React escalables:
 ```bash
 src/
 ├── components/          # Componentes reutilizables
-│   ├── magicui/         # Componentes de efectos especiales
-│   ├── ui/              # Componentes base (botones, inputs, etc.)
-│   ├── Header.tsx       # Navegación principal
-│   ├── DashboardView.tsx # Vista principal (Hero, Stats)
-│   └── ...
-├── data/                # Datos estáticos (proyectos, certificados)
-│   ├── portafolios.ts
-│   └── certificados.ts
-├── hooks/               # Custom Hooks (Lógica reutilizable)
-│   ├── useGuidedScroll.ts
-│   └── useTheme.ts
-├── types/               # Definiciones de tipos TypeScript
+│   ├── common/          # Header, Footer, cursor, theme toggle
+│   ├── sections/        # Secciones de la home (Hero, Portafolio, Contacto)
+│   └── ui/              # Componentes base (botones, tarjetas, contadores)
+├── pages/               # Páginas enrutadas (Home, Skills, NotFound)
+├── routes/              # Definición del router y carga diferida
+├── layouts/             # Layout compartido entre rutas
+├── context/             # Providers de React (tema)
+├── data/                # Datos estáticos (proyectos, certificados, skills)
+├── hooks/               # Custom Hooks (lógica reutilizable)
+├── lib/                 # Utilidades (confetti, helpers)
+├── types/               # Esquemas zod y tipos TypeScript
 └── index.css            # Estilos globales y variables CSS
 ```
 

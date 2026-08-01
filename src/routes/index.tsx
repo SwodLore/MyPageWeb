@@ -6,7 +6,6 @@ import Home from '@/pages/Home'
 
 // Lazy load de rutas secundarias — solo la home carga en el bundle inicial
 const Skills = lazy(() => import('@/pages/Skills'))
-const Anotaciones = lazy(() => import('@/pages/Anotaciones'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 
 function RouteFallback() {
@@ -23,7 +22,6 @@ export default function AppRouter() {
           <Route element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path="skills" element={<Skills />} />
-            <Route path="anotaciones" element={<Anotaciones />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

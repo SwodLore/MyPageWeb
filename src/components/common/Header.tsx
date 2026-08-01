@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LayoutGroup, m, AnimatePresence } from "framer-motion";
 import { Menu, Sparkles, X } from "lucide-react";
 import { useLenis } from "lenis/react";
 import ThemeToggle from "./ThemeToggle";
 import BrandMark from "./BrandMark";
 import { personal } from "@/data/personal";
-import { HEADER_NAV, SOCIAL_LINKS } from "@/data/navigation";
+import { SECTION_NAV, SOCIAL_LINKS } from "@/data/navigation";
 
 // ═══════════════════════════════════════════════════════════════
 // Header
@@ -118,41 +118,26 @@ export default function Header({ brandReady = true }: HeaderProps) {
             {/* ── Desktop nav ───────────────────────────────── */}
             <LayoutGroup>
               <nav className="hidden md:flex items-center gap-0.5 px-1.5 py-1.5 rounded-2xl bg-slate-100/60 dark:bg-slate-800/60 backdrop-blur-sm">
-                {HEADER_NAV.map((item) => {
-                  const isRoute = "href" in item;
-                  const isActive = isRoute
-                    ? location.pathname === item.href
-                    : activeSection === item.id && location.pathname === "/";
-                  const key = isRoute ? item.href : item.id;
-                  const sharedClass = `relative px-4 py-2 text-sm font-medium rounded-xl transition-colors cursor-pointer ${
-                    isActive
-                      ? "text-white"
-                      : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                  }`;
-                  const pill = isActive && (
-                    <m.div
-                      layoutId="activeNavTab"
-                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 shadow-md shadow-accent-500/25"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.55 }}
-                    />
-                  );
-
-                  if (isRoute) {
-                    return (
-                      <Link key={key} to={item.href} className={sharedClass} onClick={() => setMenuOpen(false)}>
-                        {pill}
-                        <span className="relative z-10">{item.label}</span>
-                      </Link>
-                    );
-                  }
+                {SECTION_NAV.map((item) => {
+                  const isActive = activeSection === item.id && location.pathname === "/";
                   return (
                     <m.button
-                      key={key}
+                      key={item.id}
                       onClick={() => scrollTo(item.id)}
-                      className={sharedClass}
+                      className={`relative px-4 py-2 text-sm font-medium rounded-xl transition-colors cursor-pointer ${
+                        isActive
+                          ? "text-white"
+                          : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                      }`}
                       whileTap={{ scale: 0.95 }}
                     >
-                      {pill}
+                      {isActive && (
+                        <m.div
+                          layoutId="activeNavTab"
+                          className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 shadow-md shadow-accent-500/25"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.55 }}
+                        />
+                      )}
                       <span className="relative z-10">{item.label}</span>
                     </m.button>
                   );
@@ -262,35 +247,16 @@ export default function Header({ brandReady = true }: HeaderProps) {
 
                 {/* Nav items */}
                 <nav className="p-2">
-                  {HEADER_NAV.map((item, index) => {
-                    const isRoute = "href" in item;
-                    const isActive = isRoute
-                      ? location.pathname === item.href
-                      : activeSection === item.id && location.pathname === "/";
-                    const key = isRoute ? item.href : item.id;
+                  {SECTION_NAV.map((item, index) => {
+                    const isActive = activeSection === item.id && location.pathname === "/";
                     const activeClass = "bg-gradient-to-r from-accent-600 to-accent-500 text-white";
                     const inactiveClass = "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800";
-                    const baseClass = `w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors cursor-pointer ${isActive ? activeClass : inactiveClass}`;
 
-                    if (isRoute) {
-                      return (
-                        <m.div
-                          key={key}
-                          initial={{ opacity: 0, x: -12 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                        >
-                          <Link to={item.href} className={baseClass} onClick={() => setMenuOpen(false)}>
-                            {item.label}
-                          </Link>
-                        </m.div>
-                      );
-                    }
                     return (
                       <m.button
-                        key={key}
+                        key={item.id}
                         onClick={() => scrollTo(item.id)}
-                        className={baseClass}
+                        className={`w-full rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors cursor-pointer ${isActive ? activeClass : inactiveClass}`}
                         initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}

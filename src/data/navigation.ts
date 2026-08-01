@@ -12,13 +12,6 @@ export const SECTION_NAV = [
   { id: "contacto",        label: "Contacto" },
 ] as const;
 
-/* Navegación completa del header: secciones + rutas propias.
-   id → scroll a sección en /  |  href → navegación de ruta */
-export const HEADER_NAV = [
-  ...SECTION_NAV,
-  { href: "/anotaciones", label: "Anotaciones" },
-] as const;
-
 export const SOCIAL_LINKS: SocialLink[] = [
   { name: "LinkedIn",  href: personal.social.linkedin,  icon: Linkedin },
   { name: "GitHub",    href: personal.social.github,    icon: Github },

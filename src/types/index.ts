@@ -74,32 +74,6 @@ export const timelineEntrySchema = z.object({
 export type TimelineEntry = z.infer<typeof timelineEntrySchema>
 export type TimelineType = TimelineEntry['type']
 
-/* Entregables de una semana: informe PDF, repositorio, deploy en vivo,
-   diapositivas, documentación o evidencia de metodología Scrum */
-export const ENTREGABLE_TIPOS = ['pdf', 'github', 'web', 'slides', 'docs', 'scrum'] as const
-export const entregableSchema = z.object({
-    tipo: z.enum(ENTREGABLE_TIPOS),
-    label: z.string(),
-    href: z.string().url(),
-})
-export type Entregable = z.infer<typeof entregableSchema>
-
-/* Anotaciones semanales del curso (página /anotaciones) */
-export const anotacionSchema = z.object({
-    semana: z.number().int().positive(),
-    titulo: z.string(),
-    fecha: z.string(),
-    content: z.string(),
-    temas: z.array(z.string()),
-    estado: z.enum(['completado', 'en-curso', 'pendiente']),
-    unidad: z.enum(['I', 'II']),
-    avance: z.number().min(0).max(100),
-    reflexion: z.string().optional(),
-    imagenes: z.array(z.object({ src: z.string(), caption: z.string() })).optional(),
-    entregables: z.array(entregableSchema).optional(),
-})
-export type Anotacion = z.infer<typeof anotacionSchema>
-
 /* ── Tipos que contienen componentes React (iconos de lucide) ──
    No se validan con zod porque un componente no es un dato
    serializable; aquí solo se declara la forma para reutilizarla. */
