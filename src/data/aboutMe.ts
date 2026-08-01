@@ -70,15 +70,21 @@ export const SOFT_SKILLS: SoftSkill[] = [
   },
 ];
 
-/* Formación académica — página Skills */
+/* Formación académica — usada en la página Skills (tarjetas completas)
+   y en el hero (versión corta: heroLogo / heroLabel / heroDetail).
+   Los escudos se sirven desde /public: en el hero son zona crítica y
+   una URL externa que cambie dejaría la credencial rota. */
 export const EDUCATION = [
   {
     institution: "Universidad Nacional del Centro del Perú (UNCP)",
     program: "Ingeniería de Sistemas",
-    period: "2022 - Presente · VIII semestre",
+    period: "2022 - Presente · X semestre",
     highlight:
-      "En 8.º semestre, profundizando en arquitectura de software, ciberseguridad y gestión de proyectos de alto impacto.",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Escudo_UNCP.png/330px-Escudo_UNCP.png",
+      "En 10.º semestre, profundizando en arquitectura de software, ciberseguridad y gestión de proyectos de alto impacto.",
+    logo: "/uncp.webp",
+    heroLogo: "/uncp.webp",
+    heroLabel: "UNCP",
+    heroDetail: "Ing. de Sistemas · X ciclo",
     accent: "from-accent-500/15 via-accent-500/8 to-transparent",
     accentBorder: "border-accent-200/60 dark:border-accent-800/40",
   },
@@ -88,7 +94,10 @@ export const EDUCATION = [
     period: "2024 - Actualidad · Nivel intermedio",
     highlight:
       "Formación activa en nivel intermedio para documentar proyectos y comunicarme con equipos globales en inglés técnico.",
-    logo: "https://www.icpna.edu.pe/static/img/logo.svg",
+    logo: "/icpna.svg",
+    heroLogo: "/icpna.svg",
+    heroLabel: "ICPNA",
+    heroDetail: "Inglés profesional · Intermedio",
     accent: "from-emerald-500/15 via-emerald-500/8 to-transparent",
     accentBorder: "border-emerald-200/60 dark:border-emerald-800/40",
   },

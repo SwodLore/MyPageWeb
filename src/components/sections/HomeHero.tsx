@@ -1,17 +1,40 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { m } from "framer-motion";
+import { useOutletContext } from "react-router-dom";
 import { useLenis } from "lenis/react";
 import { ArrowRight, ChevronDown, Github, Download, MapPin } from "lucide-react";
 import { AnimatedCounter, GlowButton, Typewriter } from "@/components/ui";
 import { triggerSimpleConfetti } from "@/lib/confetti";
 import { EASE_OUT as ease } from "@/lib/animations";
 import { personal } from "@/data/personal";
+import { EDUCATION } from "@/data/aboutMe";
+import type { PageOutletContext } from "@/layouts/AppLayout";
 
 // ═══════════════════════════════════════════════════════════════
 // Aurora Background
 // ═══════════════════════════════════════════════════════════════
 
-function AuroraBackground() {
+function AuroraBackground({ introDone }: { introDone: boolean }) {
+  const spotlightRef = useRef<HTMLDivElement>(null);
+
+  /* Un solo listener en la sección, sin estado de React: el foco
+     sigue al cursor a coste de dos custom properties por frame. */
+  useEffect(() => {
+    const el = spotlightRef.current;
+    if (!el) return;
+    const section = el.closest("section");
+    if (!section) return;
+
+    const onMove = (e: PointerEvent) => {
+      const r = section.getBoundingClientRect();
+      el.style.setProperty("--spot-x", `${e.clientX - r.left}px`);
+      el.style.setProperty("--spot-y", `${e.clientY - r.top}px`);
+    };
+
+    section.addEventListener("pointermove", onMove, { passive: true });
+    return () => section.removeEventListener("pointermove", onMove);
+  }, []);
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Base gradient */}
@@ -48,10 +71,40 @@ function AuroraBackground() {
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#hero-blueprint)" />
-        {/* Líneas base horizontales — como las guías del logotipo */}
-        <line x1="0" y1="38%" x2="100%" y2="38%" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="0" y1="62%" x2="100%" y2="62%" stroke="currentColor" strokeWidth="1.5" />
+        {/* Líneas base horizontales — como las guías del logotipo.
+            Se extienden de izquierda a derecha al caer el telón, igual
+            que las guías del intro: el plano continúa donde lo dejó. */}
+        {[38, 62].map((y, i) => (
+          <m.line
+            key={y}
+            x1="0" y1={`${y}%`} x2="100%" y2={`${y}%`}
+            stroke="currentColor"
+            strokeWidth="1.5"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={introDone ? { pathLength: 1, opacity: 1 } : {}}
+            transition={{ duration: 1.1, delay: 0.1 + i * 0.12, ease: "easeInOut" }}
+          />
+        ))}
       </svg>
+
+      {/* Foco del plano — la retícula se ilumina alrededor del cursor.
+          La posición viaja por variables CSS, así que mover el mouse
+          no re-renderiza React: solo recompone la máscara en la GPU. */}
+      <div
+        className="absolute inset-0 hidden md:block opacity-0 transition-opacity duration-700 [--spot-x:50%] [--spot-y:40%] group-hover/hero:opacity-100"
+        style={{
+          maskImage:
+            "radial-gradient(220px circle at var(--spot-x) var(--spot-y), #000 0%, transparent 70%)",
+          WebkitMaskImage:
+            "radial-gradient(220px circle at var(--spot-x) var(--spot-y), #000 0%, transparent 70%)",
+        }}
+        ref={spotlightRef}
+        aria-hidden="true"
+      >
+        <svg className="h-full w-full text-accent-500/40 dark:text-accent-300/30">
+          <rect width="100%" height="100%" fill="url(#hero-blueprint)" />
+        </svg>
+      </div>
 
       {/* Radial vignette to fade out edges */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,transparent_60%,var(--tw-gradient-from))] from-slate-50 dark:from-night-950" />
@@ -63,19 +116,18 @@ function AuroraBackground() {
 // Profile Photo with orbiting tech icons
 // ═══════════════════════════════════════════════════════════════
 
-// Positions (clockwise from top) for 8 orbiting icons
-const ORBIT_POSITIONS = [
-  "left-1/2 -translate-x-1/2 -top-3",
-  "right-0 top-10",
-  "-right-3 top-1/2 -translate-y-1/2",
-  "right-0 bottom-10",
-  "left-1/2 -translate-x-1/2 -bottom-3",
-  "left-0 bottom-10",
-  "-left-3 top-1/2 -translate-y-1/2",
-  "left-0 top-10",
-] as const;
+/* Reparte N iconos por igual sobre la circunferencia, empezando arriba
+   y girando en sentido horario. Antes eran 8 posiciones escritas a mano:
+   al pasar de 8 tecnologías, las extra se apilaban sobre las primeras. */
+function orbitPosition(index: number, total: number) {
+  const angle = (index / total) * 2 * Math.PI - Math.PI / 2;
+  return {
+    left: `${50 + 50 * Math.cos(angle)}%`,
+    top: `${50 + 50 * Math.sin(angle)}%`,
+  };
+}
 
-function ProfilePhoto() {
+function ProfilePhoto({ introDone }: { introDone: boolean }) {
   return (
     <div className="relative select-none">
       {/* Large ambient glow */}
@@ -101,24 +153,65 @@ function ProfilePhoto() {
       </div>
 
       {/* Círculo guía blueprint — la órbita "planificada en el plano".
-          Un borde punteado estático: cero costo, siempre alineado. */}
-      <div
+          Punteado estático (coste cero); aparece al caer el telón. */}
+      <m.div
         className="absolute inset-[-66px] rounded-full border border-dashed border-accent-500/25 dark:border-accent-300/20"
+        initial={{ opacity: 0 }}
+        animate={introDone ? { opacity: 1 } : {}}
+        transition={{ duration: 0.9, delay: 0.55 }}
         aria-hidden="true"
       />
 
-      {/* Orbiting tech icons — outer ring rotates, icons counter-rotate to stay upright */}
+      {/* Trazo de compás — una vuelta sólida que recorre esa guía y se
+          apaga, como el compás levantándose del papel. Va en su propio
+          elemento: framer calcula strokeDasharray para animar pathLength
+          y machacaría el punteado del círculo de arriba. */}
+      <svg
+        className="absolute inset-[-66px] -rotate-90"
+        viewBox="0 0 100 100"
+        fill="none"
+        aria-hidden="true"
+      >
+        <m.circle
+          cx="50" cy="50" r="49.6"
+          strokeWidth="0.4"
+          strokeLinecap="round"
+          className="stroke-accent-500 dark:stroke-accent-300"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={introDone ? { pathLength: 1, opacity: [0, 0.9, 0.9, 0] } : {}}
+          transition={{
+            pathLength: { duration: 1.5, delay: 0.15, ease: [0.65, 0, 0.35, 1] },
+            opacity: { duration: 2.1, delay: 0.15, times: [0, 0.1, 0.72, 1] },
+          }}
+        />
+      </svg>
+
+      {/* Orbiting tech icons — outer ring rotates, icons counter-rotate to stay upright.
+          Dos divs por icono a propósito: el de fuera coloca (transform: translate)
+          y el de dentro contra-gira (transform: rotate). En uno solo, la animación
+          CSS del giro pisaría al translate del centrado. */}
       <div className="absolute inset-[-48px] animate-spin-slower" style={{ transformOrigin: "center center" }}>
         {personal.orbitingTech.map((tech, i) => (
           <div
             key={tech.name}
-            className={`absolute ${ORBIT_POSITIONS[i % ORBIT_POSITIONS.length]} w-11 h-11 rounded-xl bg-white dark:bg-night-900 shadow-lg border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center animate-spin-slower-reverse`}
+            className="absolute"
+            style={{
+              ...orbitPosition(i, personal.orbitingTech.length),
+              transform: "translate(-50%, -50%)",
+            }}
           >
-            <img
-              src={tech.img}
-              alt={tech.name}
-              className={`w-6 h-6 ${'invert' in tech && tech.invert ? 'dark:invert' : ''}`}
-            />
+            <div className="w-11 h-11 rounded-xl bg-white dark:bg-night-900 shadow-lg border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-center animate-spin-slower-reverse">
+              <img
+                src={tech.img}
+                alt={tech.name}
+                title={tech.name}
+                width={24}
+                height={24}
+                loading="lazy"
+                decoding="async"
+                className={`w-6 h-6 ${'invert' in tech && tech.invert ? 'dark:invert' : ''}`}
+              />
+            </div>
           </div>
         ))}
       </div>
@@ -132,6 +225,8 @@ function ProfilePhoto() {
 
 export default function HomeHero() {
   const lenis = useLenis();
+  // El telón del intro avisa cuándo cayó: el plano se traza justo ahí.
+  const { introDone } = useOutletContext<PageOutletContext>();
 
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id);
@@ -141,9 +236,9 @@ export default function HomeHero() {
   return (
     <section
       id="sobre-mi"
-      className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-28 overflow-hidden"
+      className="group/hero relative min-h-screen flex flex-col items-center justify-center pt-20 pb-28 overflow-hidden"
     >
-      <AuroraBackground />
+      <AuroraBackground introDone={introDone} />
 
       <div className="container-page relative z-10 w-full">
         <div className="grid items-center gap-16 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] lg:gap-20">
@@ -323,6 +418,38 @@ export default function HomeHero() {
                 </div>
               ))}
             </m.div>
+
+            {/* Formación — misma fuente que la página Skills (EDUCATION).
+                Escudos en gris que se colorean al pasar el mouse: leen
+                como credencial de un vistazo, sin robarle peso al nombre. */}
+            <m.ul
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 pt-1"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.92, ease }}
+            >
+              {EDUCATION.map((edu) => (
+                <li key={edu.institution} className="flex items-center gap-2.5 group/edu">
+                  <img
+                    src={edu.heroLogo}
+                    alt=""
+                    width={28}
+                    height={28}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-7 w-7 object-contain grayscale opacity-60 transition duration-300 group-hover/edu:grayscale-0 group-hover/edu:opacity-100"
+                  />
+                  <div className="text-left leading-tight">
+                    <p className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                      {edu.heroLabel}
+                    </p>
+                    <p className="text-[11px] text-slate-400 dark:text-slate-500">
+                      {edu.heroDetail}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </m.ul>
           </div>
 
           {/* ── Right: Profile photo ─────────────────────────── */}
@@ -332,7 +459,7 @@ export default function HomeHero() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease }}
           >
-            <ProfilePhoto />
+            <ProfilePhoto introDone={introDone} />
           </m.div>
         </div>
       </div>

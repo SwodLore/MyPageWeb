@@ -48,7 +48,14 @@ function ScrollReset() {
 // PageContent — AnimatePresence keyed by pathname
 // ═══════════════════════════════════════════════════════════════
 
-function PageContent() {
+/* Lo que el intro le cuenta a la página: cuándo cayó el telón.
+   El hero lo usa para arrancar el trazado del plano justo en ese
+   instante, así el loader y la página se leen como una sola pieza. */
+export interface PageOutletContext {
+  introDone: boolean;
+}
+
+function PageContent({ introDone }: { introDone: boolean }) {
   const location = useLocation();
 
   return (
@@ -60,7 +67,7 @@ function PageContent() {
         exit={{ opacity: 0, y: -6 }}
         transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
       >
-        <Outlet />
+        <Outlet context={{ introDone } satisfies PageOutletContext} />
       </m.div>
     </AnimatePresence>
   );
@@ -97,7 +104,7 @@ export default function AppLayout() {
             animate={introDone ? { y: 0 } : { y: 32 }}
             transition={{ duration: 0.6, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
           >
-            <PageContent />
+            <PageContent introDone={introDone} />
           </m.div>
         </main>
 

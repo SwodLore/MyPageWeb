@@ -109,11 +109,27 @@ export const personal = {
     },
   ],
 
-  // Tech stack que orbita la foto en el Hero
+  // Tech stack que orbita la foto en el Hero.
+  // El orden es el que se ve girando: frontend → backend → datos/infra.
+  // Se reparten solos alrededor del círculo, así que agregar o quitar
+  // uno reacomoda el resto sin tocar nada más.
   orbitingTech: [
     {
       name: "React",
       img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+    },
+    {
+      name: "Angular",
+      img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg",
+    },
+    {
+      name: "TypeScript",
+      img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+    },
+    {
+      name: "Next.js",
+      img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+      invert: true,
     },
     {
       name: "Laravel",
@@ -124,21 +140,20 @@ export const personal = {
       img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg",
     },
     {
-      name: "TypeScript",
-      img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+      name: "Spring Boot",
+      img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg",
     },
     {
-      name: "Docker",
-      img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+      name: "Go",
+      img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg",
     },
     {
       name: "PostgreSQL",
       img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
     },
     {
-      name: "Next.js",
-      img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-      invert: true,
+      name: "Docker",
+      img: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
     },
     {
       name: "AWS",
